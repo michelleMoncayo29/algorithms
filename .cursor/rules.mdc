@@ -1,35 +1,56 @@
+---
+alwaysApply: true
+---
+
 # Reglas Globales del Proyecto de Algoritmos
 
 ## 🎯 Propósito
+
 Este repositorio está diseñado para proporcionar ejercicios de algoritmos estructurados por niveles de dificultad para estudiantes de programación.
 
 ## 📋 Estructura de Archivos
+
 Cada ejercicio debe seguir la estructura estándar:
+
 - `README.md` - Enunciado claro con ejemplos
 - `exercise.js` - Template con estructura base
 - `exercise.test.js` - Tests con casos básicos y edge cases
 - `hints.md` - Pistas progresivas (opcional)
 
 ## 🔧 Estándares de Código
+
 - **Idioma**: JavaScript (ES6+)
 - **Testing**: Jest framework
 - **Formato**: Prettier + ESLint
 - **Documentación**: Markdown con ejemplos claros
 
 ## 📚 Niveles de Dificultad
+
 - **Beginner**: Fundamentos y conceptos básicos
 - **Intermediate**: Algoritmos clásicos y estructuras de datos
 - **Advanced**: Problemas complejos y optimización
 - **Expert**: Desafíos extremos y algoritmos avanzados
 
 ## 🚫 Reglas Importantes
+
 1. **NO** incluir soluciones en los ejercicios - usar carpeta `solutions/` separada
 2. **SÍ** incluir tests comprehensivos con casos edge
 3. **SÍ** proporcionar ejemplos claros en el README
 4. **SÍ** usar nomenclatura descriptiva y comentarios útiles
+5. **OBLIGATORIO**: Crear la solución correspondiente en `solutions/[nivel]/[ejercicio]/solution.js` por cada ejercicio generado
 
 ## 🎓 Enfoque Pedagógico
+
 - Progresión gradual de dificultad
 - Ejemplos prácticos y casos reales
 - Pistas que guíen sin dar la solución
 - Tests que validen la comprensión
+
+## 📝 Instrucciones para Generación de Ejercicios
+
+**IMPORTANTE**: Cuando se genere un nuevo ejercicio, SIEMPRE se debe crear también su solución correspondiente en la carpeta `solutions/` con la misma estructura de directorios que el ejercicio. La solución debe incluir:
+
+- Implementación completa y funcional
+- Comentarios explicativos del algoritmo
+- Análisis de complejidad temporal y espacial
+- Ejemplos de uso si es necesario
