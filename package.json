@@ -1,0 +1,52 @@
+{
+    "name": "algorithms-exercises",
+    "version": "1.0.0",
+    "description": "Repositorio de ejercicios de algoritmos estructurados por niveles de dificultad",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "test:coverage": "jest --coverage",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "validate": "npm run lint && npm run format:check && npm run test"
+    },
+    "keywords": [
+        "algorithms",
+        "exercises",
+        "programming",
+        "education",
+        "javascript",
+        "data-structures"
+    ],
+    "author": "Samuel",
+    "license": "MIT",
+    "devDependencies": {
+        "@babel/core": "^7.23.0",
+        "@babel/preset-env": "^7.23.0",
+        "@eslint/js": "^8.50.0",
+        "eslint": "^8.50.0",
+        "eslint-config-prettier": "^9.0.0",
+        "eslint-plugin-jest": "^27.6.0",
+        "jest": "^29.7.0",
+        "prettier": "^3.0.0"
+    },
+    "jest": {
+        "testEnvironment": "node",
+        "collectCoverageFrom": [
+            "levels/**/*.js",
+            "!levels/**/*.test.js",
+            "!levels/**/node_modules/**"
+        ],
+        "testMatch": [
+            "**/__tests__/**/*.js",
+            "**/?(*.)+(spec|test).js"
+        ]
+    },
+    "engines": {
+        "node": ">=16.0.0",
+        "npm": ">=8.0.0"
+    }
+}

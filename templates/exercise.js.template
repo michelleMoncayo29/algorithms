@@ -1,0 +1,22 @@
+/**
+ * [NOMBRE_DEL_EJERCICIO]
+ * 
+ * Descripción: [DESCRIPCIÓN_BREVE_DEL_PROBLEMA]
+ * Dificultad: [BEGINNER/INTERMEDIATE/ADVANCED/EXPERT]
+ * 
+ * @param {[TIPO]} [PARAMETRO] - [DESCRIPCIÓN_DEL_PARAMETRO]
+ * @returns {[TIPO]} [DESCRIPCIÓN_DEL_RETORNO]
+ * 
+ * Ejemplo:
+ * [EJEMPLO_DE_USO]
+ */
+
+function [NOMBRE_FUNCION]([PARAMETROS]) {
+    // TODO: Implementar la solución aquí
+    
+    // Pista: [PISTA_INICIAL]
+    
+    throw new Error('Función no implementada');
+}
+
+module.exports = [NOMBRE_FUNCION];

@@ -1,0 +1,34 @@
+const [NOMBRE_FUNCION] = require('./exercise');
+
+describe('[NOMBRE_DEL_EJERCICIO]', () => {
+    // Casos básicos
+    test('debe manejar el caso básico', () => {
+        expect([NOMBRE_FUNCION]([PARAMETROS_BASICOS])).toBe([RESULTADO_ESPERADO]);
+    });
+
+    test('debe manejar el caso de ejemplo del enunciado', () => {
+        expect([NOMBRE_FUNCION]([PARAMETROS_EJEMPLO])).toBe([RESULTADO_EJEMPLO]);
+    });
+
+    // Casos edge
+    test('debe manejar casos vacíos o nulos', () => {
+        expect([NOMBRE_FUNCION]([PARAMETROS_VACIOS])).toBe([RESULTADO_VACIO]);
+    });
+
+    test('debe manejar casos con un solo elemento', () => {
+        expect([NOMBRE_FUNCION]([PARAMETROS_UNO])).toBe([RESULTADO_UNO]);
+    });
+
+    test('debe manejar casos límite', () => {
+        expect([NOMBRE_FUNCION]([PARAMETROS_LIMITE])).toBe([RESULTADO_LIMITE]);
+    });
+
+    // Casos adicionales según el problema
+    test('debe manejar [CASO_ADICIONAL_1]', () => {
+        expect([NOMBRE_FUNCION]([PARAMETROS_ADICIONAL_1])).toBe([RESULTADO_ADICIONAL_1]);
+    });
+
+    test('debe manejar [CASO_ADICIONAL_2]', () => {
+        expect([NOMBRE_FUNCION]([PARAMETROS_ADICIONAL_2])).toBe([RESULTADO_ADICIONAL_2]);
+    });
+});

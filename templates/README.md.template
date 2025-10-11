@@ -1,0 +1,99 @@
+# [NOMBRE_DEL_EJERCICIO]
+
+**Dificultad:** [BEGINNER/INTERMEDIATE/ADVANCED/EXPERT]  
+**Categoría:** [CATEGORIA]  
+**Tiempo estimado:** [TIEMPO_ESTIMADO]
+
+## 📋 Descripción
+
+[DESCRIPCIÓN_DETALLADA_DEL_PROBLEMA]
+
+## 🎯 Objetivos de Aprendizaje
+
+- [ ] [OBJETIVO_1]
+- [ ] [OBJETIVO_2]
+- [ ] [OBJETIVO_3]
+
+## 📝 Enunciado
+
+[ENUNCIADO_DETALLADO_CON_INSTRUCCIONES_CLARAS]
+
+## 💡 Ejemplos
+
+### Ejemplo 1
+```javascript
+// Input
+[EJEMPLO_INPUT_1]
+
+// Output esperado
+[EJEMPLO_OUTPUT_1]
+
+// Explicación
+[EXPLICACION_EJEMPLO_1]
+```
+
+### Ejemplo 2
+```javascript
+// Input
+[EJEMPLO_INPUT_2]
+
+// Output esperado
+[EJEMPLO_OUTPUT_2]
+
+// Explicación
+[EXPLICACION_EJEMPLO_2]
+```
+
+## 🔍 Casos de Prueba
+
+| Input | Output Esperado | Explicación |
+|-------|----------------|-------------|
+| [INPUT_1] | [OUTPUT_1] | [EXPLICACION_1] |
+| [INPUT_2] | [OUTPUT_2] | [EXPLICACION_2] |
+| [INPUT_3] | [OUTPUT_3] | [EXPLICACION_3] |
+
+## ⚡ Restricciones
+
+- [RESTRICCION_1]
+- [RESTRICCION_2]
+- [RESTRICCION_3]
+
+## 🧠 Pistas (si tienes problemas)
+
+<details>
+<summary>💡 Pista 1</summary>
+
+[PISTA_1]
+
+</details>
+
+<details>
+<summary>💡 Pista 2</summary>
+
+[PISTA_2]
+
+</details>
+
+<details>
+<summary>💡 Pista 3</summary>
+
+[PISTA_3]
+
+</details>
+
+## 🏃‍♂️ Cómo ejecutar
+
+1. Abre el archivo `exercise.js`
+2. Implementa la función requerida
+3. Ejecuta los tests: `npm test [nombre-del-ejercicio]`
+4. Verifica que todos los tests pasen
+
+## 📚 Recursos Adicionales
+
+- [Enlace a documentación relevante]
+- [Video explicativo]
+- [Artículo relacionado]
+
+---
+
+**💡 Tip:** [TIP_GENERAL_PARA_ESTE_TIPO_DE_PROBLEMA]
