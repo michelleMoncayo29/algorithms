@@ -14,24 +14,29 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    // Reglas básicas
-    'no-console': 'warn',
-    'no-unused-vars': 'error',
-    'prefer-const': 'error',
-    'no-var': 'error',
+    // ===== CONFIGURACIÓN AMIGABLE PARA ESTUDIANTES =====
     
-    // Reglas de estilo
-    'indent': ['error', 2],
-    'quotes': ['error', 'single'],
-    'semi': ['error', 'always'],
+    // Reglas de estilo - DESACTIVADAS para no molestar a principiantes
+    'indent': 'off',           // No importa la indentación
+    'quotes': 'off',           // Permite comillas simples y dobles
+    'semi': 'off',             // No importa si hay punto y coma o no
+    
+    // Reglas de console - PERMITIDAS para debugging
+    'no-console': 'off',       // Permite console.log para debugging
+    
+    // Reglas de variables - MÁS PERMISIVAS
+    'no-unused-vars': 'warn',  // Solo advertencia, no error
+    'prefer-const': 'off',     // Permite usar let y var
+    'no-var': 'off',           // Permite usar var
+    
+    // Reglas de sintaxis - MANTENER para evitar errores reales
+    'no-undef': 'error',       // Mantener para detectar errores reales
+    'no-redeclare': 'error',   // Mantener para detectar errores reales
+    'no-duplicate-case': 'error', // Mantener para detectar errores reales
     
     // Reglas específicas para ejercicios
-    'no-undef': 'error',
-    'no-redeclare': 'error',
-    'no-duplicate-case': 'error',
-    
-    // Permitir algunos casos específicos para ejercicios
-    'no-empty': 'off', // Para funciones que lanzan error por defecto
+    'no-empty': 'off',         // Para funciones que lanzan error por defecto
+    'no-throw-literal': 'off', // Para throw new Error('Función no implementada')
   },
   plugins: ['jest'],
   overrides: [
@@ -41,7 +46,23 @@ module.exports = {
         jest: true,
       },
       rules: {
-        'no-console': 'off', // Permitir console en tests
+        // En tests, mantener todas las reglas permisivas
+        'no-console': 'off',
+        'indent': 'off',
+        'quotes': 'off',
+        'semi': 'off',
+      },
+    },
+    // Configuración específica para archivos de ejercicios
+    {
+      files: ['levels/**/*.js'],
+      rules: {
+        // En archivos de ejercicios, ser aún más permisivo
+        'no-unused-vars': 'off',
+        'no-console': 'off',
+        'indent': 'off',
+        'quotes': 'off',
+        'semi': 'off',
       },
     },
   ],
