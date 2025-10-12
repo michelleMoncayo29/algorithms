@@ -90,15 +90,6 @@ knapsack([5], [10], 10); // 10
 | [1, 2, 3]    | [10, 20, 30]   | 10        | 60        | [0, 1, 2]               |
 | [15, 20, 25] | [10, 20, 30]   | 10        | 0         | []                      |
 
-## ⚡ Restricciones
-
-- **knapsack**: Complejidad temporal O(n × capacity), espacial O(n × capacity)
-- **knapsackOptimized**: Complejidad temporal O(n × capacity), espacial O(capacity)
-- **knapsackItems**: Complejidad temporal O(n × capacity), espacial O(n × capacity)
-- 1 ≤ n ≤ 100 (número de elementos)
-- 1 ≤ weights[i], values[i] ≤ 1000
-- 1 ≤ capacity ≤ 1000
-
 ## 🧠 Pistas (si tienes problemas)
 
 <details>

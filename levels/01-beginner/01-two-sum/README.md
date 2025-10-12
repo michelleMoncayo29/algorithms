@@ -24,24 +24,28 @@ Implementa la función `twoSum` que tome un array de números enteros y un núme
 ## 💡 Ejemplos
 
 ### Ejemplo 1
+
 ```javascript
 // Input
-nums = [2, 7, 11, 15], target = 9
-
-// Output esperado
-[0, 1]
+((nums = [2, 7, 11, 15]),
+  (target = (9)[
+    // Output esperado
+    (0, 1)
+  ]));
 
 // Explicación
 // nums[0] + nums[1] = 2 + 7 = 9
 ```
 
 ### Ejemplo 2
+
 ```javascript
 // Input
-nums = [3, 2, 4], target = 6
-
-// Output esperado
-[1, 2]
+((nums = [3, 2, 4]),
+  (target = (6)[
+    // Output esperado
+    (1, 2)
+  ]));
 
 // Explicación
 // nums[1] + nums[2] = 2 + 4 = 6
@@ -49,18 +53,11 @@ nums = [3, 2, 4], target = 6
 
 ## 🔍 Casos de Prueba
 
-| Input | Target | Output Esperado | Explicación |
-|-------|--------|----------------|-------------|
-| [2, 7, 11, 15] | 9 | [0, 1] | 2 + 7 = 9 |
-| [3, 2, 4] | 6 | [1, 2] | 2 + 4 = 6 |
-| [3, 3] | 6 | [0, 1] | 3 + 3 = 6 |
-
-## ⚡ Restricciones
-
-- 2 ≤ nums.length ≤ 10⁴
-- -10⁹ ≤ nums[i] ≤ 10⁹
-- -10⁹ ≤ target ≤ 10⁹
-- Solo existe una respuesta válida
+| Input          | Target | Output Esperado | Explicación |
+| -------------- | ------ | --------------- | ----------- |
+| [2, 7, 11, 15] | 9      | [0, 1]          | 2 + 7 = 9   |
+| [3, 2, 4]      | 6      | [1, 2]          | 2 + 4 = 6   |
+| [3, 3]         | 6      | [0, 1]          | 3 + 3 = 6   |
 
 ## 🧠 Pistas (si tienes problemas)
 

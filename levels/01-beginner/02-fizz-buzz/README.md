@@ -7,8 +7,9 @@
 ## 📋 Descripción
 
 Implementa el juego clásico de Fizz Buzz. Para números del 1 al n, devuelve un array de strings donde:
+
 - Para múltiplos de 3, usa "Fizz"
-- Para múltiplos de 5, usa "Buzz"  
+- Para múltiplos de 5, usa "Buzz"
 - Para múltiplos de ambos 3 y 5, usa "FizzBuzz"
 - Para cualquier otro número, usa el número como string
 
@@ -26,12 +27,13 @@ Implementa la función `fizzBuzz` que tome un número entero `n` y devuelva un a
 ## 💡 Ejemplos
 
 ### Ejemplo 1
+
 ```javascript
 // Input
-n = 3
-
-// Output esperado
-["1", "2", "Fizz"]
+n = (3)[
+  // Output esperado
+  ('1', '2', 'Fizz')
+];
 
 // Explicación
 // 1 -> "1" (no es múltiplo de 3 ni 5)
@@ -40,12 +42,27 @@ n = 3
 ```
 
 ### Ejemplo 2
+
 ```javascript
 // Input
-n = 15
-
-// Output esperado
-["1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz", "11", "Fizz", "13", "14", "FizzBuzz"]
+n = (15)[
+  // Output esperado
+  ('1',
+  '2',
+  'Fizz',
+  '4',
+  'Buzz',
+  'Fizz',
+  '7',
+  '8',
+  'Fizz',
+  'Buzz',
+  '11',
+  'Fizz',
+  '13',
+  '14',
+  'FizzBuzz')
+];
 
 // Explicación
 // 15 -> "FizzBuzz" (múltiplo de 3 y 5)
@@ -53,16 +70,12 @@ n = 15
 
 ## 🔍 Casos de Prueba
 
-| Input | Output Esperado | Explicación |
-|-------|----------------|-------------|
-| 1 | ["1"] | Solo un número |
-| 3 | ["1", "2", "Fizz"] | Incluye primer Fizz |
-| 5 | ["1", "2", "Fizz", "4", "Buzz"] | Incluye primer Buzz |
-| 15 | ["1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz", "11", "Fizz", "13", "14", "FizzBuzz"] | Incluye primer FizzBuzz |
-
-## ⚡ Restricciones
-
-- 1 ≤ n ≤ 10⁴
+| Input | Output Esperado                                                                                         | Explicación             |
+| ----- | ------------------------------------------------------------------------------------------------------- | ----------------------- |
+| 1     | ["1"]                                                                                                   | Solo un número          |
+| 3     | ["1", "2", "Fizz"]                                                                                      | Incluye primer Fizz     |
+| 5     | ["1", "2", "Fizz", "4", "Buzz"]                                                                         | Incluye primer Buzz     |
+| 15    | ["1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz", "11", "Fizz", "13", "14", "FizzBuzz"] | Incluye primer FizzBuzz |
 
 ## 🧠 Pistas (si tienes problemas)
 

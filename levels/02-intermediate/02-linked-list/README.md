@@ -110,15 +110,6 @@ console.log(list.toArray()); // [3, 2, 1]
 | delete    | list.delete(1)                 | true, [0, 2]    | Eliminar elemento del medio |
 | reverse   | list.reverse()                 | [2, 0]          | Invertir orden              |
 
-## ⚡ Restricciones
-
-- La complejidad temporal de `append` debe ser O(n)
-- La complejidad temporal de `prepend` debe ser O(1)
-- La complejidad temporal de `delete` debe ser O(n)
-- La complejidad temporal de `find` debe ser O(n)
-- La complejidad temporal de `reverse` debe ser O(n)
-- La complejidad espacial debe ser O(1) para reverse
-
 ## 🧠 Pistas (si tienes problemas)
 
 <details>

@@ -24,12 +24,13 @@ Para este ejercicio, considera solo caracteres alfanuméricos e ignora diferenci
 ## 💡 Ejemplos
 
 ### Ejemplo 1
+
 ```javascript
 // Input
-"A man a plan a canal Panama"
+'A man a plan a canal Panama';
 
 // Output esperado
-true
+true;
 
 // Explicación
 // Después de limpiar: "amanaplanacanalpanama"
@@ -37,12 +38,13 @@ true
 ```
 
 ### Ejemplo 2
+
 ```javascript
 // Input
-"race a car"
+'race a car';
 
 // Output esperado
-false
+false;
 
 // Explicación
 // Después de limpiar: "raceacar"
@@ -50,12 +52,13 @@ false
 ```
 
 ### Ejemplo 3
+
 ```javascript
 // Input
-"racecar"
+'racecar';
 
 // Output esperado
-true
+true;
 
 // Explicación
 // Es un palíndromo perfecto
@@ -63,20 +66,14 @@ true
 
 ## 🔍 Casos de Prueba
 
-| Input | Output Esperado | Explicación |
-|-------|----------------|-------------|
-| "A man a plan a canal Panama" | true | Palíndromo con espacios |
-| "race a car" | false | No es palíndromo |
-| "racecar" | true | Palíndromo simple |
-| "A" | true | Un solo carácter |
-| "" | true | String vacía |
-| "Madam" | true | Palíndromo con mayúsculas |
-
-## ⚡ Restricciones
-
-- 0 ≤ s.length ≤ 2 * 10⁵
-- La string puede contener caracteres especiales y espacios
-- Solo considera caracteres alfanuméricos
+| Input                         | Output Esperado | Explicación               |
+| ----------------------------- | --------------- | ------------------------- |
+| "A man a plan a canal Panama" | true            | Palíndromo con espacios   |
+| "race a car"                  | false           | No es palíndromo          |
+| "racecar"                     | true            | Palíndromo simple         |
+| "A"                           | true            | Un solo carácter          |
+| ""                            | true            | String vacía              |
+| "Madam"                       | true            | Palíndromo con mayúsculas |
 
 ## 🧠 Pistas (si tienes problemas)
 
