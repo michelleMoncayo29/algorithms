@@ -94,15 +94,6 @@ quickSort([1, 2, 3, 4, 5]); // [1, 2, 3, 4, 5]
 | [3, 1, 4, 1, 5, 9, 2, 6, 5]     | [1, 1, 2, 3, 4, 5, 5, 6, 9]     | Con duplicados             |
 | [-3, 1, -4, 1, 5, -9, 2, -6, 5] | [-9, -6, -4, -3, 1, 1, 2, 5, 5] | Números negativos          |
 
-## ⚡ Restricciones
-
-- **quickSort**: Complejidad temporal O(n log n) promedio, O(n²) peor caso
-- **quickSortInPlace**: Complejidad temporal O(n log n) promedio, O(n²) peor caso
-- **partition**: Complejidad temporal O(n)
-- **quickSortRandom**: Complejidad temporal O(n log n) promedio
-- **quickSortMedianOfThree**: Complejidad temporal O(n log n) promedio
-- Todas las implementaciones deben manejar arrays de hasta 1000 elementos
-
 ## 🧠 Pistas (si tienes problemas)
 
 <details>

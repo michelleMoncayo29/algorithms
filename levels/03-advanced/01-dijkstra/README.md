@@ -22,18 +22,25 @@ Implementa la función `dijkstra` que tome un grafo representado como lista de a
 ## 💡 Ejemplos
 
 ### Ejemplo 1
+
 ```javascript
 // Input
 graph = {
-    0: [[1, 4], [2, 1]],
-    1: [[3, 1]],
-    2: [[1, 2], [3, 5]],
-    3: []
-}
-start = 0
-
-// Output esperado
-[0, 3, 1, 4]
+  0: [
+    [1, 4],
+    [2, 1],
+  ],
+  1: [[3, 1]],
+  2: [
+    [1, 2],
+    [3, 5],
+  ],
+  3: [],
+};
+start = (0)[
+  // Output esperado
+  (0, 3, 1, 4)
+];
 
 // Explicación
 // Distancia de 0 a 0: 0
@@ -44,17 +51,10 @@ start = 0
 
 ## 🔍 Casos de Prueba
 
-| Grafo | Origen | Output Esperado | Explicación |
-|-------|--------|----------------|-------------|
-| Grafo simple | 0 | [0, 3, 1, 4] | Caminos más cortos |
-| Grafo desconectado | 0 | [0, ∞, ∞, ∞] | Nodos inalcanzables |
-
-## ⚡ Restricciones
-
-- 1 ≤ n ≤ 100 (número de nodos)
-- 0 ≤ edges.length ≤ n * (n - 1)
-- 1 ≤ weight ≤ 100
-- No hay aristas con peso negativo
+| Grafo              | Origen | Output Esperado | Explicación         |
+| ------------------ | ------ | --------------- | ------------------- |
+| Grafo simple       | 0      | [0, 3, 1, 4]    | Caminos más cortos  |
+| Grafo desconectado | 0      | [0, ∞, ∞, ∞]    | Nodos inalcanzables |
 
 ## 🧠 Pistas (si tienes problemas)
 

@@ -22,24 +22,27 @@ Implementa la función `binarySearch` que tome un array ordenado y un elemento o
 ## 💡 Ejemplos
 
 ### Ejemplo 1
+
 ```javascript
 // Input
-nums = [-1, 0, 3, 5, 9, 12], target = 9
+((nums = [-1, 0, 3, 5, 9, 12]), (target = 9));
 
 // Output esperado
-4
+4;
 
 // Explicación
 // El elemento 9 existe en el índice 4
 ```
 
 ### Ejemplo 2
+
 ```javascript
 // Input
-nums = [-1, 0, 3, 5, 9, 12], target = 2
-
-// Output esperado
--1
+((nums = [-1, 0, 3, 5, 9, 12]),
+  (target =
+    2 -
+    // Output esperado
+    1));
 
 // Explicación
 // El elemento 2 no existe en el array
@@ -47,19 +50,12 @@ nums = [-1, 0, 3, 5, 9, 12], target = 2
 
 ## 🔍 Casos de Prueba
 
-| Array | Target | Output Esperado | Explicación |
-|-------|--------|----------------|-------------|
-| [-1, 0, 3, 5, 9, 12] | 9 | 4 | Elemento encontrado |
-| [-1, 0, 3, 5, 9, 12] | 2 | -1 | Elemento no encontrado |
-| [5] | 5 | 0 | Array de un elemento |
-| [5] | -5 | -1 | Elemento no encontrado en array pequeño |
-
-## ⚡ Restricciones
-
-- 1 ≤ nums.length ≤ 10⁴
-- -10⁴ ≤ nums[i] ≤ 10⁴
-- El array está ordenado en orden ascendente
-- -10⁴ ≤ target ≤ 10⁴
+| Array                | Target | Output Esperado | Explicación                             |
+| -------------------- | ------ | --------------- | --------------------------------------- |
+| [-1, 0, 3, 5, 9, 12] | 9      | 4               | Elemento encontrado                     |
+| [-1, 0, 3, 5, 9, 12] | 2      | -1              | Elemento no encontrado                  |
+| [5]                  | 5      | 0               | Array de un elemento                    |
+| [5]                  | -5     | -1              | Elemento no encontrado en array pequeño |
 
 ## 🧠 Pistas (si tienes problemas)
 

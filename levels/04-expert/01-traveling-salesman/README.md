@@ -22,17 +22,18 @@ Implementa la función `tsp` que tome una matriz de distancias entre ciudades y 
 ## 💡 Ejemplos
 
 ### Ejemplo 1
+
 ```javascript
 // Input
 distances = [
-    [0, 10, 15, 20],
-    [10, 0, 35, 25],
-    [15, 35, 0, 30],
-    [20, 25, 30, 0]
-]
+  [0, 10, 15, 20],
+  [10, 0, 35, 25],
+  [15, 35, 0, 30],
+  [20, 25, 30, 0],
+];
 
 // Output esperado
-80
+80;
 
 // Explicación
 // Ruta óptima: 0 -> 1 -> 3 -> 2 -> 0
@@ -41,16 +42,10 @@ distances = [
 
 ## 🔍 Casos de Prueba
 
-| Distancias | Output Esperado | Explicación |
-|------------|----------------|-------------|
-| Matriz 4x4 | 80 | Ruta óptima encontrada |
-| Matriz 3x3 | 15 | TSP pequeño |
-
-## ⚡ Restricciones
-
-- 2 ≤ n ≤ 20 (número de ciudades)
-- Las distancias son simétricas
-- No hay auto-bucles (distancia[i][i] = 0)
+| Distancias | Output Esperado | Explicación            |
+| ---------- | --------------- | ---------------------- |
+| Matriz 4x4 | 80              | Ruta óptima encontrada |
+| Matriz 3x3 | 15              | TSP pequeño            |
 
 ## 🧠 Pistas (si tienes problemas)
 
