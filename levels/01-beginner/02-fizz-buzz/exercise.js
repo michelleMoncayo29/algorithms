@@ -18,5 +18,5 @@ function fizzBuzz(n) {
     
     throw new Error('Función no implementada');
 }
-
+console.log("✅✅✅✅")
 module.exports = fizzBuzz;
