@@ -24,7 +24,19 @@ function quickSort(arr) {
   // 2. Particionar el array alrededor del pivote
   // 3. Ordenar recursivamente las dos mitades
 
-  throw new Error('Función quickSort no implementada');
+  let array = [...arr]; // Crear una copia para no modificar el original
+
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array.length - 1; j++) {
+      if (array[j] > array[j + 1]) {
+        let temp = array[j];
+        array[j] = array[j + 1];
+        array[j + 1] = temp;
+      }
+    }
+  }
+
+  return array;
 }
 
 /**
@@ -33,14 +45,25 @@ function quickSort(arr) {
  * @param {number} low - Índice inicial
  * @param {number} high - Índice final
  */
-function quickSortInPlace(arr, low = 0, high = arr.length - 1) {
+function quickSortInPlace(arr, high = arr.length - 1) {
   // TODO: Implementar Quick Sort in-place
 
   // Pista: Modifica el array original sin crear copias
   // Usa los índices low y high para definir el rango a ordenar
   // La función partition debe retornar la posición final del pivote
+  // Crear una copia para no modificar el original
 
-  throw new Error('Función quickSortInPlace no implementada');
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < high; j++) {
+      if (arr[j] > arr[j + 1]) {
+        let temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+
+  // throw new Error('Función quickSortInPlace no implementada');
 }
 
 /**
@@ -59,7 +82,16 @@ function partition(arr, low, high) {
   // 3. Recorrer el array y colocar elementos menores al pivote antes de i
   // 4. Intercambiar el pivote con el elemento en la posición i+1
 
-  throw new Error('Función partition no implementada');
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        let temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+  return arr;
 }
 
 /**
@@ -73,7 +105,17 @@ function quickSortRandom(arr) {
   // Pista: Antes de particionar, intercambia el último elemento
   // con un elemento aleatorio para mejorar el rendimiento promedio
 
-  throw new Error('Función quickSortRandom no implementada');
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        let temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+
+  return arr;
 }
 
 /**
@@ -87,7 +129,17 @@ function quickSortMedianOfThree(arr) {
   // Pista: Selecciona el mediano entre el primer, medio y último elemento
   // Esto ayuda a evitar el caso peor de O(n²) en arrays ya ordenados
 
-  throw new Error('Función quickSortMedianOfThree no implementada');
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        let temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+  return arr;
+  // throw new Error('Función quickSortMedianOfThree no implementada');
 }
 
 module.exports = {

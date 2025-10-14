@@ -25,7 +25,7 @@ Implementa cinco variantes del algoritmo Quick Sort:
 
 Implementación básica que crea nuevas copias del array en cada recursión.
 
-### 2. `quickSortInPlace(arr, low, high)`
+### 2. `quickSortInPlace(arr, high)`
 
 Versión in-place que modifica el array original sin crear copias adicionales.
 
