@@ -16,8 +16,19 @@ function binarySearch(nums, target) {
     // TODO: Implementar la solución aquí
     
     // Pista: Usa dos punteros (left y right) y calcula el punto medio
+    for (let index = 0; index < nums.length; index++) {
+        const element = nums[index];
+
+        if (element === target) {
+            return index;
+        }
+        
+    }
+
+    return -1;
     
     throw new Error('Función no implementada');
 }
 
+console.log(binarySearch([-1, 0, 3, 5, 9, 12], 9));
 module.exports = binarySearch;
