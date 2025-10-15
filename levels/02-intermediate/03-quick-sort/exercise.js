@@ -82,12 +82,12 @@ function partition(arr, low, high) {
   // 3. Recorrer el array y colocar elementos menores al pivote antes de i
   // 4. Intercambiar el pivote con el elemento en la posición i+1
 
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = 0; j < arr.length - 1; j++) {
-      if (arr[j] > arr[j + 1]) {
+  for (let i = low; i < arr.length; i++) {
+    for (let j = low; j < arr.length - 1; j++) {
+      if (arr[j] > arr[high]) {
         let temp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = temp;
+        arr[j] = arr[high];
+        arr[high] = temp;
       }
     }
   }
