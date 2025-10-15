@@ -1,7 +1,7 @@
 const [NOMBRE_FUNCION] = require('./exercise');
 
 describe('[NOMBRE_DEL_EJERCICIO]', () => {
-    // Casos básicos
+    // Casos básicos - Verifican funcionalidad principal
     test('debe manejar el caso básico', () => {
         expect([NOMBRE_FUNCION]([PARAMETROS_BASICOS])).toBe([RESULTADO_ESPERADO]);
     });
@@ -10,7 +10,7 @@ describe('[NOMBRE_DEL_EJERCICIO]', () => {
         expect([NOMBRE_FUNCION]([PARAMETROS_EJEMPLO])).toBe([RESULTADO_EJEMPLO]);
     });
 
-    // Casos edge
+    // Casos edge - Prueban límites y validación (Fail Fast)
     test('debe manejar casos vacíos o nulos', () => {
         expect([NOMBRE_FUNCION]([PARAMETROS_VACIOS])).toBe([RESULTADO_VACIO]);
     });
@@ -23,12 +23,28 @@ describe('[NOMBRE_DEL_EJERCICIO]', () => {
         expect([NOMBRE_FUNCION]([PARAMETROS_LIMITE])).toBe([RESULTADO_LIMITE]);
     });
 
-    // Casos adicionales según el problema
+    // Casos adicionales - Verifican robustez y casos especiales
     test('debe manejar [CASO_ADICIONAL_1]', () => {
         expect([NOMBRE_FUNCION]([PARAMETROS_ADICIONAL_1])).toBe([RESULTADO_ADICIONAL_1]);
     });
 
     test('debe manejar [CASO_ADICIONAL_2]', () => {
         expect([NOMBRE_FUNCION]([PARAMETROS_ADICIONAL_2])).toBe([RESULTADO_ADICIONAL_2]);
+    });
+
+    // Casos de validación - Verifican Fail Fast
+    test('debe validar inputs inválidos y lanzar error apropiado', () => {
+        expect(() => [NOMBRE_FUNCION]([INPUT_INVALIDO])).toThrow([TIPO_ERROR]);
+    });
+
+    // Casos de rendimiento - Verifican eficiencia
+    test('debe manejar casos con datos grandes eficientemente', () => {
+        const largeInput = [GENERAR_INPUT_GRANDE];
+        const startTime = performance.now();
+        const result = [NOMBRE_FUNCION](largeInput);
+        const endTime = performance.now();
+        
+        expect(result).toBe([RESULTADO_ESPERADO]);
+        expect(endTime - startTime).toBeLessThan([TIEMPO_LIMITE_MS]);
     });
 });

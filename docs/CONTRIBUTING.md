@@ -65,6 +65,7 @@ git checkout -b feature/nombre-de-tu-contribucion
 
 ### 3. Desarrollo
 - Sigue los estándares de código
+- Aplica los principios de programación (consulta `docs/PRINCIPLES_GUIDE.md`)
 - Usa los templates existentes
 - Escribe tests comprehensivos
 - Documenta todo apropiadamente
@@ -179,9 +180,11 @@ describe('Nombre del Ejercicio', () => {
 ### Para Nuevos Ejercicios
 1. Elige un problema clásico o interesante
 2. Asegúrate de que sea apropiado para el nivel
-3. Proporciona múltiples ejemplos
-4. Incluye casos edge importantes
-5. Escribe pistas útiles pero no reveladoras
+3. Aplica los principios de programación relevantes (consulta `docs/PRINCIPLES_GUIDE.md`)
+4. Proporciona múltiples ejemplos
+5. Incluye casos edge importantes
+6. Escribe pistas útiles pero no reveladoras
+7. Incluye ejemplos de código "bueno" vs "malo" cuando sea apropiado
 
 ### Para Corrección de Errores
 1. Reproduce el error consistentemente
