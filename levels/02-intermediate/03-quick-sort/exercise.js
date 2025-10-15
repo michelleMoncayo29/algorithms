@@ -73,26 +73,73 @@ function quickSortInPlace(arr, high = arr.length - 1) {
  * @param {number} high - Índice final
  * @returns {number} - Índice final del pivote
  */
-function partition(arr, low, high) {
-  // TODO: Implementar el algoritmo de particionamiento
 
+function getPivoteArray(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        let temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+
+  return arr;
+}
+function cleanArr(arr){
+  const ar = [...arr]
+  for (let i = 0; i < ar.length; i++) {
+    
+    arr.pop();
+  }
+}
+function partition(arrInput, low, high) {
+  const arr = [...arrInput];
+  cleanArr(arrInput);
+  console.log(arrInput);
   // Pista:
   // 1. Elegir el último elemento como pivote
   // 2. Mantener un índice i que marca la posición del elemento más pequeño
   // 3. Recorrer el array y colocar elementos menores al pivote antes de i
   // 4. Intercambiar el pivote con el elemento en la posición i+1
 
-  for (let i = low; i < arr.length; i++) {
-    for (let j = low; j < arr.length - 1; j++) {
-      if (arr[j] > arr[high]) {
-        let temp = arr[j];
-        arr[j] = arr[high];
-        arr[high] = temp;
-      }
+  const pivot = [];
+  const arraFinish = [];
+  let inyectEjecuted = false;
+
+  // Array para extraer el pivot
+  for (let i = 0; i < arr.length; i++) {
+    const element = arr[i];
+    if (i >= low && i <= high) {
+      pivot.push(element);
     }
   }
-  return arr;
+
+  const ordernPivot = getPivoteArray(pivot);
+  
+console.log({arrInput,high});
+  for (let i = 0; i < arr.length; i++) {
+    const element = arr[i];
+    if (i >= low && i <= high) {
+      if (!inyectEjecuted) {
+ 
+        arrInput.push(...ordernPivot);
+        inyectEjecuted = true;
+
+      }
+    } else {
+      arrInput.push(element);
+    }
+    
+  }
+  
+  return high;
 }
+
+const a = [3, 1, 4, 1, 5, 9, 2, 6]
+console.log(partition(a, 0, a.length - 1));
+
 
 /**
  * Quick Sort con selección de pivote aleatorio
