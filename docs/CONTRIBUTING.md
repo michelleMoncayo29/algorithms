@@ -67,7 +67,7 @@ git checkout -b feature/nombre-de-tu-contribucion
 - Sigue los estándares de código
 - Aplica los principios de programación (consulta `docs/PRINCIPLES_GUIDE.md`)
 - Usa los templates existentes
-- Escribe tests comprehensivos
+- Escribe tests estrictos y comprehensivos (consulta `docs/TESTING_GUIDELINES.md`)
 - Documenta todo apropiadamente
 
 ### 4. Validación
@@ -181,10 +181,12 @@ describe('Nombre del Ejercicio', () => {
 1. Elige un problema clásico o interesante
 2. Asegúrate de que sea apropiado para el nivel
 3. Aplica los principios de programación relevantes (consulta `docs/PRINCIPLES_GUIDE.md`)
-4. Proporciona múltiples ejemplos
-5. Incluye casos edge importantes
-6. Escribe pistas útiles pero no reveladoras
-7. Incluye ejemplos de código "bueno" vs "malo" cuando sea apropiado
+4. Escribe tests estrictos siguiendo `docs/TESTING_GUIDELINES.md`
+5. Proporciona múltiples ejemplos
+6. Incluye casos edge importantes
+7. Escribe pistas útiles pero no reveladoras
+8. Incluye ejemplos de código "bueno" vs "malo" cuando sea apropiado
+9. Verifica rendimiento y complejidad esperada
 
 ### Para Corrección de Errores
 1. Reproduce el error consistentemente

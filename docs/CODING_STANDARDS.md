@@ -356,30 +356,64 @@ function safeDivide(a, b) {
 
 ## 🧪 Estándares de Testing
 
-### Estructura de Tests
+### Estructura de Tests Estricta
+Los tests deben seguir la estructura definida en `docs/TESTING_GUIDELINES.md` y usar el template actualizado que incluye:
+
 ```javascript
 describe('Nombre del Ejercicio', () => {
-    // Casos básicos
-    test('debe manejar el caso básico', () => {
-        expect(functionName(input)).toBe(expectedOutput);
+    // ===== CASOS BÁSICOS =====
+    describe('Casos básicos', () => {
+        test('debe manejar el caso básico', () => {
+            expect(functionName(input)).toBe(expectedOutput);
+        });
     });
 
-    // Casos edge
-    test('debe manejar casos límite', () => {
-        expect(functionName(edgeCaseInput)).toBe(expectedOutput);
+    // ===== CASOS EDGE Y LÍMITES =====
+    describe('Casos edge y límites', () => {
+        test('debe manejar array vacío', () => {
+            expect(functionName([])).toBe(expectedOutput);
+        });
+        
+        test('debe manejar valores nulos', () => {
+            expect(functionName(null)).toBe(expectedOutput);
+        });
     });
 
-    // Casos adicionales
-    test('debe manejar casos específicos', () => {
-        expect(functionName(specificInput)).toBe(expectedOutput);
+    // ===== VALIDACIÓN DE INPUTS (FAIL FAST) =====
+    describe('Validación de inputs', () => {
+        test('debe lanzar error con tipo de dato incorrecto', () => {
+            expect(() => functionName(invalidInput)).toThrow(Error);
+        });
+    });
+
+    // ===== TESTS DE RENDIMIENTO =====
+    describe('Rendimiento y escalabilidad', () => {
+        test('debe mantener complejidad esperada', () => {
+            // Tests de complejidad temporal
+        });
+    });
+
+    // ===== TESTS DE INMUTABILIDAD =====
+    describe('Inmutabilidad', () => {
+        test('no debe modificar el array original', () => {
+            const original = [...testArray];
+            functionName(testArray);
+            expect(testArray).toEqual(original);
+        });
     });
 });
 ```
 
 ### Casos de Prueba Obligatorios
-1. **Caso básico**: El ejemplo principal del enunciado
-2. **Casos edge**: Valores límite, arrays vacíos, valores nulos
-3. **Casos adicionales**: Al menos 2-3 casos más para validar la lógica
+1. **Casos básicos**: Ejemplo principal del enunciado y casos típicos
+2. **Casos edge**: Arrays vacíos, valores nulos/undefined, valores extremos
+3. **Validación**: Inputs inválidos, tipos incorrectos, parámetros fuera de rango
+4. **Rendimiento**: Arrays de diferentes tamaños, análisis de complejidad
+5. **Inmutabilidad**: Verificar que no se modifiquen datos originales
+6. **Precisión**: Números flotantes, valores muy pequeños/grandes
+7. **Determinismo**: Resultados consistentes en múltiples ejecuciones
+8. **Memoria**: Ausencia de memory leaks
+9. **Errores**: Mensajes descriptivos y tipos correctos de error
 
 ## 📚 Estándares de Documentación
 
@@ -687,6 +721,17 @@ class Calculator {
 - [ ] **Abierto/Cerrado**: Extensible sin modificar existente
 - [ ] **Depender de Abstracciones**: Usar interfaces/contratos
 - [ ] **Código Probable**: Fácil de testear
+
+### Testing Estricto
+- [ ] **Casos básicos**: Funcionalidad principal verificada
+- [ ] **Casos edge**: Arrays vacíos, valores nulos, extremos
+- [ ] **Validación**: Inputs inválidos y manejo de errores
+- [ ] **Rendimiento**: Análisis de complejidad y tiempo de ejecución
+- [ ] **Inmutabilidad**: Datos originales no modificados
+- [ ] **Precisión**: Números flotantes y valores extremos
+- [ ] **Determinismo**: Resultados consistentes
+- [ ] **Memoria**: Sin memory leaks
+- [ ] **Errores**: Mensajes descriptivos y tipos correctos
 
 ## 🔄 Flujo de Trabajo
 
