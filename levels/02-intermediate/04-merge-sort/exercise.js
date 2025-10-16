@@ -15,9 +15,8 @@
  */
 
 function insertAt(arr, index, value) {
-  // TODO: Implementar función para insertar un valor en un índice específico
-
-  if (!Array.isArray(arr) || isNaN(Number(index)) || !Array.isArray(value)) {
+  
+  if (!Array.isArray(arr) || isNaN(Number(index)) || isNaN(Number(value))) {
     throw new Error('Los parametros que recibi no son correctos');
   }
 
@@ -67,8 +66,6 @@ function joinArrays(arr1, arr2) {
  */
 function insertMultipleAt(arr, index, values) {
   // TODO: Implementar función para insertar múltiples valores en un índice específico
-
-  Number(index);
 
   if (!Array.isArray(arr) || isNaN(Number(index)) || !Array.isArray(values)) {
     throw new Error('Los parametros que recibi no son correctos');
