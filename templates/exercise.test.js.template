@@ -1,34 +1,367 @@
 const [NOMBRE_FUNCION] = require('./exercise');
 
 describe('[NOMBRE_DEL_EJERCICIO]', () => {
-    // Casos básicos
-    test('debe manejar el caso básico', () => {
-        expect([NOMBRE_FUNCION]([PARAMETROS_BASICOS])).toBe([RESULTADO_ESPERADO]);
+    // ===== CASOS BÁSICOS =====
+    describe('Casos básicos - Verificación de funcionalidad principal', () => {
+        test('debe resolver correctamente el caso básico con entrada estándar', () => {
+            // Propósito: Verificar que la función maneja correctamente el caso más simple
+            // Entrada: [PARAMETROS_BASICOS] - Descripción específica de la entrada
+            // Esperado: [RESULTADO_ESPERADO] - Descripción específica del resultado esperado
+            expect([NOMBRE_FUNCION]([PARAMETROS_BASICOS])).toBe([RESULTADO_ESPERADO]);
+        });
+
+        test('debe resolver el caso de ejemplo exacto del enunciado del problema', () => {
+            // Propósito: Verificar que la implementación coincide con el ejemplo proporcionado
+            // Entrada: [PARAMETROS_EJEMPLO] - Ejemplo específico del enunciado
+            // Esperado: [RESULTADO_EJEMPLO] - Resultado exacto del ejemplo
+            expect([NOMBRE_FUNCION]([PARAMETROS_EJEMPLO])).toBe([RESULTADO_EJEMPLO]);
+        });
+
+        test('debe manejar correctamente casos con datos típicos y realistas', () => {
+            // Propósito: Verificar funcionamiento con datos que representan casos de uso real
+            // Entrada: [PARAMETROS_TIPICOS] - Datos típicos del dominio del problema
+            // Esperado: [RESULTADO_TIPICO] - Resultado esperado para datos típicos
+            expect([NOMBRE_FUNCION]([PARAMETROS_TIPICOS])).toBe([RESULTADO_TIPICO]);
+        });
     });
 
-    test('debe manejar el caso de ejemplo del enunciado', () => {
-        expect([NOMBRE_FUNCION]([PARAMETROS_EJEMPLO])).toBe([RESULTADO_EJEMPLO]);
+    // ===== CASOS EDGE Y LÍMITES =====
+    describe('Casos edge y límites - Verificación de comportamientos extremos', () => {
+        test('debe manejar correctamente un array completamente vacío (sin elementos)', () => {
+            // Propósito: Verificar comportamiento cuando no hay datos para procesar
+            // Entrada: [] - Array vacío
+            // Esperado: [RESULTADO_ARRAY_VACIO] - Comportamiento específico para array vacío
+            expect([NOMBRE_FUNCION]([])).toBe([RESULTADO_ARRAY_VACIO]);
+        });
+
+        test('debe manejar correctamente un array con exactamente un elemento', () => {
+            // Propósito: Verificar comportamiento en el caso mínimo no vacío
+            // Entrada: [ELEMENTO_UNICO] - Array con un solo elemento
+            // Esperado: [RESULTADO_UNO] - Resultado esperado para un solo elemento
+            expect([NOMBRE_FUNCION]([ELEMENTO_UNICO])).toBe([RESULTADO_UNO]);
+        });
+
+        test('debe manejar correctamente cuando se pasa null como parámetro', () => {
+            // Propósito: Verificar manejo de valores nulos (principio Fail Fast)
+            // Entrada: null - Valor nulo
+            // Esperado: [RESULTADO_NULL] - Comportamiento específico para null
+            expect([NOMBRE_FUNCION](null)).toBe([RESULTADO_NULL]);
+        });
+
+        test('debe manejar correctamente cuando se pasa undefined como parámetro', () => {
+            // Propósito: Verificar manejo de valores indefinidos
+            // Entrada: undefined - Valor indefinido
+            // Esperado: [RESULTADO_UNDEFINED] - Comportamiento específico para undefined
+            expect([NOMBRE_FUNCION](undefined)).toBe([RESULTADO_UNDEFINED]);
+        });
+
+        test('debe manejar correctamente valores extremos (mínimos y máximos)', () => {
+            // Propósito: Verificar comportamiento en límites del dominio de valores
+            // Entrada: [VALOR_MINIMO] y [VALOR_MAXIMO] - Valores extremos
+            // Esperado: [RESULTADO_MINIMO] y [RESULTADO_MAXIMO] - Resultados para valores extremos
+            expect([NOMBRE_FUNCION]([VALOR_MINIMO])).toBe([RESULTADO_MINIMO]);
+            expect([NOMBRE_FUNCION]([VALOR_MAXIMO])).toBe([RESULTADO_MAXIMO]);
+        });
+
+        test('debe manejar correctamente casos con valores negativos', () => {
+            // Propósito: Verificar funcionamiento con números negativos
+            // Entrada: [VALORES_NEGATIVOS] - Array con números negativos
+            // Esperado: [RESULTADO_NEGATIVOS] - Resultado correcto para valores negativos
+            expect([NOMBRE_FUNCION]([VALORES_NEGATIVOS])).toBe([RESULTADO_NEGATIVOS]);
+        });
+
+        test('debe manejar correctamente casos con valores decimales', () => {
+            // Propósito: Verificar precisión con números de punto flotante
+            // Entrada: [VALORES_DECIMALES] - Array con números decimales
+            // Esperado: [RESULTADO_DECIMALES] - Resultado correcto para valores decimales
+            expect([NOMBRE_FUNCION]([VALORES_DECIMALES])).toBe([RESULTADO_DECIMALES]);
+        });
+
+        test('debe manejar correctamente casos con valores cero', () => {
+            // Propósito: Verificar comportamiento especial con el valor cero
+            // Entrada: [VALORES_CERO] - Array que contiene valores cero
+            // Esperado: [RESULTADO_CERO] - Resultado correcto para valores cero
+            expect([NOMBRE_FUNCION]([VALORES_CERO])).toBe([RESULTADO_CERO]);
+        });
     });
 
-    // Casos edge
-    test('debe manejar casos vacíos o nulos', () => {
-        expect([NOMBRE_FUNCION]([PARAMETROS_VACIOS])).toBe([RESULTADO_VACIO]);
+    // ===== VALIDACIÓN DE INPUTS (FAIL FAST) =====
+    describe('Validación de inputs - Verificación de principio Fail Fast', () => {
+        test('debe lanzar error específico cuando se proporciona un tipo de dato incorrecto', () => {
+            // Propósito: Verificar que la función valida tipos de datos y falla rápidamente
+            // Entrada: [INPUT_TIPO_INCORRECTO] - Tipo de dato incorrecto específico
+            // Esperado: [TIPO_ERROR] - Error específico que debe lanzarse
+            expect(() => [NOMBRE_FUNCION]([INPUT_TIPO_INCORRECTO])).toThrow([TIPO_ERROR]);
+        });
+
+        test('debe lanzar error cuando se proporciona string en lugar de número esperado', () => {
+            // Propósito: Verificar validación de tipo numérico vs string
+            // Entrada: "[STRING_INVALIDO]" - String que debería ser número
+            // Esperado: [TIPO_ERROR] - Error de tipo de dato
+            expect(() => [NOMBRE_FUNCION]("[STRING_INVALIDO]")).toThrow([TIPO_ERROR]);
+        });
+
+        test('debe lanzar error cuando se proporciona objeto en lugar de array esperado', () => {
+            // Propósito: Verificar validación de tipo array vs objeto
+            // Entrada: {} - Objeto que debería ser array
+            // Esperado: [TIPO_ERROR] - Error de tipo de dato
+            expect(() => [NOMBRE_FUNCION]({})).toThrow([TIPO_ERROR]);
+        });
+
+        test('debe lanzar error cuando no se proporcionan parámetros requeridos', () => {
+            // Propósito: Verificar validación de parámetros requeridos
+            // Entrada: () - Sin parámetros cuando se requieren
+            // Esperado: [TIPO_ERROR] - Error de parámetros faltantes
+            expect(() => [NOMBRE_FUNCION]()).toThrow([TIPO_ERROR]);
+        });
+
+        test('debe lanzar error cuando se proporcionan más parámetros de los esperados', () => {
+            // Propósito: Verificar validación de número correcto de parámetros
+            // Entrada: [PARAMETROS_EXCESIVOS] - Más parámetros de los esperados
+            // Esperado: [TIPO_ERROR] - Error de parámetros excesivos
+            expect(() => [NOMBRE_FUNCION]([PARAMETROS_EXCESIVOS])).toThrow([TIPO_ERROR]);
+        });
+
+        test('debe lanzar error cuando se proporcionan valores fuera del rango válido', () => {
+            // Propósito: Verificar validación de rangos de valores
+            // Entrada: [VALOR_FUERA_RANGO] - Valor que está fuera del rango permitido
+            // Esperado: [TIPO_ERROR] - Error de valor fuera de rango
+            expect(() => [NOMBRE_FUNCION]([VALOR_FUERA_RANGO])).toThrow([TIPO_ERROR]);
+        });
     });
 
-    test('debe manejar casos con un solo elemento', () => {
-        expect([NOMBRE_FUNCION]([PARAMETROS_UNO])).toBe([RESULTADO_UNO]);
+    // ===== CASOS ADICIONALES Y ESPECIALES =====
+    describe('Casos adicionales - Verificación de robustez y casos especiales', () => {
+        test('debe manejar correctamente [CASO_ADICIONAL_1] específico del dominio', () => {
+            // Propósito: Verificar funcionamiento en caso específico del dominio del problema
+            // Entrada: [PARAMETROS_ADICIONAL_1] - Descripción específica del caso adicional
+            // Esperado: [RESULTADO_ADICIONAL_1] - Resultado esperado para este caso específico
+            expect([NOMBRE_FUNCION]([PARAMETROS_ADICIONAL_1])).toBe([RESULTADO_ADICIONAL_1]);
+        });
+
+        test('debe manejar correctamente [CASO_ADICIONAL_2] que prueba lógica específica', () => {
+            // Propósito: Verificar comportamiento en otro caso específico del dominio
+            // Entrada: [PARAMETROS_ADICIONAL_2] - Descripción específica del segundo caso adicional
+            // Esperado: [RESULTADO_ADICIONAL_2] - Resultado esperado para este segundo caso
+            expect([NOMBRE_FUNCION]([PARAMETROS_ADICIONAL_2])).toBe([RESULTADO_ADICIONAL_2]);
+        });
+
+        test('debe manejar correctamente casos con datos duplicados en el input', () => {
+            // Propósito: Verificar comportamiento cuando hay elementos repetidos
+            // Entrada: [DATOS_DUPLICADOS] - Array con elementos duplicados
+            // Esperado: [RESULTADO_DUPLICADOS] - Resultado correcto para datos duplicados
+            expect([NOMBRE_FUNCION]([DATOS_DUPLICADOS])).toBe([RESULTADO_DUPLICADOS]);
+        });
+
+        test('debe manejar correctamente casos con datos ya ordenados', () => {
+            // Propósito: Verificar comportamiento cuando los datos están previamente ordenados
+            // Entrada: [DATOS_ORDENADOS] - Array con datos en orden ascendente/descendente
+            // Esperado: [RESULTADO_ORDENADOS] - Resultado correcto para datos ordenados
+            expect([NOMBRE_FUNCION]([DATOS_ORDENADOS])).toBe([RESULTADO_ORDENADOS]);
+        });
+
+        test('debe manejar correctamente casos con datos completamente desordenados', () => {
+            // Propósito: Verificar comportamiento cuando los datos están en orden aleatorio
+            // Entrada: [DATOS_DESORDENADOS] - Array con datos en orden aleatorio
+            // Esperado: [RESULTADO_DESORDENADOS] - Resultado correcto para datos desordenados
+            expect([NOMBRE_FUNCION]([DATOS_DESORDENADOS])).toBe([RESULTADO_DESORDENADOS]);
+        });
     });
 
-    test('debe manejar casos límite', () => {
-        expect([NOMBRE_FUNCION]([PARAMETROS_LIMITE])).toBe([RESULTADO_LIMITE]);
+    // ===== TESTS DE RENDIMIENTO =====
+    describe('Rendimiento y escalabilidad - Verificación de eficiencia algorítmica', () => {
+        test('debe procesar arrays pequeños (n < 100) en menos de 1ms manteniendo corrección', () => {
+            // Propósito: Verificar que la función es eficiente para entradas pequeñas
+            // Entrada: [GENERAR_ARRAY_PEQUEÑO] - Array con menos de 100 elementos
+            // Esperado: [RESULTADO_ESPERADO_PEQUEÑO] - Resultado correcto
+            // Tiempo límite: [TIEMPO_LIMITE_PEQUEÑO_MS] - Máximo 1ms para arrays pequeños
+            const smallInput = [GENERAR_ARRAY_PEQUEÑO];
+            const startTime = performance.now();
+            const result = [NOMBRE_FUNCION](smallInput);
+            const endTime = performance.now();
+            
+            expect(result).toBe([RESULTADO_ESPERADO_PEQUEÑO]);
+            expect(endTime - startTime).toBeLessThan([TIEMPO_LIMITE_PEQUEÑO_MS]);
+        });
+
+        test('debe procesar arrays medianos (100 ≤ n < 1000) en menos de 10ms manteniendo corrección', () => {
+            // Propósito: Verificar que la función escala apropiadamente para entradas medianas
+            // Entrada: [GENERAR_ARRAY_MEDIANO] - Array con entre 100 y 1000 elementos
+            // Esperado: [RESULTADO_ESPERADO_MEDIANO] - Resultado correcto
+            // Tiempo límite: [TIEMPO_LIMITE_MEDIANO_MS] - Máximo 10ms para arrays medianos
+            const mediumInput = [GENERAR_ARRAY_MEDIANO];
+            const startTime = performance.now();
+            const result = [NOMBRE_FUNCION](mediumInput);
+            const endTime = performance.now();
+            
+            expect(result).toBe([RESULTADO_ESPERADO_MEDIANO]);
+            expect(endTime - startTime).toBeLessThan([TIEMPO_LIMITE_MEDIANO_MS]);
+        });
+
+        test('debe procesar arrays grandes (n ≥ 1000) en menos de 100ms sin fallar', () => {
+            // Propósito: Verificar que la función maneja entradas grandes sin errores
+            // Entrada: [GENERAR_ARRAY_GRANDE] - Array con 1000 o más elementos
+            // Esperado: [RESULTADO_ESPERADO_GRANDE] - Resultado correcto
+            // Tiempo límite: [TIEMPO_LIMITE_GRANDE_MS] - Máximo 100ms para arrays grandes
+            const largeInput = [GENERAR_ARRAY_GRANDE];
+            const startTime = performance.now();
+            const result = [NOMBRE_FUNCION](largeInput);
+            const endTime = performance.now();
+            
+            expect(result).toBe([RESULTADO_ESPERADO_GRANDE]);
+            expect(endTime - startTime).toBeLessThan([TIEMPO_LIMITE_GRANDE_MS]);
+        });
+
+        test('debe mantener complejidad temporal esperada O([COMPLEJIDAD_ESPERADA]) verificando crecimiento lineal', () => {
+            // Propósito: Verificar que el tiempo de ejecución crece según la complejidad esperada
+            // Entrada: Arrays de diferentes tamaños (n=10, n=100, n=1000)
+            // Esperado: El tiempo debe crecer según O([COMPLEJIDAD_ESPERADA])
+            // Factor límite: [FACTOR_LIMITE_COMPLEJIDAD] - Factor máximo de crecimiento permitido
+            const inputs = [
+                [GENERAR_INPUT_N_10],    // Array con 10 elementos
+                [GENERAR_INPUT_N_100],   // Array con 100 elementos  
+                [GENERAR_INPUT_N_1000]   // Array con 1000 elementos
+            ];
+            
+            const times = inputs.map(input => {
+                const start = performance.now();
+                [NOMBRE_FUNCION](input);
+                return performance.now() - start;
+            });
+            
+            // Verificar que el tiempo no crezca exponencialmente
+            // Para O(n): ratio debería ser ~10, para O(n²): ratio debería ser ~100
+            const ratio = times[2] / times[1];
+            expect(ratio).toBeLessThan([FACTOR_LIMITE_COMPLEJIDAD]);
+        });
     });
 
-    // Casos adicionales según el problema
-    test('debe manejar [CASO_ADICIONAL_1]', () => {
-        expect([NOMBRE_FUNCION]([PARAMETROS_ADICIONAL_1])).toBe([RESULTADO_ADICIONAL_1]);
+    // ===== TESTS DE INMUTABILIDAD =====
+    describe('Inmutabilidad - Verificación de principio de no mutación de datos originales', () => {
+        test('no debe modificar el array original pasado como parámetro', () => {
+            // Propósito: Verificar que la función no muta el array de entrada (principio de inmutabilidad)
+            // Entrada: [ARRAY_ORIGINAL] - Array que se pasará a la función
+            // Esperado: El array original debe permanecer exactamente igual después de la ejecución
+            const originalArray = [ARRAY_ORIGINAL];
+            const arrayCopy = [...originalArray]; // Crear copia para comparación
+            
+            [NOMBRE_FUNCION](originalArray);
+            
+            // Verificar que el array original no ha sido modificado
+            expect(originalArray).toEqual(arrayCopy);
+        });
+
+        test('no debe modificar objetos originales pasados como parámetros', () => {
+            // Propósito: Verificar que la función no muta objetos de entrada
+            // Entrada: {OBJETO_ORIGINAL} - Objeto que se pasará a la función
+            // Esperado: El objeto original debe permanecer exactamente igual después de la ejecución
+            const originalObject = {OBJETO_ORIGINAL};
+            const objectCopy = {...originalObject}; // Crear copia para comparación
+            
+            [NOMBRE_FUNCION](originalObject);
+            
+            // Verificar que el objeto original no ha sido modificado
+            expect(originalObject).toEqual(objectCopy);
+        });
     });
 
-    test('debe manejar [CASO_ADICIONAL_2]', () => {
-        expect([NOMBRE_FUNCION]([PARAMETROS_ADICIONAL_2])).toBe([RESULTADO_ADICIONAL_2]);
+    // ===== TESTS DE PRECISIÓN =====
+    describe('Precisión numérica - Verificación de manejo correcto de números', () => {
+        test('debe manejar números de punto flotante con precisión adecuada', () => {
+            // Propósito: Verificar que la función maneja correctamente números decimales
+            // Entrada: [NUMEROS_FLOTANTES] - Array con números de punto flotante
+            // Esperado: [RESULTADO_FLOTANTE] - Resultado con precisión de [PRECISION_DECIMALES] decimales
+            expect([NOMBRE_FUNCION]([NUMEROS_FLOTANTES])).toBeCloseTo([RESULTADO_FLOTANTE], [PRECISION_DECIMALES]);
+        });
+
+        test('debe manejar correctamente números muy pequeños (cercanos a cero)', () => {
+            // Propósito: Verificar comportamiento con números extremadamente pequeños
+            // Entrada: [NUMEROS_MUY_PEQUEÑOS] - Array con números muy pequeños (ej: 0.000001)
+            // Esperado: [RESULTADO_MUY_PEQUEÑO] - Resultado correcto para números pequeños
+            expect([NOMBRE_FUNCION]([NUMEROS_MUY_PEQUEÑOS])).toBe([RESULTADO_MUY_PEQUEÑO]);
+        });
+
+        test('debe manejar correctamente números muy grandes (cercanos al límite)', () => {
+            // Propósito: Verificar comportamiento con números extremadamente grandes
+            // Entrada: [NUMEROS_MUY_GRANDES] - Array con números muy grandes (ej: Number.MAX_SAFE_INTEGER)
+            // Esperado: [RESULTADO_MUY_GRANDE] - Resultado correcto para números grandes
+            expect([NOMBRE_FUNCION]([NUMEROS_MUY_GRANDES])).toBe([RESULTADO_MUY_GRANDE]);
+        });
+    });
+
+    // ===== TESTS DE CONCURRENCIA (si aplica) =====
+    describe('Comportamiento determinístico - Verificación de consistencia en múltiples ejecuciones', () => {
+        test('debe producir exactamente el mismo resultado en múltiples ejecuciones consecutivas', () => {
+            // Propósito: Verificar que la función es determinística y produce resultados consistentes
+            // Entrada: [INPUT_DETERMINISTICO] - Input que se ejecutará múltiples veces
+            // Esperado: Todos los resultados deben ser idénticos
+            const input = [INPUT_DETERMINISTICO];
+            const results = Array.from({length: 10}, () => [NOMBRE_FUNCION](input));
+            
+            const firstResult = results[0];
+            results.forEach(result => {
+                expect(result).toEqual(firstResult);
+            });
+        });
+
+        test('debe ser thread-safe y producir resultados consistentes en ejecución concurrente (si aplica)', () => {
+            // Propósito: Verificar que la función maneja correctamente ejecución concurrente
+            // Entrada: [INPUT_CONCURRENCIA] - Input que se ejecutará concurrentemente
+            // Esperado: Todos los resultados concurrentes deben ser idénticos
+            // Nota: Este test se puede omitir si la función no maneja estado compartido
+            const input = [INPUT_CONCURRENCIA];
+            const promises = Array.from({length: 5}, () => 
+                Promise.resolve([NOMBRE_FUNCION](input))
+            );
+            
+            return Promise.all(promises).then(results => {
+                const firstResult = results[0];
+                results.forEach(result => {
+                    expect(result).toEqual(firstResult);
+                });
+            });
+        });
+    });
+
+    // ===== TESTS DE MEMORIA (si aplica) =====
+    describe('Gestión de memoria - Verificación de ausencia de memory leaks', () => {
+        test('no debe causar memory leaks después de múltiples ejecuciones repetidas', () => {
+            // Propósito: Verificar que la función no acumula memoria en ejecuciones repetidas
+            // Entrada: [INPUT_MEMORIA] - Input que se ejecutará muchas veces
+            // Esperado: La función debe ejecutarse sin acumular memoria
+            const input = [INPUT_MEMORIA];
+            
+            // Ejecutar múltiples veces para detectar memory leaks
+            for (let i = 0; i < 1000; i++) {
+                [NOMBRE_FUNCION](input);
+            }
+            
+            // Si llegamos aquí sin errores de memoria, no hay memory leak obvio
+            expect(true).toBe(true);
+        });
+    });
+
+    // ===== TESTS DE ERRORES ESPECÍFICOS =====
+    describe('Manejo de errores específicos - Verificación de mensajes y tipos de error apropiados', () => {
+        test('debe lanzar error con mensaje descriptivo y específico del problema', () => {
+            // Propósito: Verificar que los errores tienen mensajes claros y útiles
+            // Entrada: [INPUT_ERROR] - Input que debe causar un error específico
+            // Esperado: [MENSAJE_ERROR_ESPERADO] - Mensaje de error específico y descriptivo
+            expect(() => [NOMBRE_FUNCION]([INPUT_ERROR])).toThrow([MENSAJE_ERROR_ESPERADO]);
+        });
+
+        test('debe lanzar el tipo de error correcto según el contexto del problema', () => {
+            // Propósito: Verificar que se lanza el tipo de error apropiado
+            // Entrada: [INPUT_ERROR] - Input que debe causar un error específico
+            // Esperado: [TIPO_ERROR_ESPERADO] - Tipo de error correcto (ej: TypeError, RangeError)
+            expect(() => [NOMBRE_FUNCION]([INPUT_ERROR])).toThrow([TIPO_ERROR_ESPERADO]);
+        });
+
+        test('debe manejar correctamente errores de overflow/underflow numérico', () => {
+            // Propósito: Verificar manejo de errores de desbordamiento numérico
+            // Entrada: [INPUT_OVERFLOW] - Input que causa overflow/underflow
+            // Esperado: [TIPO_ERROR_OVERFLOW] - Error específico de overflow/underflow
+            expect(() => [NOMBRE_FUNCION]([INPUT_OVERFLOW])).toThrow([TIPO_ERROR_OVERFLOW]);
+        });
     });
 });

@@ -162,12 +162,167 @@ Este repositorio de ejercicios de algoritmos está diseñado con una filosofía 
 - **Feedback inmediato**: Validación rápida de intentos
 - **Diversidad de ejemplos**: Múltiples contextos para cada concepto
 - **Conexiones explícitas**: Relacionar nuevos conceptos con conocimientos previos
+- **Enseñanza de principios**: Integrar principios de programación en cada ejercicio
 
 ### Para Estudiantes
 - **Pensamiento en voz alta**: Verbalizar el proceso de resolución
 - **Experimentación activa**: Probar diferentes enfoques
 - **Reflexión metacognitiva**: Evaluar el propio proceso de aprendizaje
 - **Colaboración constructiva**: Aprender de y con otros
+- **Aplicación de principios**: Practicar principios de programación en cada solución
+
+## 🎯 Integración de Principios de Programación
+
+### Filosofía de Enseñanza
+Los principios de programación no deben enseñarse como reglas rígidas, sino como herramientas de pensamiento que ayudan a crear código más mantenible, legible y robusto. La pedagogía debe enfocarse en:
+
+1. **Comprensión conceptual**: Entender el "por qué" detrás de cada principio
+2. **Aplicación práctica**: Ver cómo se aplican en problemas reales
+3. **Progresión gradual**: Introducir principios de forma incremental
+4. **Contexto relevante**: Mostrar el valor de cada principio en situaciones concretas
+
+### Metodología por Niveles
+
+#### Beginner (Principiante)
+**Principios a enfatizar:**
+- **KISS**: Mantener soluciones simples
+- **Código Expresivo**: Nombres claros para variables y funciones
+- **Funciones Pequeñas**: Una función, una tarea
+- **Fail Fast**: Validación básica de inputs
+
+**Estrategias pedagógicas:**
+- Ejemplos muy claros de código "bueno" vs "malo"
+- Ejercicios que requieran refactoring simple
+- Enfoque en legibilidad sobre optimización
+- Feedback inmediato sobre nomenclatura
+
+#### Intermediate (Intermedio)
+**Principios a introducir:**
+- **DRY**: Identificar y eliminar duplicación
+- **Responsabilidad Única**: Separar lógica en funciones específicas
+- **Separación de Intereses**: Organizar código en módulos lógicos
+- **Inmutabilidad**: Preferir datos que no cambian
+
+**Estrategias pedagógicas:**
+- Refactoring de ejercicios existentes
+- Comparación de múltiples enfoques
+- Análisis de código existente
+- Práctica de identificación de violaciones de principios
+
+#### Advanced (Avanzado)
+**Principios a dominar:**
+- **Encapsulación**: Ocultar detalles de implementación
+- **Composición sobre Herencia**: Diseñar con composición
+- **Abierto/Cerrado**: Extensibilidad sin modificación
+- **Ley de Demeter**: Reducir acoplamiento
+
+**Estrategias pedagógicas:**
+- Diseño de sistemas pequeños
+- Patrones de diseño aplicados
+- Análisis de arquitectura
+- Proyectos que requieran múltiples principios
+
+#### Expert (Experto)
+**Principios avanzados:**
+- **Depender de Abstracciones**: Inyección de dependencias
+- **Código Probable**: Diseño para testabilidad
+- **Principio Boy Scout**: Mejora continua
+- **YAGNI**: Resistir la sobre-ingeniería
+
+**Estrategias pedagógicas:**
+- Arquitecturas complejas
+- Optimización y rendimiento
+- Mantenimiento de código legacy
+- Liderazgo técnico y mentoring
+
+### Técnicas de Enseñanza Específicas
+
+#### 1. Código Comparativo
+```javascript
+// ❌ Ejemplo problemático
+function processUserData(data) {
+    if (data.name && data.email && data.age) {
+        if (data.age > 18) {
+            if (data.email.includes('@')) {
+                // Lógica compleja aquí...
+            }
+        }
+    }
+}
+
+// ✅ Ejemplo mejorado
+function processUserData(userData) {
+    validateUserData(userData);
+    return createUserProfile(userData);
+}
+
+function validateUserData(userData) {
+    if (!isValidUser(userData)) {
+        throw new Error('Datos de usuario inválidos');
+    }
+}
+
+function isValidUser(userData) {
+    return hasRequiredFields(userData) && 
+           isAdult(userData) && 
+           hasValidEmail(userData);
+}
+```
+
+#### 2. Refactoring Guiado
+1. **Identificar**: ¿Qué principio se está violando?
+2. **Analizar**: ¿Por qué es problemático?
+3. **Rediseñar**: ¿Cómo se puede mejorar?
+4. **Implementar**: Aplicar la mejora
+5. **Validar**: Verificar que funciona correctamente
+
+#### 3. Ejercicios de Detección
+Proporcionar código que viole principios y pedir a los estudiantes que:
+- Identifiquen qué principios se violan
+- Expliquen por qué es problemático
+- Propongan mejoras
+- Implementen las soluciones
+
+#### 4. Métricas de Código
+Enseñar a los estudiantes a evaluar su código usando:
+- **Complejidad ciclomática**: ¿Es demasiado complejo?
+- **Longitud de funciones**: ¿Son muy largas?
+- **Nombres de variables**: ¿Son expresivos?
+- **Duplicación**: ¿Hay código repetido?
+
+### Evaluación de Principios
+
+#### Criterios de Evaluación
+1. **Comprensión**: ¿Entiende el principio y su propósito?
+2. **Aplicación**: ¿Puede aplicarlo en código nuevo?
+3. **Identificación**: ¿Puede detectar violaciones en código existente?
+4. **Justificación**: ¿Puede explicar por qué un principio es importante?
+
+#### Herramientas de Evaluación
+- **Code Reviews**: Revisión de código entre pares
+- **Refactoring Challenges**: Mejora de código problemático
+- **Design Discussions**: Análisis de decisiones de diseño
+- **Portfolio Projects**: Aplicación en proyectos más grandes
+
+### Recursos Pedagógicos
+
+#### Ejercicios Progresivos
+1. **Ejercicio Simple**: Aplicar un principio básico
+2. **Ejercicio Compuesto**: Aplicar múltiples principios
+3. **Ejercicio de Refactoring**: Mejorar código existente
+4. **Ejercicio de Diseño**: Crear desde cero aplicando principios
+
+#### Casos de Estudio
+- **Antes y Después**: Mostrar transformaciones reales
+- **Casos de Fracaso**: Analizar qué salió mal y por qué
+- **Patrones Emergentes**: Cómo surgen los principios naturalmente
+- **Contexto Empresarial**: Aplicación en proyectos reales
+
+#### Herramientas de Apoyo
+- **Linters**: Configurados para detectar violaciones
+- **Code Metrics**: Herramientas de análisis de código
+- **Templates**: Estructuras que promueven buenas prácticas
+- **Checklists**: Listas de verificación de principios
 
 ## 🌟 Métricas de Éxito
 
