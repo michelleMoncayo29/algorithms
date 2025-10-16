@@ -16,7 +16,7 @@
 
 function insertAt(arr, index, value) {
     // TODO: Implementar función para insertar un valor en un índice específico
-    
+    const newArray = [...arr];
     // Pista: Crea un nuevo array y copia los elementos del array original.
     // En el índice especificado, coloca el nuevo valor, reemplazando el valor existente.
     // Asegúrate de manejar índices fuera de rango
@@ -33,6 +33,8 @@ function insertAt(arr, index, value) {
  */
 function joinArrays(arr1, arr2) {
     // TODO: Implementar función para unir dos arrays
+    const newArray = [arr1, arr2];
+    return newArray;
     
     // Pista: Crea un nuevo array que contenga todos los elementos del primer array
     // seguidos de todos los elementos del segundo array.
