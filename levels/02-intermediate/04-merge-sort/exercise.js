@@ -14,9 +14,24 @@
  * insertAt([1, 2, 3, 4], 1, 99) // [1, 99, 3, 4]
  */
 
+function validetArrayNumber(arr) {
+  if (!Array.isArray(arr)) {
+    return false;
+  }
+
+  for (const element of arr) {
+    if (isNaN(Number(element))) {
+      return false;
+      // throw new Error('Los parametros que recibi no son correctos');
+    }
+  }
+  return true;
+}
+
+console.log(validetArrayNumber('hola'));
+
 function insertAt(arr, index, value) {
-  
-  if (!Array.isArray(arr) || isNaN(Number(index)) || isNaN(Number(value))) {
+  if (!Array.isArray(arr) || isNaN(Number(index))) {
     throw new Error('Los parametros que recibi no son correctos');
   }
 
@@ -38,7 +53,7 @@ function insertAt(arr, index, value) {
   // Asegúrate de manejar índices fuera de rango
 }
 
-console.log(insertAt([1, 2, 3, 4], 1, 99)); // [1, 99, 3, 4]
+// console.log(insertAt([1, 2, 3, 4], 1, 99)); // [1, 99, 3, 4]
 
 /**
  * Función para unir dos arrays
@@ -67,24 +82,33 @@ function joinArrays(arr1, arr2) {
 function insertMultipleAt(arr, index, values) {
   // TODO: Implementar función para insertar múltiples valores en un índice específico
 
-  if (!Array.isArray(arr) || isNaN(Number(index)) || !Array.isArray(values)) {
+  if (
+    !validetArrayNumber(arr) ||
+    isNaN(Number(index)) ||
+    !Array.isArray(values)
+  ) {
     throw new Error('Los parametros que recibi no son correctos');
   }
 
-  if (index < 0 || index >= arr.length) {
+  if (index < 0 || index > arr.length) {
     throw new Error('Función no implementada');
   }
 
   const newArray = [];
 
-  for (let i = 0; i < arr.length; i++) {
-    const element = arr[i];
-    if (i === index) {
-      newArray.push(...values);
+  if (index === arr.length) {
+    newArray.push( ...arr,...values);
+  } else {   
+    for (let i = 0; i < arr.length; i++) {
+      const element = arr[i];
+      if (i === index) {
+        newArray.push(...values);
+      }
+  
+      newArray.push(element);
     }
-
-    newArray.push(element);
   }
+
 
   return newArray;
 
@@ -93,11 +117,13 @@ function insertMultipleAt(arr, index, values) {
   // Los valores existentes a partir del índice se desplazan hacia la derecha
 }
 
-const arr = [1, 2, 5, 6];
-const values = [3, 4];
+const input = [1, 2, 3];
+const values = [4, 5];
+// const expected = [1, 2, 3, 4, 5];
+console.log(insertMultipleAt(input, 3, values))
 
 // Insertar [3, 4] en el índice 2
-console.log(insertMultipleAt(arr, 2, values)); // [1, 2, 3, 4, 5, 6]
+// console.log(insertMultipleAt(arr, 2, values)); // [1, 2, 3, 4, 5, 6]
 
 module.exports = {
   insertAt,
