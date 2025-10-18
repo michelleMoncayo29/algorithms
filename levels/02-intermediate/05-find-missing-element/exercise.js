@@ -20,6 +20,13 @@
 
 function findMissingElement(numbers) {
     // TODO: Implementa la función aquí
+
+    const n = numbers.length + 1;
+
+    for (let i = 0; i < array.length; i++) {
+        const element = array[i];
+        
+    }
     // Pista 1: Calcula la suma esperada de 1 a n
     // Pista 2: Calcula la suma real del array
     // Pista 3: La diferencia es el número faltante
