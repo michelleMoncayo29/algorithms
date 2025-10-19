@@ -11,6 +11,16 @@
  */
 function removeDuplicates(nums) {
     // TODO: Implementa la función aquí
+
+    for (let i = 0; i < nums.length; i++) {
+        const element = nums[i];
+        
+        console.log(element);
+    }
+
+    for (const element of nums) {
+        console.log(element);
+    }
     
     // Pista 1: Crea un nuevo array vacío para almacenar elementos únicos
     // Pista 2: Itera sobre el array original
