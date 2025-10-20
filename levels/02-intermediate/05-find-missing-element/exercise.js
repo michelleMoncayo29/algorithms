@@ -18,23 +18,63 @@
  * donde n es el número más grande que debería estar presente
  */
 
+
+function hasLessOne(numbers) {
+  for (const num of numbers) {
+    if (num < 1) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function sortArray(numbers) {
+  const newArray = numbers.sort((a, b) => a - b);
+
+  return newArray;
+}
+
 function findMissingElement(numbers) {
   // TODO: Implementa la función aquí
 
-  const n = numbers.length + 1;
+  const orderedArr = sortArray(numbers);
+  const n = orderedArr.length + 1;
 
-  for (let i = 0; i < numbers.length; i++) {
-    const element = numbers[i];
+  if (hasLessOne(orderedArr)) {
 
-    if (element !== i + 1) {
-      return i + 1;
+    let prevElement = orderedArr[0];
+
+    for (let i = 1; i < orderedArr.length; i++) {
+      const current = orderedArr[i];
+      let secuens = prevElement + 1;
+
+      if (secuens !== current) {
+        return secuens;
+      }
+
+      prevElement = current;
+      
+    }
+
+    
+  } else {
+    for (let i = 0; i < orderedArr.length; i++) {
+      const element = orderedArr[i];
+  
+      if (element !== i + 1) {
+        return i + 1;
+      }
     }
   }
+
+
+  return n;
   // Pista 1: Calcula la suma esperada de 1 a n
   // Pista 2: Calcula la suma real del array
   // Pista 3: La diferencia es el número faltante
 }
 
-console.log(findMissingElement([1, 2, 4, 5]));
+console.log(findMissingElement([-1, 0, 1, 3]));
 
 module.exports = findMissingElement;
