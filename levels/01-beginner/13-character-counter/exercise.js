@@ -13,7 +13,25 @@
 
 function countCharacters(text) {
     // TODO: Implementar la solución aquí
+
+    const textLower = text.toLowerCase().replaceAll(' ', '');
+
+    let charCount = {};
     
+    
+    for (let letter of textLower) { 
+
+        if (!charCount[letter]) {
+            charCount[letter] = 1;
+        } else {
+            charCount[letter] += 1;
+        }
+
+    }
+
+
+    return charCount;
+
     // Pista 1: Convierte el texto a minúsculas usando toLowerCase()
     
     // Pista 2: Crea un objeto vacío para almacenar los conteos
