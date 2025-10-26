@@ -16,6 +16,12 @@
 
 function convertTemperature(temperature, fromScale, toScale) {
     // TODO: Implementar la solución aquí
+
+    const Celsius = (temperature * 9 / 5) + 32;
+    const fahrenheit = (temperature - 32) * 5 / 9;
+    
+    const kelvinCelsius = Celsius + 273.15;
+    const kelvinFahrenheit = fahrenheit + 273.15;
     
     // Pista 1: Normaliza las escalas a minúsculas para comparaciones case-insensitive
     // Pista 2: Valida que las escalas sean válidas ('celsius', 'fahrenheit', 'kelvin')
@@ -32,5 +38,7 @@ function convertTemperature(temperature, fromScale, toScale) {
     
     throw new Error('Función no implementada');
 }
+
+console.log(convertTemperature(32, 'celsius', 'fahrenheit')) // 89.6)
 
 module.exports = convertTemperature;
