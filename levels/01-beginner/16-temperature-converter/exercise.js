@@ -17,11 +17,51 @@
 function convertTemperature(temperature, fromScale, toScale) {
     // TODO: Implementar la solución aquí
 
-    const Celsius = (temperature * 9 / 5) + 32;
-    const fahrenheit = (temperature - 32) * 5 / 9;
+    const from = fromScale.toLocaleLowerCase();
+    const to = toScale.toLocaleLowerCase();
+
+    const validScales = ['celsius', 'fahrenheit', 'kelvin'];
+    if (!validScales.includes(from) || !validScales.includes(to)) {
+        return null;
+    }
+
+    if (from === to) {
+        return temperature.toFixed(2);
+    }
     
-    const kelvinCelsius = Celsius + 273.15;
-    const kelvinFahrenheit = fahrenheit + 273.15;
+    if (from === 'kelvin' && temperature < 0) {
+        return null;
+    }
+    
+    let celsius;
+    switch (from) {
+        case 'celsius':
+            celsius = temperature;
+            break;
+        case 'fahrenheit':
+            celsius = (temperature - 32) * 5/9;
+            break;
+        case 'kelvin':
+            celsius = temperature - 273.15;
+            break;
+    }
+    
+    let result;
+    switch (to) {
+        case 'celsius':
+            result = celsius;
+            break;
+        case 'fahrenheit':
+            result = (celsius * 9/5) + 32;
+            break;
+        case 'kelvin':
+            result = celsius + 273.15;
+            break;
+    }
+    
+    // 7. Redondear a 2 decimales y retornar
+    return Math.round(result * 100) / 100;
+   
     
     // Pista 1: Normaliza las escalas a minúsculas para comparaciones case-insensitive
     // Pista 2: Valida que las escalas sean válidas ('celsius', 'fahrenheit', 'kelvin')
