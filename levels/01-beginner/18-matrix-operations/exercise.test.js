@@ -8,8 +8,8 @@ const {
   transposeMatrix,
   isSquareMatrix,
   getMatrixTrace,
-// } = require('./exercise');
-} = require('../../../solutions/01-beginner/18-matrix-operations/solution');
+} = require('./exercise');
+// } = require('../../../solutions/01-beginner/18-matrix-operations/solution');
 
 describe('Operaciones con Matrices', () => {
   // Tests para createMatrix
