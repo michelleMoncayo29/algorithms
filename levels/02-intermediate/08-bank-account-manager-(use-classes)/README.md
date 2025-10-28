@@ -1,6 +1,6 @@
-# Gestor de Cuenta Bancaria
+# Gestor de Cuenta Bancaria (use classes)
 
-**Dificultad:** BEGINNER  
+**Dificultad:** INTERMEDIATE  
 **Categoría:** Objetos, Validación de Datos, Manejo de Estado, Cálculos Financieros  
 **Tiempo estimado:** 30-35 minutos
 

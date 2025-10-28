@@ -1,6 +1,6 @@
-# Carrito de Compras
+# Carrito de Compras (use classes)
 
-**Dificultad:** BEGINNER  
+**Dificultad:** INTERMEDIATE  
 **Categoría:** Objetos, Arrays, Cálculos Financieros, Validación de Datos  
 **Tiempo estimado:** 35-40 minutos
 

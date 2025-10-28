@@ -1,6 +1,6 @@
-# Sistema de Gestión de Biblioteca
+# Sistema de Gestión de Biblioteca (use classes)
 
-**Dificultad:** BEGINNER  
+**Dificultad:** INTERMEDIATE  
 **Categoría:** Objetos, Arrays, Manejo de Fechas, Lógica de Negocio, Búsquedas  
 **Tiempo estimado:** 40-45 minutos
 
