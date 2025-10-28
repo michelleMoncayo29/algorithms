@@ -19,16 +19,16 @@
  */
 function countWordFrequency(text) {
     // TODO: Implementar conteo de frecuencia de palabras
-    const textLowerCase = text.toLowerCase();
-    const clearWord = textLowerCase.replace(/[^\w\s]/g, '');
-    const arrayWords = clearWord.split(' ');
-    
-    if (arrayWords.length === 0) {
+    const textLowerCase = text.toLowerCase(); //Convierte todo a minúsculas
+    const clearWord = textLowerCase.replace(/[^\w\s]/g, ''); //Elimina puntuación usando expresión regular
+
+    if (clearWord.trim() === '') { // El trim elimina espacios en blanco al inicio y final
         return {};
     }
-    
 
-    const frequencyMap = arrayWords.reduce((acc, wordCurrent) => { 
+    const arrayWords = clearWord.split(' '); //Divide el texto en un array de palabras
+    const filteredWords = arrayWords.filter(word => word.length >= 2);
+    const frequencyMap = filteredWords.reduce((acc, wordCurrent) => { 
         if (acc[wordCurrent]) {
             acc[wordCurrent]++;
         } else {
