@@ -1,4 +1,4 @@
-# Sistema de Gestión de Biblioteca
+# Sistema de Gestión de Biblioteca (use classes)
 
 **Dificultad:** BEGINNER  
 **Categoría:** Objetos, Arrays, Manejo de Fechas, Lógica de Negocio, Búsquedas  

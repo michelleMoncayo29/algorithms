@@ -1,4 +1,4 @@
-# Carrito de Compras
+# Carrito de Compras (use classes)
 
 **Dificultad:** BEGINNER  
 **Categoría:** Objetos, Arrays, Cálculos Financieros, Validación de Datos  

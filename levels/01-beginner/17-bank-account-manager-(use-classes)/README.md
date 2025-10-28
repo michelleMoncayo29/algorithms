@@ -1,4 +1,4 @@
-# Gestor de Cuenta Bancaria
+# Gestor de Cuenta Bancaria (use classes)
 
 **Dificultad:** BEGINNER  
 **Categoría:** Objetos, Validación de Datos, Manejo de Estado, Cálculos Financieros  
