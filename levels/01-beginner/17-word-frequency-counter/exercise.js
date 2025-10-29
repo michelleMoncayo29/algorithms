@@ -18,40 +18,40 @@
  * @returns {Object} Objeto con palabras como claves y frecuencias como valores
  */
 function countWordFrequency(text) {
-    // TODO: Implementar conteo de frecuencia de palabras
-    const textLowerCase = text.toLowerCase(); //Convierte todo a minúsculas
-    const clearWord = textLowerCase.replace(/[^\w\s]/g, ''); //Elimina puntuación usando expresión regular
+  // TODO: Implementar conteo de frecuencia de palabras
+  const textLowerCase = text.toLowerCase(); //Convierte todo a minúsculas
+  const clearWord = textLowerCase.replace(/[^\w\s]/g, ''); //Elimina puntuación usando expresión regular
 
-    if (clearWord.trim() === '') { // El trim elimina espacios en blanco al inicio y final
-        return {};
+  if (clearWord.trim() === '') {
+    // El trim elimina espacios en blanco al inicio y final
+    return {};
+  }
+
+  const arrayWords = clearWord.split(' '); //Divide el texto en un array de palabras
+  const filteredWords = arrayWords.filter(word => word.length >= 2); //Filtra palabras con al menos 2 caracteres
+  const frequencyMap = filteredWords.reduce((acc, wordCurrent) => {
+    if (acc[wordCurrent]) {
+      acc[wordCurrent]++;
+    } else {
+      acc[wordCurrent] = 1;
     }
 
-    const arrayWords = clearWord.split(' '); //Divide el texto en un array de palabras
-    const filteredWords = arrayWords.filter(word => word.length >= 2);
-    const frequencyMap = filteredWords.reduce((acc, wordCurrent) => { 
-        if (acc[wordCurrent]) {
-            acc[wordCurrent]++;
-        } else {
-            acc[wordCurrent] = 1;
-        }
+    return acc;
+  }, {});
 
-        return acc;
-    }, {});
-
-    return frequencyMap;
+  return frequencyMap;
   // Pista 1: Limpiar el texto (eliminar puntuación, convertir a minúsculas)
   // Pista 2: Dividir el texto en palabras válidas (mínimo 2 caracteres)
   // Pista 3: Filtrar palabras que solo contengan letras y números
   // Pista 4: Usar un objeto para contar frecuencias
   // Pista 5: Retornar el objeto con las frecuencias
 
-
   throw new Error('Función countWordFrequency no implementada');
 }
 
 const text = 'Hello world! Hello JavaScript.';
 const result = countWordFrequency(text);
-console.log(result); // { hello: 2, world: 1, javascript: 1 }
+// console.log(result); // { hello: 2, world: 1, javascript: 1 }
 
 /**
  * Obtiene las palabras más frecuentes ordenadas por frecuencia
@@ -69,8 +69,43 @@ function getTopWords(frequencyMap, limit = 10) {
   // Pista 6: Limitar resultados con slice()
   // Pista 7: Retornar el array ordenado
 
+  if (!frequencyMap || typeof frequencyMap !== 'object') {
+    return [];
+  }
+
+  if (typeof limit !== 'number' || limit < 0) {
+    limit = 10;
+  }
+
+    const newArr = [];
+    
+    
+    const entries = Object.entries(frequencyMap); // Convierte el objeto en un array de entradas
+    
+    for (const arraySecond of entries) {
+        // console.log(arraySecond);
+        const object = {
+            word: arraySecond[0],
+            frequency: arraySecond[1],
+        };
+        newArr.push(object);
+    }
+
+    const result = newArr.slice(0, limit);
+
+    return result;
+
   throw new Error('Función getTopWords no implementada');
 }
+
+const frequencyMap = {
+  hello: 3,
+  world: 1,
+  javascript: 2,
+  programming: 1,
+};
+
+console.log(getTopWords(frequencyMap, 3));
 
 /**
  * Filtra palabras comunes del mapa de frecuencias
