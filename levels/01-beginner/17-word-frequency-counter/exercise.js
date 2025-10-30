@@ -77,23 +77,22 @@ function getTopWords(frequencyMap, limit = 10) {
     limit = 10;
   }
 
-    const newArr = [];
-    
-    
-    const entries = Object.entries(frequencyMap); // Convierte el objeto en un array de entradas
-    
-    for (const arraySecond of entries) {
-        // console.log(arraySecond);
-        const object = {
-            word: arraySecond[0],
-            frequency: arraySecond[1],
-        };
-        newArr.push(object);
-    }
+  const newArr = [];
 
-    const result = newArr.slice(0, limit);
+  const entries = Object.entries(frequencyMap); // Convierte el objeto en un array de entradas
 
-    return result;
+  for (const arraySecond of entries) {
+    // console.log(arraySecond);
+    const object = {
+      word: arraySecond[0],
+      frequency: arraySecond[1],
+    };
+    newArr.push(object);
+  }
+
+  const result = newArr.slice(0, limit);
+
+  return result;
 
   throw new Error('Función getTopWords no implementada');
 }
