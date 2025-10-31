@@ -23,7 +23,6 @@ function countWordFrequency(text) {
   const clearWord = textLowerCase.replace(/[^\w\s]/g, ''); //Elimina puntuación usando expresión regular
 
   if (clearWord.trim() === '') {
-    // El trim elimina espacios en blanco al inicio y final
     return {};
   }
 
@@ -40,13 +39,6 @@ function countWordFrequency(text) {
   }, {});
 
   return frequencyMap;
-  // Pista 1: Limpiar el texto (eliminar puntuación, convertir a minúsculas)
-  // Pista 2: Dividir el texto en palabras válidas (mínimo 2 caracteres)
-  // Pista 3: Filtrar palabras que solo contengan letras y números
-  // Pista 4: Usar un objeto para contar frecuencias
-  // Pista 5: Retornar el objeto con las frecuencias
-
-  throw new Error('Función countWordFrequency no implementada');
 }
 
 const text = 'Hello world! Hello JavaScript.';
@@ -61,13 +53,6 @@ const result = countWordFrequency(text);
  */
 function getTopWords(frequencyMap, limit = 10) {
   // TODO: Implementar obtención de palabras más frecuentes
-  // Pista 1: Validar que frequencyMap sea un objeto válido
-  // Pista 2: Convertir el objeto a array con Object.entries()
-  // Pista 3: Mapear a objetos {word, frequency}
-  // Pista 4: Ordenar por frecuencia descendente (mayor a menor)
-  // Pista 5: En caso de empate, ordenar alfabéticamente
-  // Pista 6: Limitar resultados con slice()
-  // Pista 7: Retornar el array ordenado
 
   if (!frequencyMap || typeof frequencyMap !== 'object') {
     return [];
@@ -93,8 +78,6 @@ function getTopWords(frequencyMap, limit = 10) {
   const result = newArr.slice(0, limit);
 
   return result;
-
-  throw new Error('Función getTopWords no implementada');
 }
 
 const frequencyMap = {
@@ -104,8 +87,6 @@ const frequencyMap = {
   programming: 1,
 };
 
-console.log(getTopWords(frequencyMap, 3));
-
 /**
  * Filtra palabras comunes del mapa de frecuencias
  * @param {Object} frequencyMap - Mapa de frecuencias
@@ -113,6 +94,25 @@ console.log(getTopWords(frequencyMap, 3));
  * @returns {Object} Nuevo mapa sin las palabras comunes
  */
 function filterCommonWords(frequencyMap, commonWords = []) {
+  if (
+    !frequencyMap ||
+    typeof frequencyMap !== 'object' ||
+    !Array.isArray(commonWords)
+  ) {
+    return [];
+  }
+
+  const newObj = { ...frequencyMap };
+
+  for (const item of commonWords) {
+    let wordLowerCase = item.toLowerCase();
+    console.log(newObj[wordLowerCase]);
+    if (Object.hasOwn(frequencyMap, wordLowerCase)) {
+      delete newObj[wordLowerCase]; //los corchete son para acceder dinamicamente
+    }
+  }
+
+  return newObj;
   // TODO: Implementar filtrado de palabras comunes
   // Pista 1: Validar que frequencyMap sea un objeto válido
   // Pista 2: Validar que commonWords sea un array
@@ -124,6 +124,17 @@ function filterCommonWords(frequencyMap, commonWords = []) {
 
   throw new Error('Función filterCommonWords no implementada');
 }
+
+const frequencyMap1 = {
+  the: 5,
+  and: 3,
+  programming: 2,
+  javascript: 1,
+};
+
+const commonWords = ['the', 'and'];
+
+// console.log(filterCommonWords(frequencyMap1, commonWords));
 
 /**
  * Genera un reporte completo de análisis de palabras
