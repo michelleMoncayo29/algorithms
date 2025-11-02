@@ -114,7 +114,7 @@ const report = generateWordReport(text, {
 
 // Resultado:
 {
-  totalWords: 6,
+  totalWords: 8,
   uniqueWords: 4,
   topWords: [
     { word: "javascript", frequency: 2 },

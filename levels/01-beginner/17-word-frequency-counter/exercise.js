@@ -144,6 +144,26 @@ const commonWords = ['the', 'and'];
  */
 function generateWordReport(text, options = {}) {
   // TODO: Implementar generación de reporte completo
+
+
+  if ( typeof text !== 'string' || typeof options !== 'object') {
+    return null;
+  }
+
+  const arrayCommonWord = options.commonWords;
+  const numberLimit = options.limit;
+
+  
+  const stringArr = text.split(" ");
+  const lengthArr = stringArr.length;
+  
+
+  const result = {
+    totalWords: lengthArr,
+  };
+  
+  console.log(result);
+  // countWordFrequency(text)
   // Pista 1: Extraer opciones con valores por defecto (limit, filterCommon, commonWords)
   // Pista 2: Contar frecuencia de todas las palabras usando countWordFrequency()
   // Pista 3: Contar total de palabras y palabras únicas
@@ -152,8 +172,17 @@ function generateWordReport(text, options = {}) {
   // Pista 6: Calcular estadísticas adicionales (palabras filtradas, frecuencia promedio)
   // Pista 7: Retornar objeto con todas las estadísticas
 
-  throw new Error('Función generateWordReport no implementada');
+  // throw new Error('Función generateWordReport no implementada');
 }
+
+const text1 = "JavaScript is great! Programming with JavaScript is fun.";
+const report = generateWordReport(text1, {
+  limit: 3,
+  filterCommon: true,
+  commonWords: ["is", "with"]
+});
+
+console.log(report);
 
 module.exports = {
   countWordFrequency,
