@@ -142,27 +142,49 @@ const commonWords = ['the', 'and'];
  * @param {Object} options - Opciones del reporte
  * @returns {Object} Reporte completo con estadísticas
  */
+
+function existsOnArray(arr, searchItem) {
+  for (const item of arr) {
+    if (item === searchItem) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function getUniqueArray(arr) {
+  const uniqueArray = [];
+
+  for (const item of arr) {
+    if (!existsOnArray(uniqueArray, item)) {
+      uniqueArray.push(item);
+    }
+  }
+
+  return uniqueArray;
+}
+
 function generateWordReport(text, options = {}) {
   // TODO: Implementar generación de reporte completo
 
-
-  if ( typeof text !== 'string' || typeof options !== 'object') {
+  if (typeof text !== 'string' || typeof options !== 'object') {
     return null;
   }
 
   const arrayCommonWord = options.commonWords;
   const numberLimit = options.limit;
 
-  
-  const stringArr = text.split(" ");
+  const stringArr = text.split(' ');
   const lengthArr = stringArr.length;
-  
+
+  const newArr = getUniqueArray(stringArr);
 
   const result = {
     totalWords: lengthArr,
   };
-  
-  console.log(result);
+
+  console.log(result, newArr);
   // countWordFrequency(text)
   // Pista 1: Extraer opciones con valores por defecto (limit, filterCommon, commonWords)
   // Pista 2: Contar frecuencia de todas las palabras usando countWordFrequency()
@@ -175,11 +197,11 @@ function generateWordReport(text, options = {}) {
   // throw new Error('Función generateWordReport no implementada');
 }
 
-const text1 = "JavaScript is great! Programming with JavaScript is fun.";
+const text1 = 'JavaScript is great! Programming with JavaScript is fun.';
 const report = generateWordReport(text1, {
   limit: 3,
   filterCommon: true,
-  commonWords: ["is", "with"]
+  commonWords: ['is', 'with'],
 });
 
 console.log(report);
