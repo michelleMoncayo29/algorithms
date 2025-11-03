@@ -143,26 +143,49 @@ const commonWords = ['the', 'and'];
  * @returns {Object} Reporte completo con estadísticas
  */
 
-function existsOnArray(arr, searchItem) {
-  for (const item of arr) {
-    if (item === searchItem) {
-      return true;
+function existsOnArr(item, arr) {
+  let counter = 0;
+
+  for (const element of arr) {
+    if (element === item) {
+      counter++;
     }
   }
 
-  return false;
+  return counter >= 2;
 }
 
-function getUniqueArray(arr) {
-  const uniqueArray = [];
-
-  for (const item of arr) {
-    if (!existsOnArray(uniqueArray, item)) {
-      uniqueArray.push(item);
+function uniqueArr(arr) {
+  const newArr = [];
+  for (const first of arr) {
+    if (!existsOnArr(first, arr)) {
+      newArr.push(first);
     }
   }
 
-  return uniqueArray;
+  return newArr;
+}
+
+function newObjet(arr, limit) {
+  // console.log('🤍', arr);
+
+  const limitArr = arr.slice(0, limit);
+  
+  console.log(limitArr);
+
+  const arrNew = limitArr.reduce((acc, wordCurrent) => {
+    if (acc[wordCurrent]) {
+      acc[wordCurrent]++;
+    } else {
+      acc[wordCurrent] = 1;
+    }
+
+    return acc;
+  }, {});
+
+  // console.log({arrNew});
+  const result = arrNew.slice(0, limit);
+  return result;
 }
 
 function generateWordReport(text, options = {}) {
@@ -177,14 +200,19 @@ function generateWordReport(text, options = {}) {
 
   const stringArr = text.split(' ');
   const lengthArr = stringArr.length;
-
-  const newArr = getUniqueArray(stringArr);
+  const newArr = uniqueArr(stringArr);
+  // console.log(stringArr, '🔯');
 
   const result = {
     totalWords: lengthArr,
+    uniqueWords: newArr.length,
+    topWords: newObjet(stringArr, arrayCommonWord.length),
+    filteredWords: arrayCommonWord.length,
   };
 
-  console.log(result, newArr);
+  return result;
+
+  // console.log(result);
   // countWordFrequency(text)
   // Pista 1: Extraer opciones con valores por defecto (limit, filterCommon, commonWords)
   // Pista 2: Contar frecuencia de todas las palabras usando countWordFrequency()
