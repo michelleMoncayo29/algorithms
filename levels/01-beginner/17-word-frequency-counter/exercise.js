@@ -51,7 +51,7 @@ const result = countWordFrequency(text);
  * @param {number} limit - Número máximo de palabras a retornar
  * @returns {Array} Array de objetos {word, frequency} ordenados por frecuencia
  */
-function getTopWords(frequencyMap, limit = 10) {
+function getTopWords(frequencyMap, limit = 10, commonWords = []) {
   // TODO: Implementar obtención de palabras más frecuentes
 
   if (!frequencyMap || typeof frequencyMap !== 'object') {
@@ -75,7 +75,16 @@ function getTopWords(frequencyMap, limit = 10) {
     newArr.push(object);
   }
 
-  const result = newArr.slice(0, limit);
+  // const commonWords = ['is', 'with'];
+
+  const orderArr = newArr.sort((a, b) => b.frequency - a.frequency);
+
+  const filterArr = orderArr.filter(element => {
+    const text = element.word;
+    return !commonWords.includes(text);
+  });
+
+  const result = filterArr.slice(0, limit);
 
   return result;
 }
@@ -113,16 +122,6 @@ function filterCommonWords(frequencyMap, commonWords = []) {
   }
 
   return newObj;
-  // TODO: Implementar filtrado de palabras comunes
-  // Pista 1: Validar que frequencyMap sea un objeto válido
-  // Pista 2: Validar que commonWords sea un array
-  // Pista 3: Crear un nuevo objeto para el resultado
-  // Pista 4: Iterar sobre las entradas del mapa de frecuencias
-  // Pista 5: Verificar si cada palabra está en commonWords (case-insensitive)
-  // Pista 6: Solo agregar palabras que NO estén en commonWords
-  // Pista 7: Retornar el nuevo objeto filtrado
-
-  throw new Error('Función filterCommonWords no implementada');
 }
 
 const frequencyMap1 = {
@@ -166,14 +165,8 @@ function uniqueArr(arr) {
   return newArr;
 }
 
-function newObjet(arr, limit) {
-  // console.log('🤍', arr);
-
-  const limitArr = arr.slice(0, limit);
-  
-  console.log(limitArr);
-
-  const arrNew = limitArr.reduce((acc, wordCurrent) => {
+function newObjet(arr, limit, commonWords) {
+  const arrNew = arr.reduce((acc, wordCurrent) => {
     if (acc[wordCurrent]) {
       acc[wordCurrent]++;
     } else {
@@ -182,10 +175,8 @@ function newObjet(arr, limit) {
 
     return acc;
   }, {});
-
-  // console.log({arrNew});
-  const result = arrNew.slice(0, limit);
-  return result;
+  
+  return getTopWords(arrNew, limit , commonWords);
 }
 
 function generateWordReport(text, options = {}) {
@@ -201,35 +192,22 @@ function generateWordReport(text, options = {}) {
   const stringArr = text.split(' ');
   const lengthArr = stringArr.length;
   const newArr = uniqueArr(stringArr);
-  // console.log(stringArr, '🔯');
 
   const result = {
     totalWords: lengthArr,
     uniqueWords: newArr.length,
-    topWords: newObjet(stringArr, arrayCommonWord.length),
+    topWords: newObjet(stringArr, numberLimit, arrayCommonWord),
     filteredWords: arrayCommonWord.length,
   };
 
   return result;
-
-  // console.log(result);
-  // countWordFrequency(text)
-  // Pista 1: Extraer opciones con valores por defecto (limit, filterCommon, commonWords)
-  // Pista 2: Contar frecuencia de todas las palabras usando countWordFrequency()
-  // Pista 3: Contar total de palabras y palabras únicas
-  // Pista 4: Aplicar filtro de palabras comunes si filterCommon es true
-  // Pista 5: Obtener palabras más frecuentes usando getTopWords()
-  // Pista 6: Calcular estadísticas adicionales (palabras filtradas, frecuencia promedio)
-  // Pista 7: Retornar objeto con todas las estadísticas
-
-  // throw new Error('Función generateWordReport no implementada');
 }
 
 const text1 = 'JavaScript is great! Programming with JavaScript is fun.';
 const report = generateWordReport(text1, {
-  limit: 3,
+  limit: 4,
   filterCommon: true,
-  commonWords: ['is', 'with'],
+  commonWords: ['with'],
 });
 
 console.log(report);
@@ -240,3 +218,6 @@ module.exports = {
   filterCommonWords,
   generateWordReport,
 };
+
+
+console.log(getTopWords(frequencyMap, 3));
