@@ -143,21 +143,19 @@ const commonWords = ['the', 'and'];
  */
 
 function existsOnArr(item, arr) {
-  let counter = 0;
-
   for (const element of arr) {
     if (element === item) {
-      counter++;
+      return true
     }
   }
 
-  return counter >= 2;
+  return false
 }
 
 function uniqueArr(arr) {
   const newArr = [];
   for (const first of arr) {
-    if (!existsOnArr(first, arr)) {
+    if (!existsOnArr(first, newArr)) {
       newArr.push(first);
     }
   }
@@ -186,20 +184,20 @@ function generateWordReport(text, options = {}) {
     return null;
   }
 
-  const arrayCommonWord = options.commonWords;
+  const arrayCommonWord = options.commonWords ?? [];
   const numberLimit = options.limit;
 
   const stringArr = text.split(' ');
   const lengthArr = stringArr.length;
   const newArr = uniqueArr(stringArr);
-
+  
   const result = {
     totalWords: lengthArr,
     uniqueWords: newArr.length,
     topWords: newObjet(stringArr, numberLimit, arrayCommonWord),
     filteredWords: arrayCommonWord.length,
+    averageFrequency: lengthArr / newArr.length,
   };
-
   return result;
 }
 
@@ -220,4 +218,4 @@ module.exports = {
 };
 
 
-console.log(getTopWords(frequencyMap, 3));
+console.log(generateWordReport('Hello world! Hello JavaScript.'));
