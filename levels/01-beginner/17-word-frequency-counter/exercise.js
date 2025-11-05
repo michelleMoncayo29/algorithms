@@ -64,7 +64,6 @@ function getTopWords(frequencyMap, limit = 10, commonWords = []) {
   const entries = Object.entries(frequencyMap); // Convierte el objeto en un array de entradas
 
   for (const arraySecond of entries) {
-    
     const object = {
       word: arraySecond[0],
       frequency: arraySecond[1],
@@ -104,6 +103,42 @@ const frequencyMap = {
   programming: 1,
 };
 
+function hasCaseInsensitiveKey(obj, itemSearch) {
+  const text = itemSearch.toLowerCase();
+
+  const arrKeys = Object.keys(obj);
+
+  for (const key of arrKeys) {
+    const keyLowerCase = key.toLocaleLowerCase();
+
+    if (keyLowerCase === text) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function delectKeyObject(obj, itemSearch) {
+  const text = itemSearch.toLowerCase();
+
+  const arrKeys = Object.keys(obj);
+  const mutedArray = arrKeys.filter(element => {
+    const textLower = element.toLowerCase();
+
+    return textLower !== text;
+  });
+
+  const newObject = mutedArray.reduce((acc, element) => {
+
+    acc[element] = obj[element];
+
+    return acc;
+  }, {});
+
+  return newObject;
+}
+
 /**
  * Filtra palabras comunes del mapa de frecuencias
  * @param {Object} frequencyMap - Mapa de frecuencias
@@ -119,15 +154,20 @@ function filterCommonWords(frequencyMap, commonWords = []) {
     return [];
   }
 
-  const newObj = { ...frequencyMap };
+  let newObj = {};
+  
 
   for (const item of commonWords) {
-    let wordLowerCase = item.toLowerCase();
-    if (Object.hasOwn(frequencyMap, wordLowerCase)) {
-      delete newObj[wordLowerCase]; //los corchete son para acceder dinamicamente
+    if (hasCaseInsensitiveKey(frequencyMap, item)) {
+      const newData = delectKeyObject(frequencyMap, item);
+      newObj = {
+        ...newObj,
+        ...newData
+      }
     }
   }
-
+  
+  
   return newObj;
 }
 
@@ -137,12 +177,9 @@ const frequencyMap1 = {
   programming: 2,
   javascript: 1,
 };
-
-console.log('✅', getTopWords(frequencyMap1, ['the']));
-
 const commonWords = ['the', 'and'];
 
-// console.log(filterCommonWords(frequencyMap1, commonWords));
+console.log(filterCommonWords(frequencyMap1, commonWords)); 
 
 /**
  * Genera un reporte completo de análisis de palabras
@@ -217,7 +254,7 @@ const report = generateWordReport(text1, {
   commonWords: ['with'],
 });
 
-console.log(report);
+// console.log(report);
 
 module.exports = {
   countWordFrequency,
@@ -226,4 +263,4 @@ module.exports = {
   generateWordReport,
 };
 
-console.log(generateWordReport('Hello world! Hello JavaScript.'));
+
