@@ -20,19 +20,17 @@
 function countWordFrequency(text) {
   // TODO: Implementar conteo de frecuencia de palabras
   const textLowerCase = text.toLowerCase(); //Convierte todo a minúsculas
-  const clearWord = textLowerCase.replace(/[^\w\s]/g, ''); //Elimina puntuación usando expresión regular
-
-  if (clearWord.trim() === '') {
-    return {};
-  }
+  const clearWord = textLowerCase.replace(/[^\w\s-]/g, ''); //Elimina puntuación usando expresión regular
 
   const arrayWords = clearWord.split(' '); //Divide el texto en un array de palabras
   const filteredWords = arrayWords.filter(word => word.length >= 2); //Filtra palabras con al menos 2 caracteres
   const frequencyMap = filteredWords.reduce((acc, wordCurrent) => {
-    if (acc[wordCurrent]) {
-      acc[wordCurrent]++;
-    } else {
-      acc[wordCurrent] = 1;
+    if (/^[a-z0-9]+$/i.test(wordCurrent)) {
+      if (acc[wordCurrent]) {
+        acc[wordCurrent]++;
+      } else {
+        acc[wordCurrent] = 1;
+      }
     }
 
     return acc;
@@ -43,7 +41,6 @@ function countWordFrequency(text) {
 
 const text = 'Hello world! Hello JavaScript.';
 const result = countWordFrequency(text);
-// console.log(result); // { hello: 2, world: 1, javascript: 1 }
 
 /**
  * Obtiene las palabras más frecuentes ordenadas por frecuencia
@@ -67,7 +64,7 @@ function getTopWords(frequencyMap, limit = 10, commonWords = []) {
   const entries = Object.entries(frequencyMap); // Convierte el objeto en un array de entradas
 
   for (const arraySecond of entries) {
-    // console.log(arraySecond);
+    
     const object = {
       word: arraySecond[0],
       frequency: arraySecond[1],
@@ -75,7 +72,18 @@ function getTopWords(frequencyMap, limit = 10, commonWords = []) {
     newArr.push(object);
   }
 
-  // const commonWords = ['is', 'with'];
+  newArr.sort((a, b) => {
+    const nameA = a.word.toLowerCase(); // Convertir a minúsculas para ordenar sin distinguir mayúsculas
+    const nameB = b.word.toLowerCase();
+
+    if (nameA < nameB) {
+      return -1; // a va antes que b
+    }
+    if (nameA > nameB) {
+      return 1; // b va antes que a
+    }
+    return 0; // Son iguales
+  });
 
   const orderArr = newArr.sort((a, b) => b.frequency - a.frequency);
 
@@ -115,7 +123,6 @@ function filterCommonWords(frequencyMap, commonWords = []) {
 
   for (const item of commonWords) {
     let wordLowerCase = item.toLowerCase();
-    console.log(newObj[wordLowerCase]);
     if (Object.hasOwn(frequencyMap, wordLowerCase)) {
       delete newObj[wordLowerCase]; //los corchete son para acceder dinamicamente
     }
@@ -131,6 +138,8 @@ const frequencyMap1 = {
   javascript: 1,
 };
 
+console.log('✅', getTopWords(frequencyMap1, ['the']));
+
 const commonWords = ['the', 'and'];
 
 // console.log(filterCommonWords(frequencyMap1, commonWords));
@@ -145,11 +154,11 @@ const commonWords = ['the', 'and'];
 function existsOnArr(item, arr) {
   for (const element of arr) {
     if (element === item) {
-      return true
+      return true;
     }
   }
 
-  return false
+  return false;
 }
 
 function uniqueArr(arr) {
@@ -173,8 +182,8 @@ function newObjet(arr, limit, commonWords) {
 
     return acc;
   }, {});
-  
-  return getTopWords(arrNew, limit , commonWords);
+
+  return getTopWords(arrNew, limit, commonWords);
 }
 
 function generateWordReport(text, options = {}) {
@@ -190,7 +199,7 @@ function generateWordReport(text, options = {}) {
   const stringArr = text.split(' ');
   const lengthArr = stringArr.length;
   const newArr = uniqueArr(stringArr);
-  
+
   const result = {
     totalWords: lengthArr,
     uniqueWords: newArr.length,
@@ -216,6 +225,5 @@ module.exports = {
   filterCommonWords,
   generateWordReport,
 };
-
 
 console.log(generateWordReport('Hello world! Hello JavaScript.'));
