@@ -119,18 +119,23 @@ function hasCaseInsensitiveKey(obj, itemSearch) {
   return false;
 }
 
-function delectKeyObject(obj, itemSearch) {
-  const text = itemSearch.toLowerCase();
+// itemSearch = "Pedro"
+// text = "pedro"
+function delectKeyObject(obj, arr) {
+  
+  const arrLowerCase = arr.map(text => { 
+    return text.toLocaleLowerCase();
+  });
 
   const arrKeys = Object.keys(obj);
   const mutedArray = arrKeys.filter(element => {
     const textLower = element.toLowerCase();
-
-    return textLower !== text;
+    return !arrLowerCase.includes(textLower);
   });
 
-  const newObject = mutedArray.reduce((acc, element) => {
+  // console.log(mutedArray, '✅');
 
+  const newObject = mutedArray.reduce((acc, element) => {
     acc[element] = obj[element];
 
     return acc;
@@ -145,41 +150,30 @@ function delectKeyObject(obj, itemSearch) {
  * @param {Array} commonWords - Array de palabras comunes a filtrar
  * @returns {Object} Nuevo mapa sin las palabras comunes
  */
+
 function filterCommonWords(frequencyMap, commonWords = []) {
   if (
     !frequencyMap ||
     typeof frequencyMap !== 'object' ||
     !Array.isArray(commonWords)
   ) {
-    return [];
+    return {};
   }
 
-  let newObj = {};
-  
-
-  for (const item of commonWords) {
-    if (hasCaseInsensitiveKey(frequencyMap, item)) {
-      const newData = delectKeyObject(frequencyMap, item);
-      newObj = {
-        ...newObj,
-        ...newData
-      }
-    }
-  }
-  
-  
-  return newObj;
+  return delectKeyObject(frequencyMap, commonWords);
 }
 
 const frequencyMap1 = {
   the: 5,
   and: 3,
-  programming: 2,
+  Programming: 2,
   javascript: 1,
 };
-const commonWords = ['the', 'and'];
+const commonWords = ['the', 'And'];
 
-console.log(filterCommonWords(frequencyMap1, commonWords)); 
+console.log(filterCommonWords(null, ['the']));
+// console.log(!null);
+// console.log(filterCommonWords(frequencyMap1, commonWords));
 
 /**
  * Genera un reporte completo de análisis de palabras
@@ -262,5 +256,3 @@ module.exports = {
   filterCommonWords,
   generateWordReport,
 };
-
-
