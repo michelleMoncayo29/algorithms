@@ -103,24 +103,6 @@ const frequencyMap = {
   programming: 1,
 };
 
-function hasCaseInsensitiveKey(obj, itemSearch) {
-  const text = itemSearch.toLowerCase();
-
-  const arrKeys = Object.keys(obj);
-
-  for (const key of arrKeys) {
-    const keyLowerCase = key.toLocaleLowerCase();
-
-    if (keyLowerCase === text) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-// itemSearch = "Pedro"
-// text = "pedro"
 function delectKeyObject(obj, arr) {
   
   const arrLowerCase = arr.map(text => { 
@@ -171,7 +153,7 @@ const frequencyMap1 = {
 };
 const commonWords = ['the', 'And'];
 
-console.log(filterCommonWords(null, ['the']));
+// console.log(filterCommonWords(null, ['the']));
 // console.log(!null);
 // console.log(filterCommonWords(frequencyMap1, commonWords));
 
@@ -192,14 +174,16 @@ function existsOnArr(item, arr) {
   return false;
 }
 
-function uniqueArr(arr) {
-  const newArr = [];
+function uniqueArr(arr, limit, commonWords) {
+  const auxArr = [];
   for (const first of arr) {
-    if (!existsOnArr(first, newArr)) {
-      newArr.push(first);
+    if (!existsOnArr(first, auxArr)) {
+      auxArr.push(first);
     }
   }
 
+  const newArr = auxArr.slice(0, limit);
+  console.log(auxArr);
   return newArr;
 }
 
@@ -214,10 +198,10 @@ function newObjet(arr, limit, commonWords) {
     return acc;
   }, {});
 
-  return getTopWords(arrNew, limit, commonWords);
+  return arrNew;
 }
 
-function generateWordReport(text, options = {}) {
+function generateWordReport(text, limit = 10,  options = {}) {
   // TODO: Implementar generación de reporte completo
 
   if (typeof text !== 'string' || typeof options !== 'object') {
@@ -236,19 +220,15 @@ function generateWordReport(text, options = {}) {
     uniqueWords: newArr.length,
     topWords: newObjet(stringArr, numberLimit, arrayCommonWord),
     filteredWords: arrayCommonWord.length,
-    averageFrequency: lengthArr / newArr.length,
+    averageFrequency: Math.floor(lengthArr / newArr.length),
   };
   return result;
 }
 
-const text1 = 'JavaScript is great! Programming with JavaScript is fun.';
-const report = generateWordReport(text1, {
-  limit: 4,
-  filterCommon: true,
-  commonWords: ['with'],
-});
+const text1 = 'a a b b c d e f g h i j';
+const report = generateWordReport(text1, 3);
 
-// console.log(report);
+console.log(report);
 
 module.exports = {
   countWordFrequency,
