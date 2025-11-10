@@ -104,8 +104,7 @@ const frequencyMap = {
 };
 
 function delectKeyObject(obj, arr) {
-  
-  const arrLowerCase = arr.map(text => { 
+  const arrLowerCase = arr.map(text => {
     return text.toLocaleLowerCase();
   });
 
@@ -157,37 +156,39 @@ const commonWords = ['the', 'And'];
 // console.log(!null);
 // console.log(filterCommonWords(frequencyMap1, commonWords));
 
-/**
- * Genera un reporte completo de análisis de palabras
- * @param {string} text - Texto a analizar
- * @param {Object} options - Opciones del reporte
- * @returns {Object} Reporte completo con estadísticas
- */
-
+// Esto me debe preguntar que palabras existen en el array
 function existsOnArr(item, arr) {
   for (const element of arr) {
     if (element === item) {
       return true;
     }
   }
-
   return false;
 }
 
-function uniqueArr(arr, limit, commonWords) {
-  const auxArr = [];
-  for (const first of arr) {
-    if (!existsOnArr(first, auxArr)) {
-      auxArr.push(first);
+// Esto debe ser una función sobre eliminar las palabras que estan en commonWords.
+function uniqueArr(arr, commonWords) {
+
+  // Quitamos las palabras que son commonWords.
+  const auxArr =  arr.filter(word => {
+    return !commonWords.includes(word);
+  });
+
+  // Ahora sacamos los duplicados.
+  const unifiqueArr = [];
+
+  for (const first of auxArr) {
+    if (!existsOnArr(first, unifiqueArr)) {
+      unifiqueArr.push(first);
     }
   }
 
-  const newArr = auxArr.slice(0, limit);
-  console.log(auxArr);
-  return newArr;
+  return unifiqueArr;
 }
 
-function newObjet(arr, limit, commonWords) {
+// Debe crear el objeto con las palabras y sus frecuencias, teniendo su limite
+function newObjet(arr, limit) {
+
   const arrNew = arr.reduce((acc, wordCurrent) => {
     if (acc[wordCurrent]) {
       acc[wordCurrent]++;
@@ -198,35 +199,54 @@ function newObjet(arr, limit, commonWords) {
     return acc;
   }, {});
 
-  return arrNew;
+  return getTopWords(arrNew, limit);
 }
 
-function generateWordReport(text, limit = 10,  options = {}) {
+/**
+ * Genera un reporte completo de análisis de palabras
+ * @param {string} text - Texto a analizar
+ * @param {Object} options - Opciones del reporte
+ * @returns {Object} Reporte completo con estadísticas
+ */
+function generateWordReport(text, options = {}) {
   // TODO: Implementar generación de reporte completo
 
   if (typeof text !== 'string' || typeof options !== 'object') {
     return null;
   }
 
+  // Limpia el texto de caracteres no deseados
+  const textWithoutCharacters = text.replace(/[^\w\s-]/g, '');
+  // Array de palabras comunes a filtrar (QUITAR);
   const arrayCommonWord = options.commonWords ?? [];
+  // Numero limite;
   const numberLimit = options.limit;
 
-  const stringArr = text.split(' ');
+  // Array de palabras separadas por espacio;
+  const stringArr = textWithoutCharacters.split(' ');
+  // Longitud de la palabra
   const lengthArr = stringArr.length;
-  const newArr = uniqueArr(stringArr);
+
+  // Unico array de palabras
+  const newArr = uniqueArr(stringArr, arrayCommonWord);
+  console.log(newArr, "✅✅✅✅");
 
   const result = {
     totalWords: lengthArr,
-    uniqueWords: newArr.length,
-    topWords: newObjet(stringArr, numberLimit, arrayCommonWord),
+    uniqueWords: newArr.length, //longitud del array con palabras unicas
+    topWords: newObjet(newArr, numberLimit),
     filteredWords: arrayCommonWord.length,
     averageFrequency: Math.floor(lengthArr / newArr.length),
   };
   return result;
 }
 
-const text1 = 'a a b b c d e f g h i j';
-const report = generateWordReport(text1, 3);
+const text1 = 'JavaScript is great! Programming with JavaScript is fun.';
+const report = generateWordReport(text1, {
+  limit: 3,
+  filterCommon: true,
+  commonWords: ['is', 'with'],
+});
 
 console.log(report);
 

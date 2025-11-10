@@ -277,9 +277,9 @@ describe('Contador de Frecuencia de Palabras', () => {
 
     test('debe manejar parámetros inválidos', () => {
       expect(filterCommonWords(null, ['the'])).toEqual({});
-      expect(filterCommonWords(undefined, ['the'])).toEqual({});
-      expect(filterCommonWords('invalid', ['the'])).toEqual({});
-      expect(filterCommonWords({}, 'invalid')).toEqual({});
+      expect(filterCommonWords(undefined, ['the'])).toEqual({}); //✅
+      expect(filterCommonWords('invalid', ['the'])).toEqual({}); //✅
+      expect(filterCommonWords({}, 'invalid')).toEqual({}); //✅
     });
 
     test('debe filtrar todas las palabras si todas son comunes', () => {
