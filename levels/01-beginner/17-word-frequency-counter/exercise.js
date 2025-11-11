@@ -167,38 +167,35 @@ function existsOnArr(item, arr) {
 }
 
 // Esto debe ser una función sobre eliminar las palabras que estan en commonWords.
-function uniqueArr(arr, commonWords) {
-
-  // Quitamos las palabras que son commonWords.
-  const auxArr =  arr.filter(word => {
-    return !commonWords.includes(word);
-  });
-
+function uniqueArr(arr) {
   // Ahora sacamos los duplicados.
-  const unifiqueArr = [];
+  const auxi = [];
 
-  for (const first of auxArr) {
-    if (!existsOnArr(first, unifiqueArr)) {
-      unifiqueArr.push(first);
+  for (const first of arr) {
+    if (!existsOnArr(first, auxi)) {
+      auxi.push(first);
     }
   }
+
+  const unifiqueArr = auxi.filter(word => {
+    return word.length >= 2;
+  });
 
   return unifiqueArr;
 }
 
 // Debe crear el objeto con las palabras y sus frecuencias, teniendo su limite
 function newObjet(arr, limit) {
-
   const arrNew = arr.reduce((acc, wordCurrent) => {
-    if (acc[wordCurrent]) {
-      acc[wordCurrent]++;
+    const wordLower = wordCurrent.toLowerCase();
+    if (acc[wordLower]) {
+      acc[wordLower]++;
     } else {
-      acc[wordCurrent] = 1;
+      acc[wordLower] = 1;
     }
 
     return acc;
   }, {});
-
   return getTopWords(arrNew, limit);
 }
 
@@ -217,6 +214,19 @@ function generateWordReport(text, options = {}) {
 
   // Limpia el texto de caracteres no deseados
   const textWithoutCharacters = text.replace(/[^\w\s-]/g, '');
+
+  // aca hice que me retoner un objeto con todo en 0 si el texto esta vacio
+  if (textWithoutCharacters.trim() === '') {
+    return {
+      totalWords: 0,
+      uniqueWords: 0,
+      topWords: [],
+      filteredWords: 0,
+      averageFrequency: 0,
+    };
+  }
+
+
   // Array de palabras comunes a filtrar (QUITAR);
   const arrayCommonWord = options.commonWords ?? [];
   // Numero limite;
@@ -224,28 +234,37 @@ function generateWordReport(text, options = {}) {
 
   // Array de palabras separadas por espacio;
   const stringArr = textWithoutCharacters.split(' ');
+  // filtre para quitar las palabras que son string vacios
+  const filteredArr = stringArr.filter(word => {
+    return word.length >= 2;
+  });
+
   // Longitud de la palabra
-  const lengthArr = stringArr.length;
+  const lengthArr = filteredArr.length;
+
+  // Quitamos las palabras que son commonWords.
+  const auxArr = stringArr.filter(word => {
+    const elementLower = word.toLowerCase();
+    return !arrayCommonWord.includes(elementLower);
+  });
 
   // Unico array de palabras
-  const newArr = uniqueArr(stringArr, arrayCommonWord);
-  console.log(newArr, "✅✅✅✅");
-
+  const newArr = uniqueArr(auxArr);
+  const averageNumber = lengthArr / newArr.length;
+  const averageString = averageNumber.toFixed(2);
   const result = {
     totalWords: lengthArr,
     uniqueWords: newArr.length, //longitud del array con palabras unicas
-    topWords: newObjet(newArr, numberLimit),
+    topWords: newObjet(auxArr, numberLimit),
     filteredWords: arrayCommonWord.length,
-    averageFrequency: Math.floor(lengthArr / newArr.length),
+    averageFrequency: averageString,
   };
   return result;
 }
 
-const text1 = 'JavaScript is great! Programming with JavaScript is fun.';
+const text1 = 'a a b b c d e f g h i j';
 const report = generateWordReport(text1, {
   limit: 3,
-  filterCommon: true,
-  commonWords: ['is', 'with'],
 });
 
 console.log(report);
