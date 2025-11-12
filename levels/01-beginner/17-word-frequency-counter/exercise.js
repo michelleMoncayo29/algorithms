@@ -214,7 +214,6 @@ function generateWordReport(text, options = {}) {
 
   // Limpia el texto de caracteres no deseados
   const textWithoutCharacters = text.replace(/[^\w\s-]/g, '');
-
   // aca hice que me retoner un objeto con todo en 0 si el texto esta vacio
   if (textWithoutCharacters.trim() === '') {
     return {
@@ -225,7 +224,6 @@ function generateWordReport(text, options = {}) {
       averageFrequency: 0,
     };
   }
-
 
   // Array de palabras comunes a filtrar (QUITAR);
   const arrayCommonWord = options.commonWords ?? [];
@@ -243,15 +241,17 @@ function generateWordReport(text, options = {}) {
   const lengthArr = filteredArr.length;
 
   // Quitamos las palabras que son commonWords.
-  const auxArr = stringArr.filter(word => {
+  const auxArr = filteredArr.filter(word => {
     const elementLower = word.toLowerCase();
     return !arrayCommonWord.includes(elementLower);
   });
 
   // Unico array de palabras
   const newArr = uniqueArr(auxArr);
+  console.log(newArr, '🔵');
   const averageNumber = lengthArr / newArr.length;
   const averageString = averageNumber.toFixed(2);
+
   const result = {
     totalWords: lengthArr,
     uniqueWords: newArr.length, //longitud del array con palabras unicas
@@ -262,9 +262,12 @@ function generateWordReport(text, options = {}) {
   return result;
 }
 
-const text1 = 'a a b b c d e f g h i j';
+const text1 =
+  'JavaScript is a programming language. JavaScript is used for web development. Programming with JavaScript is fun!';
 const report = generateWordReport(text1, {
-  limit: 3,
+  limit: 5,
+  filterCommon: true,
+  commonWords: ['is', 'a', 'for', 'with', 'the', 'and', 'or', 'but'],
 });
 
 console.log(report);
