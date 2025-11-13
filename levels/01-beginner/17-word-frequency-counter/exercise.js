@@ -40,7 +40,7 @@ function countWordFrequency(text) {
 }
 
 const text = 'Hello world! Hello JavaScript.';
-const result = countWordFrequency(text);
+// const result = countWordFrequency(text);
 
 /**
  * Obtiene las palabras más frecuentes ordenadas por frecuencia
@@ -104,17 +104,19 @@ const frequencyMap = {
 };
 
 function delectKeyObject(obj, arr) {
+  console.log(obj, '🔴');
   const arrLowerCase = arr.map(text => {
     return text.toLocaleLowerCase();
   });
 
   const arrKeys = Object.keys(obj);
+  console.log(arrKeys, '🔵');
   const mutedArray = arrKeys.filter(element => {
     const textLower = element.toLowerCase();
     return !arrLowerCase.includes(textLower);
   });
 
-  // console.log(mutedArray, '✅');
+  console.log(mutedArray, '✅');
 
   const newObject = mutedArray.reduce((acc, element) => {
     acc[element] = obj[element];
@@ -152,8 +154,6 @@ const frequencyMap1 = {
 };
 const commonWords = ['the', 'And'];
 
-// console.log(filterCommonWords(null, ['the']));
-// console.log(!null);
 // console.log(filterCommonWords(frequencyMap1, commonWords));
 
 // Esto me debe preguntar que palabras existen en el array
@@ -248,7 +248,7 @@ function generateWordReport(text, options = {}) {
 
   // Unico array de palabras
   const newArr = uniqueArr(auxArr);
-  console.log(newArr, '🔵');
+  // console.log(newArr, '🔵');
   const averageNumber = lengthArr / newArr.length;
   const averageString = averageNumber.toFixed(2);
 
@@ -264,13 +264,18 @@ function generateWordReport(text, options = {}) {
 
 const text1 =
   'JavaScript is a programming language. JavaScript is used for web development. Programming with JavaScript is fun!';
+const frequency = countWordFrequency(text1);
+const topWords = getTopWords(frequency, 3);
+const filtered = filterCommonWords(topWords, ['is', 'a', 'for', 'with']);
+
 const report = generateWordReport(text1, {
   limit: 5,
   filterCommon: true,
   commonWords: ['is', 'a', 'for', 'with', 'the', 'and', 'or', 'but'],
 });
-
-console.log(report);
+console.log(filtered);
+console.log("---- REPORT ----");
+// console.log(report);
 
 module.exports = {
   countWordFrequency,
