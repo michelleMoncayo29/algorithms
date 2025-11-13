@@ -104,19 +104,20 @@ const frequencyMap = {
 };
 
 function delectKeyObject(obj, arr) {
-  console.log(obj, '🔴');
   const arrLowerCase = arr.map(text => {
     return text.toLocaleLowerCase();
   });
 
+  // console.log(obj, '--------------------------');
+
   const arrKeys = Object.keys(obj);
-  console.log(arrKeys, '🔵');
+  // console.log(arrKeys, '--------------------------');
   const mutedArray = arrKeys.filter(element => {
     const textLower = element.toLowerCase();
     return !arrLowerCase.includes(textLower);
   });
 
-  console.log(mutedArray, '✅');
+  // console.log(mutedArray, '✅');
 
   const newObject = mutedArray.reduce((acc, element) => {
     acc[element] = obj[element];
@@ -154,7 +155,7 @@ const frequencyMap1 = {
 };
 const commonWords = ['the', 'And'];
 
-// console.log(filterCommonWords(frequencyMap1, commonWords));
+console.log(filterCommonWords(frequencyMap1, commonWords));
 
 // Esto me debe preguntar que palabras existen en el array
 function existsOnArr(item, arr) {
@@ -239,6 +240,7 @@ function generateWordReport(text, options = {}) {
 
   // Longitud de la palabra
   const lengthArr = filteredArr.length;
+  console.log(filteredArr);
 
   // Quitamos las palabras que son commonWords.
   const auxArr = filteredArr.filter(word => {
@@ -266,15 +268,16 @@ const text1 =
   'JavaScript is a programming language. JavaScript is used for web development. Programming with JavaScript is fun!';
 const frequency = countWordFrequency(text1);
 const topWords = getTopWords(frequency, 3);
-const filtered = filterCommonWords(topWords, ['is', 'a', 'for', 'with']);
+const filtered = filterCommonWords(frequency, ['is', 'a', 'for', 'with']);
 
 const report = generateWordReport(text1, {
   limit: 5,
   filterCommon: true,
   commonWords: ['is', 'a', 'for', 'with', 'the', 'and', 'or', 'but'],
 });
-console.log(filtered);
 console.log("---- REPORT ----");
+console.log(report);
+// console.log(topWords, 'TOP');
 // console.log(report);
 
 module.exports = {
