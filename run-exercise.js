@@ -41,6 +41,11 @@ const EXERCISES = {
       name: 'Fleet Maintenance Manager',
       description: 'Gestor básico de flota usando clases y filtros',
       path: 'levels/01-beginner/25-fleet-maintenance'
+    },
+    '26-smart-home-monitor': {
+      name: 'Smart Home Monitor',
+      description: 'Control de dispositivos inteligentes con clases',
+      path: 'levels/01-beginner/26-smart-home-monitor'
     }
   },
   '02-intermediate': {
