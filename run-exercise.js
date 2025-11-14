@@ -31,6 +31,11 @@ const EXERCISES = {
       name: 'Find Maximum',
       description: 'Encuentra el valor máximo en un array',
       path: 'levels/01-beginner/04-find-maximum'
+    },
+    '24-pet-registry': {
+      name: 'Pet Registry',
+      description: 'Registro de mascotas usando clases y validaciones',
+      path: 'levels/01-beginner/24-pet-registry'
     }
   },
   '02-intermediate': {
