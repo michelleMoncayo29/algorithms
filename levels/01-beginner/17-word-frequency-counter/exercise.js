@@ -159,8 +159,10 @@ console.log(filterCommonWords(frequencyMap1, commonWords));
 
 // Esto me debe preguntar que palabras existen en el array
 function existsOnArr(item, arr) {
+  const itemLower = item.toLowerCase();
   for (const element of arr) {
-    if (element === item) {
+    const text = element.toLowerCase();  
+    if (text === itemLower) {
       return true;
     }
   }
@@ -171,12 +173,12 @@ function existsOnArr(item, arr) {
 function uniqueArr(arr) {
   // Ahora sacamos los duplicados.
   const auxi = [];
-
   for (const first of arr) {
     if (!existsOnArr(first, auxi)) {
       auxi.push(first);
     }
   }
+  
 
   const unifiqueArr = auxi.filter(word => {
     return word.length >= 2;
@@ -233,6 +235,7 @@ function generateWordReport(text, options = {}) {
 
   // Array de palabras separadas por espacio;
   const stringArr = textWithoutCharacters.split(' ');
+
   // filtre para quitar las palabras que son string vacios
   const filteredArr = stringArr.filter(word => {
     return word.length >= 2;
@@ -240,19 +243,21 @@ function generateWordReport(text, options = {}) {
 
   // Longitud de la palabra
   const lengthArr = filteredArr.length;
-  console.log(filteredArr);
 
+  // Unico array de palabras
+  const newArr = uniqueArr(filteredArr);
+  console.log(newArr, newArr.length, 'UNIQUE');
+  const averageNumber = lengthArr / newArr.length;
+  const averageString = averageNumber.toFixed(2);
+
+  console.log(filteredArr, filteredArr.length, 'filteredArr');
   // Quitamos las palabras que son commonWords.
   const auxArr = filteredArr.filter(word => {
     const elementLower = word.toLowerCase();
     return !arrayCommonWord.includes(elementLower);
   });
 
-  // Unico array de palabras
-  const newArr = uniqueArr(auxArr);
-  // console.log(newArr, '🔵');
-  const averageNumber = lengthArr / newArr.length;
-  const averageString = averageNumber.toFixed(2);
+  console.log(auxArr,auxArr.length , 'auxArr');
 
   const result = {
     totalWords: lengthArr,
@@ -267,7 +272,7 @@ function generateWordReport(text, options = {}) {
 const text1 =
   'JavaScript is a programming language. JavaScript is used for web development. Programming with JavaScript is fun!';
 const frequency = countWordFrequency(text1);
-const topWords = getTopWords(frequency, 3);
+const topWords = getTopWords(frequency, 1);
 const filtered = filterCommonWords(frequency, ['is', 'a', 'for', 'with']);
 
 const report = generateWordReport(text1, {
@@ -275,7 +280,7 @@ const report = generateWordReport(text1, {
   filterCommon: true,
   commonWords: ['is', 'a', 'for', 'with', 'the', 'and', 'or', 'but'],
 });
-console.log("---- REPORT ----");
+console.log('---- REPORT ----');
 console.log(report);
 // console.log(topWords, 'TOP');
 // console.log(report);

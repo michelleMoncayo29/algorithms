@@ -3,7 +3,8 @@ const {
   getTopWords,
   filterCommonWords,
   generateWordReport,
-} = require('./exercise');
+} = require('../../../solutions/01-beginner/17-word-frequency-counter/solution');
+// } = require('./exercise');
 
 describe('Contador de Frecuencia de Palabras', () => {
   // Tests para countWordFrequency
