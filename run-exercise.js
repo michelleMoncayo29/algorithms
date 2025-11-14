@@ -36,6 +36,11 @@ const EXERCISES = {
       name: 'Pet Registry',
       description: 'Registro de mascotas usando clases y validaciones',
       path: 'levels/01-beginner/24-pet-registry'
+    },
+    '25-fleet-maintenance': {
+      name: 'Fleet Maintenance Manager',
+      description: 'Gestor básico de flota usando clases y filtros',
+      path: 'levels/01-beginner/25-fleet-maintenance'
     }
   },
   '02-intermediate': {
