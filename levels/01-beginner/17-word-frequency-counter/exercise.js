@@ -246,24 +246,24 @@ function generateWordReport(text, options = {}) {
 
   // Unico array de palabras
   const newArr = uniqueArr(filteredArr);
-  console.log(newArr, newArr.length, 'UNIQUE');
-  const averageNumber = lengthArr / newArr.length;
-  const averageString = averageNumber.toFixed(2);
-
-  console.log(filteredArr, filteredArr.length, 'filteredArr');
+  console.log(newArr, newArr.length, 'Este es el viejo unificado');
   // Quitamos las palabras que son commonWords.
-  const auxArr = filteredArr.filter(word => {
+  const auxArr = newArr.filter(word => {
     const elementLower = word.toLowerCase();
     return !arrayCommonWord.includes(elementLower);
   });
+  // Promedio de filtrado.
+  const sumFrequency = newArr.length - auxArr.length;
+  const averageNumber = lengthArr / newArr.length;
+  const averageString = averageNumber.toFixed(2);
 
-  console.log(auxArr,auxArr.length , 'auxArr');
+  console.log(auxArr, auxArr.length, 'AUX ESTE');
 
   const result = {
     totalWords: lengthArr,
     uniqueWords: newArr.length, //longitud del array con palabras unicas
     topWords: newObjet(auxArr, numberLimit),
-    filteredWords: arrayCommonWord.length,
+    filteredWords: sumFrequency,
     averageFrequency: averageString,
   };
   return result;
