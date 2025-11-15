@@ -27,13 +27,35 @@
 function createMatrix(rows, cols, defaultValue = 0) {
     // TODO: Implementar creación de matriz
     // Pista 1: Validar que rows y cols sean números positivos
+    if (typeof rows !== 'number' || typeof cols !== 'number' || rows <= 0 || cols <= 0) {
+
+        console.log(rows, "esto es console.log");
+
+        return [];
+    }
+
+    const matrix = [];
+
+    for (let i = 0; i < rows; i++) { 
+        const row = [];
+        for (let j = 0; j < cols; j++) {
+            row.push(defaultValue);
+        }
+        matrix.push(row);
+    }
+
+    return matrix;
+
     // Pista 2: Crear un array de filas usando Array(rows)
     // Pista 3: Para cada fila, crear un array de columnas usando Array(cols)
     // Pista 4: Llenar cada celda con el defaultValue
     // Pista 5: Retornar la matriz creada
     
-    throw new Error('Función createMatrix no implementada');
 }
+
+const matrix = createMatrix(3, 3, 1);
+
+console.log(matrix);
 
 /**
  * Obtiene las dimensiones de una matriz
