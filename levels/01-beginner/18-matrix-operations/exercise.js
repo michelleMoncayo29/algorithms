@@ -1,10 +1,10 @@
 /**
  * Operaciones con Matrices
- * 
+ *
  * Descripción: Implementa funciones para realizar operaciones básicas con matrices.
  * Las matrices se representan como arrays bidimensionales (array de arrays).
  * Dificultad: BEGINNER
- * 
+ *
  * Funciones requeridas:
  * - createMatrix(rows, cols, defaultValue): Crea una matriz con valores por defecto
  * - getMatrixDimensions(matrix): Obtiene las dimensiones de una matriz
@@ -25,30 +25,32 @@
  * @returns {Array} Matriz creada
  */
 function createMatrix(rows, cols, defaultValue = 0) {
-    // TODO: Implementar creación de matriz
-    // Pista 1: Validar que rows y cols sean números positivos
-    if (typeof rows !== 'number' || typeof cols !== 'number' || rows <= 0 || cols <= 0) {
+  // TODO: Implementar creación de matriz
+  // Pista 1: Validar que rows y cols sean números positivos
+  if (
+    typeof rows !== 'number' ||
+    typeof cols !== 'number' ||
+    rows <= 0 ||
+    cols <= 0
+  ) {
+    console.log(rows, 'esto es console.log');
 
-        console.log(rows, "esto es console.log");
+    return [];
+  }
 
-        return [];
+  const matrix = [];
+
+  for (let i = 0; i < rows; i++) {
+    const row = [];
+    for (let j = 0; j < cols; j++) {
+      row.push(defaultValue);
     }
+    matrix.push(row);
+  }
 
-    const matrix = [];
-
-    for (let i = 0; i < rows; i++) { 
-        const row = [];
-        for (let j = 0; j < cols; j++) {
-            row.push(defaultValue);
-        }
-        matrix.push(row);
-    }
-
-    return matrix;
-    
+  return matrix;
 }
 const matrix = createMatrix(3, 3, 1);
-
 
 /**
  * Obtiene las dimensiones de una matriz
@@ -56,35 +58,41 @@ const matrix = createMatrix(3, 3, 1);
  * @returns {Object} Objeto con propiedades rows y cols
  */
 function getMatrixDimensions(matrix) {
-    // TODO: Implementar obtención de dimensiones
+  // TODO: Implementar obtención de dimensiones
 
+  if (
+    !Array.isArray(matrix) ||
+    matrix.length === 0 ||
+    !Array.isArray(matrix[0])
+  ) {
+    return {
+      rows: 0,
+      cols: 0,
+    };
+  }
 
-    if (!Array.isArray(matrix) || matrix.length === 0 || !Array.isArray(matrix[0])) { 
-        return {
-        rows: 0,
-        cols: 0
-    }
-    }
+  let row = matrix[0];
+  for (let i = 1; i < matrix.length; i++) {
+    let element = matrix[i];
 
-    let row = matrix[0];
-    for (let i = 1; i < matrix.length; i++) {
-        let element = matrix[i];
-
-        if (element.length !== row.length) {
-            return null;
-        }
-        
-        row = element;
-    }
-
-    const dimensiones = {
-        rows: matrix.length,
-        cols: matrix[0].length
+    if (element.length !== row.length) {
+      return null;
     }
 
-    return dimensiones;
+    row = element;
+  }
+
+  const dimensiones = {
+    rows: matrix.length,
+    cols: matrix[0].length,
+  };
+
+  return dimensiones;
 }
-const dimensions = getMatrixDimensions([[1, 2], [3, 4, 5]]);
+const dimensions = getMatrixDimensions([
+  [1, 2],
+  [3, 4, 5],
+]);
 /**
  * Obtiene un elemento específico de la matriz
  * @param {Array} matrix - Matriz
@@ -93,14 +101,30 @@ const dimensions = getMatrixDimensions([[1, 2], [3, 4, 5]]);
  * @returns {*} Elemento en la posición especificada
  */
 function getElement(matrix, row, col) {
-    // TODO: Implementar obtención de elemento
-    // Pista 1: Validar que matrix sea un array válido
-    // Pista 2: Validar que row y col sean índices válidos
-    // Pista 3: Retornar el elemento en matrix[row][col]
-    // Pista 4: Retornar undefined si los índices están fuera de rango
-    
-    throw new Error('Función getElement no implementada');
+
+  if (
+    !Array.isArray(matrix) ||
+    matrix.length === 0 ||
+    !Array.isArray(matrix[0])
+  ) {
+    return undefined;
+  }
+
+    if (typeof row !== 'number' || typeof col !== 'number' || row < 0 || col < 0) {
+    return undefined;
+    }
+    if (row >= matrix.length || col >= matrix[0].length) {
+      return undefined;
+    }
+  return matrix[row][col];
 }
+const arr = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+];
+const getItem = getElement(arr, 3, 0);
+console.log(getItem);
 
 /**
  * Establece un elemento específico de la matriz
@@ -111,13 +135,13 @@ function getElement(matrix, row, col) {
  * @returns {boolean} true si se estableció correctamente, false si no
  */
 function setElement(matrix, row, col, value) {
-    // TODO: Implementar establecimiento de elemento
-    // Pista 1: Validar que matrix sea un array válido
-    // Pista 2: Validar que row y col sean índices válidos
-    // Pista 3: Establecer matrix[row][col] = value
-    // Pista 4: Retornar true si se estableció, false si los índices están fuera de rango
-    
-    throw new Error('Función setElement no implementada');
+  // TODO: Implementar establecimiento de elemento
+  // Pista 1: Validar que matrix sea un array válido
+  // Pista 2: Validar que row y col sean índices válidos
+  // Pista 3: Establecer matrix[row][col] = value
+  // Pista 4: Retornar true si se estableció, false si los índices están fuera de rango
+
+  throw new Error('Función setElement no implementada');
 }
 
 /**
@@ -127,14 +151,14 @@ function setElement(matrix, row, col, value) {
  * @returns {Array|null} Matriz resultante o null si no se pueden sumar
  */
 function addMatrices(matrix1, matrix2) {
-    // TODO: Implementar suma de matrices
-    // Pista 1: Validar que ambas matrices sean arrays válidos
-    // Pista 2: Verificar que ambas matrices tengan las mismas dimensiones
-    // Pista 3: Crear una nueva matriz con las mismas dimensiones
-    // Pista 4: Sumar elemento por elemento: result[i][j] = matrix1[i][j] + matrix2[i][j]
-    // Pista 5: Retornar la matriz resultante o null si no se pueden sumar
-    
-    throw new Error('Función addMatrices no implementada');
+  // TODO: Implementar suma de matrices
+  // Pista 1: Validar que ambas matrices sean arrays válidos
+  // Pista 2: Verificar que ambas matrices tengan las mismas dimensiones
+  // Pista 3: Crear una nueva matriz con las mismas dimensiones
+  // Pista 4: Sumar elemento por elemento: result[i][j] = matrix1[i][j] + matrix2[i][j]
+  // Pista 5: Retornar la matriz resultante o null si no se pueden sumar
+
+  throw new Error('Función addMatrices no implementada');
 }
 
 /**
@@ -144,14 +168,14 @@ function addMatrices(matrix1, matrix2) {
  * @returns {Array|null} Matriz resultante o null si la matriz no es válida
  */
 function multiplyMatrixByScalar(matrix, scalar) {
-    // TODO: Implementar multiplicación por escalar
-    // Pista 1: Validar que matrix sea un array válido
-    // Pista 2: Validar que scalar sea un número
-    // Pista 3: Crear una nueva matriz con las mismas dimensiones
-    // Pista 4: Multiplicar cada elemento por el escalar: result[i][j] = matrix[i][j] * scalar
-    // Pista 5: Retornar la matriz resultante o null si la matriz no es válida
-    
-    throw new Error('Función multiplyMatrixByScalar no implementada');
+  // TODO: Implementar multiplicación por escalar
+  // Pista 1: Validar que matrix sea un array válido
+  // Pista 2: Validar que scalar sea un número
+  // Pista 3: Crear una nueva matriz con las mismas dimensiones
+  // Pista 4: Multiplicar cada elemento por el escalar: result[i][j] = matrix[i][j] * scalar
+  // Pista 5: Retornar la matriz resultante o null si la matriz no es válida
+
+  throw new Error('Función multiplyMatrixByScalar no implementada');
 }
 
 /**
@@ -160,14 +184,14 @@ function multiplyMatrixByScalar(matrix, scalar) {
  * @returns {Array|null} Matriz transpuesta o null si la matriz no es válida
  */
 function transposeMatrix(matrix) {
-    // TODO: Implementar transposición de matriz
-    // Pista 1: Validar que matrix sea un array válido
-    // Pista 2: Obtener las dimensiones de la matriz original
-    // Pista 3: Crear una nueva matriz con dimensiones invertidas (cols x rows)
-    // Pista 4: Copiar elementos: result[j][i] = matrix[i][j]
-    // Pista 5: Retornar la matriz transpuesta o null si la matriz no es válida
-    
-    throw new Error('Función transposeMatrix no implementada');
+  // TODO: Implementar transposición de matriz
+  // Pista 1: Validar que matrix sea un array válido
+  // Pista 2: Obtener las dimensiones de la matriz original
+  // Pista 3: Crear una nueva matriz con dimensiones invertidas (cols x rows)
+  // Pista 4: Copiar elementos: result[j][i] = matrix[i][j]
+  // Pista 5: Retornar la matriz transpuesta o null si la matriz no es válida
+
+  throw new Error('Función transposeMatrix no implementada');
 }
 
 /**
@@ -176,13 +200,13 @@ function transposeMatrix(matrix) {
  * @returns {boolean} true si es cuadrada, false en caso contrario
  */
 function isSquareMatrix(matrix) {
-    // TODO: Implementar verificación de matriz cuadrada
-    // Pista 1: Validar que matrix sea un array válido
-    // Pista 2: Obtener las dimensiones de la matriz
-    // Pista 3: Verificar que rows === cols
-    // Pista 4: Retornar true si es cuadrada, false en caso contrario
-    
-    throw new Error('Función isSquareMatrix no implementada');
+  // TODO: Implementar verificación de matriz cuadrada
+  // Pista 1: Validar que matrix sea un array válido
+  // Pista 2: Obtener las dimensiones de la matriz
+  // Pista 3: Verificar que rows === cols
+  // Pista 4: Retornar true si es cuadrada, false en caso contrario
+
+  throw new Error('Función isSquareMatrix no implementada');
 }
 
 /**
@@ -191,23 +215,23 @@ function isSquareMatrix(matrix) {
  * @returns {number|null} Traza de la matriz o null si no es cuadrada
  */
 function getMatrixTrace(matrix) {
-    // TODO: Implementar cálculo de traza
-    // Pista 1: Validar que matrix sea un array válido
-    // Pista 2: Verificar que la matriz sea cuadrada usando isSquareMatrix
-    // Pista 3: Sumar los elementos de la diagonal principal (matrix[i][i])
-    // Pista 4: Retornar la suma o null si la matriz no es cuadrada
-    
-    throw new Error('Función getMatrixTrace no implementada');
+  // TODO: Implementar cálculo de traza
+  // Pista 1: Validar que matrix sea un array válido
+  // Pista 2: Verificar que la matriz sea cuadrada usando isSquareMatrix
+  // Pista 3: Sumar los elementos de la diagonal principal (matrix[i][i])
+  // Pista 4: Retornar la suma o null si la matriz no es cuadrada
+
+  throw new Error('Función getMatrixTrace no implementada');
 }
 
 module.exports = {
-    createMatrix,
-    getMatrixDimensions,
-    getElement,
-    setElement,
-    addMatrices,
-    multiplyMatrixByScalar,
-    transposeMatrix,
-    isSquareMatrix,
-    getMatrixTrace
+  createMatrix,
+  getMatrixDimensions,
+  getElement,
+  setElement,
+  addMatrices,
+  multiplyMatrixByScalar,
+  transposeMatrix,
+  isSquareMatrix,
+  getMatrixTrace,
 };
