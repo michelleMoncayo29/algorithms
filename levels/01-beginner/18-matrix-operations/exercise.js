@@ -45,17 +45,10 @@ function createMatrix(rows, cols, defaultValue = 0) {
     }
 
     return matrix;
-
-    // Pista 2: Crear un array de filas usando Array(rows)
-    // Pista 3: Para cada fila, crear un array de columnas usando Array(cols)
-    // Pista 4: Llenar cada celda con el defaultValue
-    // Pista 5: Retornar la matriz creada
     
 }
-
 const matrix = createMatrix(3, 3, 1);
 
-console.log(matrix);
 
 /**
  * Obtiene las dimensiones de una matriz
@@ -64,14 +57,34 @@ console.log(matrix);
  */
 function getMatrixDimensions(matrix) {
     // TODO: Implementar obtención de dimensiones
-    // Pista 1: Validar que matrix sea un array válido
-    // Pista 2: Verificar que todas las filas tengan la misma longitud
-    // Pista 3: Retornar {rows: número_de_filas, cols: número_de_columnas}
-    // Pista 4: Retornar {rows: 0, cols: 0} si la matriz está vacía
-    
-    throw new Error('Función getMatrixDimensions no implementada');
-}
 
+
+    if (!Array.isArray(matrix) || matrix.length === 0 || !Array.isArray(matrix[0])) { 
+        return {
+        rows: 0,
+        cols: 0
+    }
+    }
+
+    let row = matrix[0];
+    for (let i = 1; i < matrix.length; i++) {
+        let element = matrix[i];
+
+        if (element.length !== row.length) {
+            return null;
+        }
+        
+        row = element;
+    }
+
+    const dimensiones = {
+        rows: matrix.length,
+        cols: matrix[0].length
+    }
+
+    return dimensiones;
+}
+const dimensions = getMatrixDimensions([[1, 2], [3, 4, 5]]);
 /**
  * Obtiene un elemento específico de la matriz
  * @param {Array} matrix - Matriz
