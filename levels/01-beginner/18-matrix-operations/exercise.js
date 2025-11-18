@@ -101,7 +101,6 @@ const dimensions = getMatrixDimensions([
  * @returns {*} Elemento en la posición especificada
  */
 function getElement(matrix, row, col) {
-
   if (
     !Array.isArray(matrix) ||
     matrix.length === 0 ||
@@ -110,12 +109,17 @@ function getElement(matrix, row, col) {
     return undefined;
   }
 
-    if (typeof row !== 'number' || typeof col !== 'number' || row < 0 || col < 0) {
+  if (
+    typeof row !== 'number' ||
+    typeof col !== 'number' ||
+    row < 0 ||
+    col < 0
+  ) {
     return undefined;
-    }
-    if (row >= matrix.length || col >= matrix[0].length) {
-      return undefined;
-    }
+  }
+  if (row >= matrix.length || col >= matrix[0].length) {
+    return undefined;
+  }
   return matrix[row][col];
 }
 const arr = [
@@ -124,8 +128,6 @@ const arr = [
   [7, 8, 9],
 ];
 const getItem = getElement(arr, 3, 0);
-console.log(getItem);
-
 /**
  * Establece un elemento específico de la matriz
  * @param {Array} matrix - Matriz
@@ -135,15 +137,30 @@ console.log(getItem);
  * @returns {boolean} true si se estableció correctamente, false si no
  */
 function setElement(matrix, row, col, value) {
-  // TODO: Implementar establecimiento de elemento
-  // Pista 1: Validar que matrix sea un array válido
-  // Pista 2: Validar que row y col sean índices válidos
-  // Pista 3: Establecer matrix[row][col] = value
-  // Pista 4: Retornar true si se estableció, false si los índices están fuera de rango
+	if (
+		!Array.isArray(matrix) ||
+		matrix.length === 0 ||
+		!Array.isArray(matrix[0])
+	) {
+		return undefined;
+	}
 
-  throw new Error('Función setElement no implementada');
+	if (
+		Number(row) < 0 ||
+		Number(col) < 0 ||
+		typeof row !== 'number' ||
+		typeof col !== 'number'
+	) {
+		return undefined;
+	}
+
+	matrix[row][col] = value;
+	
+	return matrix;
 }
-
+const matrix2 = [[1, 2], [3, 4]];
+const resultSet = setElement(matrix2, 0, 1, 99);
+console.log(resultSet);
 /**
  * Suma dos matrices del mismo tamaño
  * @param {Array} matrix1 - Primera matriz
