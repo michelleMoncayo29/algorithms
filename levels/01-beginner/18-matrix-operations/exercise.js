@@ -259,22 +259,36 @@ const matrix5 = [
   [3, 4],
 ];
 const result2 = multiplyMatrixByScalar(matrix5, 0);
-console.log(result2);
 /**
  * Transpone una matriz (intercambia filas por columnas)
  * @param {Array} matrix - Matriz a transponer
  * @returns {Array|null} Matriz transpuesta o null si la matriz no es válida
  */
 function transposeMatrix(matrix) {
-  // TODO: Implementar transposición de matriz
-  // Pista 1: Validar que matrix sea un array válido
-  // Pista 2: Obtener las dimensiones de la matriz original
-  // Pista 3: Crear una nueva matriz con dimensiones invertidas (cols x rows)
-  // Pista 4: Copiar elementos: result[j][i] = matrix[i][j]
-  // Pista 5: Retornar la matriz transpuesta o null si la matriz no es válida
+  if (!Array.isArray(matrix)) {
+    return null;
+  }
 
-  throw new Error('Función transposeMatrix no implementada');
+  const result = [];
+
+  if (matrix.length === 0 || matrix[0].length === 0) {
+    return result;
+  }
+
+  for (let i = 0; i < matrix[0].length; i++) {
+    const row = [];
+
+    for (let j = 0; j < matrix.length; j++) {
+      row.push(matrix[j][i]);
+    }
+    result.push(row);
+  }
+
+  return result;
 }
+const matrix6 = [];
+const result3 = transposeMatrix(matrix6);
+// console.log(result3);
 
 /**
  * Verifica si una matriz es cuadrada (mismo número de filas y columnas)
@@ -282,14 +296,28 @@ function transposeMatrix(matrix) {
  * @returns {boolean} true si es cuadrada, false en caso contrario
  */
 function isSquareMatrix(matrix) {
-  // TODO: Implementar verificación de matriz cuadrada
-  // Pista 1: Validar que matrix sea un array válido
-  // Pista 2: Obtener las dimensiones de la matriz
-  // Pista 3: Verificar que rows === cols
-  // Pista 4: Retornar true si es cuadrada, false en caso contrario
+  if (!Array.isArray(matrix)) {
+    return false;
+  }
 
-  throw new Error('Función isSquareMatrix no implementada');
+  for (let i = 0; i < matrix.length; i++) {
+    const arr = matrix[i];
+    const arrLength = arr.length;
+
+    if (matrix.length !== arrLength) {
+      return false;
+    }
+  }
+
+  return true;
 }
+const matrix7 = [
+  [1, 2],
+  [3, 4],
+];
+const result4 = isSquareMatrix(matrix7);
+
+// console.log(result4);
 
 /**
  * Calcula la traza de una matriz cuadrada (suma de elementos en la diagonal principal)
@@ -297,14 +325,32 @@ function isSquareMatrix(matrix) {
  * @returns {number|null} Traza de la matriz o null si no es cuadrada
  */
 function getMatrixTrace(matrix) {
+ 
   // TODO: Implementar cálculo de traza
   // Pista 1: Validar que matrix sea un array válido
   // Pista 2: Verificar que la matriz sea cuadrada usando isSquareMatrix
   // Pista 3: Sumar los elementos de la diagonal principal (matrix[i][i])
   // Pista 4: Retornar la suma o null si la matriz no es cuadrada
 
-  throw new Error('Función getMatrixTrace no implementada');
+
+  if (!isSquareMatrix(matrix)) {
+    return null;
+  }
+
+  let line = 0;
+  for (let i = 0; i < matrix.length; i++) {
+    console.log(matrix[i][i], i);
+    line += matrix[i][i];
+  }
+
+  return line;
 }
+const matrix8 = [
+  [1, 2],
+  [3, 4],
+];
+const result7 = getMatrixTrace(matrix8);
+// console.log(result7);
 
 module.exports = {
   createMatrix,
