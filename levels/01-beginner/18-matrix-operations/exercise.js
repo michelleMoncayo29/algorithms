@@ -137,32 +137,31 @@ const getItem = getElement(arr, 3, 0);
  * @returns {boolean} true si se estableció correctamente, false si no
  */
 function setElement(matrix, row, col, value) {
-	if (
-		!Array.isArray(matrix) ||
-		matrix.length === 0 ||
-		!Array.isArray(matrix[0])
-	) {
-		return false;
+  if (
+    !Array.isArray(matrix) ||
+    matrix.length === 0 ||
+    !Array.isArray(matrix[0])
+  ) {
+    return false;
   }
 
-
-	if (
-		Number(row) < 0 ||
-		Number(col) < 0 ||
-		typeof row !== 'number' ||
-		typeof col !== 'number' 
-	) {
-		return false;
+  if (
+    Number(row) < 0 ||
+    Number(col) < 0 ||
+    typeof row !== 'number' ||
+    typeof col !== 'number'
+  ) {
+    return false;
   }
 
   for (let i = 0; i < matrix.length; i++) {
     let element = matrix[i];
     let rowLength = element.length - 1;
-    
-    if (row > rowLength) {;
+
+    if (row > rowLength) {
       return false;
     }
-    
+
     for (let j = 0; j < element.length; j++) {
       let colLength = element.length - 1;
       if (col > colLength) {
@@ -170,12 +169,16 @@ function setElement(matrix, row, col, value) {
       }
     }
   }
-  
-	return true;
+
+  matrix[row][col] = value;
+
+  return true;
 }
-const matrix2 = [[1, 2], [3, 4]];
+const matrix2 = [
+  [1, 2],
+  [3, 4],
+];
 const resultSet = setElement(matrix2, 0, 1, 99);
-console.log(resultSet);
 /**
  * Suma dos matrices del mismo tamaño
  * @param {Array} matrix1 - Primera matriz
@@ -183,15 +186,50 @@ console.log(resultSet);
  * @returns {Array|null} Matriz resultante o null si no se pueden sumar
  */
 function addMatrices(matrix1, matrix2) {
-  // TODO: Implementar suma de matrices
-  // Pista 1: Validar que ambas matrices sean arrays válidos
-  // Pista 2: Verificar que ambas matrices tengan las mismas dimensiones
-  // Pista 3: Crear una nueva matriz con las mismas dimensiones
-  // Pista 4: Sumar elemento por elemento: result[i][j] = matrix1[i][j] + matrix2[i][j]
-  // Pista 5: Retornar la matriz resultante o null si no se pueden sumar
+  if (!Array.isArray(matrix1) || !Array.isArray(matrix2)) {
+    return null;
+  }
 
-  throw new Error('Función addMatrices no implementada');
+  // revisar si las matrices tienen las mismas dimensiones
+  if (matrix1.length !== matrix2.length) {
+    for (let i = 0; i < matrix1.length; i++) {
+      let mx1 = matrix1[i];
+      let mx2 = matrix2[i];
+      if (mx1.length !== mx2.length) {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  const result = [];
+  let matrixUni = matrix1.length;
+
+  for (let i = 0; i < matrixUni; i++) {
+    const rowM = matrix1[i];
+    const row = [];
+    for (let j = 0; j < rowM.length; j++) {
+      row.push(matrix1[i][j] + matrix2[i][j]);
+    }
+    result.push(row);
+  }
+
+  return result;
 }
+
+const matrix3 = [
+  [
+    [1, 2],
+    [3, 4],
+  ],
+];
+const matrix4 = [
+  [9, 8, 7],
+  [6, 5, 4],
+  [3, 2, 1],
+];
+const result = addMatrices(matrix3, matrix4);
+// console.log(result);
 
 /**
  * Multiplica una matriz por un escalar
@@ -200,16 +238,28 @@ function addMatrices(matrix1, matrix2) {
  * @returns {Array|null} Matriz resultante o null si la matriz no es válida
  */
 function multiplyMatrixByScalar(matrix, scalar) {
-  // TODO: Implementar multiplicación por escalar
-  // Pista 1: Validar que matrix sea un array válido
-  // Pista 2: Validar que scalar sea un número
-  // Pista 3: Crear una nueva matriz con las mismas dimensiones
-  // Pista 4: Multiplicar cada elemento por el escalar: result[i][j] = matrix[i][j] * scalar
-  // Pista 5: Retornar la matriz resultante o null si la matriz no es válida
+  if (!Array.isArray(matrix) || typeof scalar !== 'number') {
+    return null;
+  }
 
-  throw new Error('Función multiplyMatrixByScalar no implementada');
+  const result = [];
+  for (let i = 0; i < matrix.length; i++) {
+    const row = [];
+    const arrValue = matrix[i];
+    // console.log(arrValue, 'esto es arrValue');
+    for (let j = 0; j < arrValue.length; j++) {
+      row.push(arrValue[j] * scalar);
+    }
+    result.push(row);
+  }
+  return result;
 }
-
+const matrix5 = [
+  [1, 2],
+  [3, 4],
+];
+const result2 = multiplyMatrixByScalar(matrix5, 0);
+console.log(result2);
 /**
  * Transpone una matriz (intercambia filas por columnas)
  * @param {Array} matrix - Matriz a transponer
