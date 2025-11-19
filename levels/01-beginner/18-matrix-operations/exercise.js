@@ -29,12 +29,15 @@ function createMatrix(rows, cols, defaultValue = 0) {
   // Pista 1: Validar que rows y cols sean números positivos
   if (
     typeof rows !== 'number' ||
-    typeof cols !== 'number' ||
-    rows <= 0 ||
-    cols <= 0
+    typeof cols !== 'number' 
   ) {
     console.log(rows, 'esto es console.log');
 
+    return [];
+  }
+  
+  if (rows < 0 || cols < 0) {
+    // throw new Error('Rows y cols deben ser números positivos');
     return [];
   }
 
@@ -48,9 +51,12 @@ function createMatrix(rows, cols, defaultValue = 0) {
     matrix.push(row);
   }
 
+  // throw new
+
   return matrix;
 }
-const matrix = createMatrix(3, 3, 1);
+const matrix = createMatrix(-1, 2, 0);
+console.log(matrix);
 
 /**
  * Obtiene las dimensiones de una matriz
@@ -339,7 +345,6 @@ function getMatrixTrace(matrix) {
 
   let line = 0;
   for (let i = 0; i < matrix.length; i++) {
-    console.log(matrix[i][i], i);
     line += matrix[i][i];
   }
 
