@@ -142,21 +142,36 @@ function setElement(matrix, row, col, value) {
 		matrix.length === 0 ||
 		!Array.isArray(matrix[0])
 	) {
-		return undefined;
-	}
+		return false;
+  }
+
 
 	if (
 		Number(row) < 0 ||
 		Number(col) < 0 ||
 		typeof row !== 'number' ||
-		typeof col !== 'number'
+		typeof col !== 'number' 
 	) {
-		return undefined;
-	}
+		return false;
+  }
 
-	matrix[row][col] = value;
-	
-	return matrix;
+  for (let i = 0; i < matrix.length; i++) {
+    let element = matrix[i];
+    let rowLength = element.length - 1;
+    
+    if (row > rowLength) {;
+      return false;
+    }
+    
+    for (let j = 0; j < element.length; j++) {
+      let colLength = element.length - 1;
+      if (col > colLength) {
+        return false;
+      }
+    }
+  }
+  
+	return true;
 }
 const matrix2 = [[1, 2], [3, 4]];
 const resultSet = setElement(matrix2, 0, 1, 99);
