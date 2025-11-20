@@ -29,15 +29,15 @@ function createMatrix(rows, cols, defaultValue = 0) {
   // Pista 1: Validar que rows y cols sean números positivos
   if (
     typeof rows !== 'number' ||
-    typeof cols !== 'number' 
+    typeof cols !== 'number' ||
+    rows < 0 ||
+    cols < 0
   ) {
-    console.log(rows, 'esto es console.log');
-
-    return [];
+    return null;
+    // throw new Error('Dimensiones inválidas');
   }
-  
-  if (rows < 0 || cols < 0) {
-    // throw new Error('Rows y cols deben ser números positivos');
+
+  if (rows === 0 || cols === 0) {
     return [];
   }
 
@@ -66,15 +66,13 @@ console.log(matrix);
 function getMatrixDimensions(matrix) {
   // TODO: Implementar obtención de dimensiones
 
-  if (
-    !Array.isArray(matrix) ||
-    matrix.length === 0 ||
-    !Array.isArray(matrix[0])
-  ) {
-    return {
-      rows: 0,
-      cols: 0,
-    };
+  if (!Array.isArray(matrix)) {
+    return null;
+  }
+
+  // Manejar matriz vacía
+  if (matrix.length === 0) {
+    return { rows: 0, cols: 0 };
   }
 
   let row = matrix[0];
@@ -193,6 +191,20 @@ const resultSet = setElement(matrix2, 0, 1, 99);
  */
 function addMatrices(matrix1, matrix2) {
   if (!Array.isArray(matrix1) || !Array.isArray(matrix2)) {
+    return null;
+  }
+
+  // Obtener dimensiones de ambas matrices
+  const dims1 = getMatrixDimensions(matrix1);
+  const dims2 = getMatrixDimensions(matrix2);
+
+  // Verificar que ambas matrices sean válidas y tengan las mismas dimensiones
+  if (
+    !dims1 ||
+    !dims2 ||
+    dims1.rows !== dims2.rows ||
+    dims1.cols !== dims2.cols
+  ) {
     return null;
   }
 
@@ -331,13 +343,11 @@ const result4 = isSquareMatrix(matrix7);
  * @returns {number|null} Traza de la matriz o null si no es cuadrada
  */
 function getMatrixTrace(matrix) {
- 
   // TODO: Implementar cálculo de traza
   // Pista 1: Validar que matrix sea un array válido
   // Pista 2: Verificar que la matriz sea cuadrada usando isSquareMatrix
   // Pista 3: Sumar los elementos de la diagonal principal (matrix[i][i])
   // Pista 4: Retornar la suma o null si la matriz no es cuadrada
-
 
   if (!isSquareMatrix(matrix)) {
     return null;
