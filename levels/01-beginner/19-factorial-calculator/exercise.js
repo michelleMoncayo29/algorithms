@@ -35,8 +35,6 @@ function calculateFactorial(n) {
 
   return result;
 }
-const result = calculateFactorial(5, 120);
-// console.log(result); // Debería imprimir true si 5! es igual a 120
 /**
  * Verifica si un número dado es el factorial de otro número
  * @param {number} n - Número a verificar
@@ -62,13 +60,15 @@ function isFactorialOf(n, factorial) {
  */
 function findFactorialDigits(n) {
   // TODO: Implementar conteo de dígitos del factorial
-  // Pista 1: Validar que n sea un número válido
-  // Pista 2: Calcular el factorial usando calculateFactorial
-  // Pista 3: Convertir a string para contar dígitos
-  // Pista 4: Retornar null si n es inválido
-  // Pista 5: Considerar usar logaritmos para números muy grandes
+  if (typeof n !== 'number' || n < 0 ) {
+    return null;
+  }
+ 
+  const calculatedFactorial = calculateFactorial(n);
 
-  throw new Error('Función findFactorialDigits no implementada');
+  const digits = calculatedFactorial.toString().length;
+
+  return digits;
 }
 
 /**
@@ -79,15 +79,24 @@ function findFactorialDigits(n) {
  */
 function factorialRange(start, end) {
   // TODO: Implementar cálculo de factoriales en rango
-  // Pista 1: Validar que start y end sean números válidos
-  // Pista 2: Validar que start <= end
-  // Pista 3: Iterar desde start hasta end (incluyendo ambos)
-  // Pista 4: Para cada número, calcular su factorial
-  // Pista 5: Retornar array de objetos {number, factorial}
-  // Pista 6: Retornar null si el rango es inválido
+  if (typeof start !== 'number' || typeof end !== 'number' || start < 0 || end < 0) {
+    return null;
+  }
 
-  throw new Error('Función factorialRange no implementada');
+  if (start > end) {
+    return null;
+  }
+
+  const result = [];
+
+
+  for (let i = start; i <= end; i++) {
+    result.push({ number: i, factorial: calculateFactorial(i) });
+  }
+
+  return result;
 }
+
 
 /**
  * Cuenta los ceros finales en el factorial de n
