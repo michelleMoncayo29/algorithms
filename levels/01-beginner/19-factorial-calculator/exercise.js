@@ -35,6 +35,9 @@ function calculateFactorial(n) {
 
   return result;
 }
+
+console.log(calculateFactorial(30));
+
 /**
  * Verifica si un número dado es el factorial de otro número
  * @param {number} n - Número a verificar
@@ -46,9 +49,9 @@ function isFactorialOf(n, factorial) {
   if (typeof n !== 'number' || typeof factorial !== 'number' || n < 0) {
     return false;
   }
-  
-    const calculatedFactorial = calculateFactorial(n);
-    // me da el numero factorial
+
+  const calculatedFactorial = calculateFactorial(n);
+  // me da el numero factorial
 
   return calculatedFactorial === factorial;
 }
@@ -60,10 +63,10 @@ function isFactorialOf(n, factorial) {
  */
 function findFactorialDigits(n) {
   // TODO: Implementar conteo de dígitos del factorial
-  if (typeof n !== 'number' || n < 0 ) {
+  if (typeof n !== 'number' || n < 0) {
     return null;
   }
- 
+
   const calculatedFactorial = calculateFactorial(n);
 
   const digits = calculatedFactorial.toString().length;
@@ -79,7 +82,12 @@ function findFactorialDigits(n) {
  */
 function factorialRange(start, end) {
   // TODO: Implementar cálculo de factoriales en rango
-  if (typeof start !== 'number' || typeof end !== 'number' || start < 0 || end < 0) {
+  if (
+    typeof start !== 'number' ||
+    typeof end !== 'number' ||
+    start < 0 ||
+    end < 0
+  ) {
     return null;
   }
 
@@ -89,7 +97,6 @@ function factorialRange(start, end) {
 
   const result = [];
 
-
   for (let i = start; i <= end; i++) {
     result.push({ number: i, factorial: calculateFactorial(i) });
   }
@@ -97,22 +104,51 @@ function factorialRange(start, end) {
   return result;
 }
 
-
 /**
  * Cuenta los ceros finales en el factorial de n
  * @param {number} n - Número cuyo factorial se analiza
  * @returns {number|null} Número de ceros finales en n! o null si n es inválido
  */
 function countTrailingZeros(n) {
+  if (typeof n !== 'number' || n < 0) {
+    return null;
+  }
+
+  const calculatedFactorialNumber = calculateFactorial(n);
+  const calculatedFactorialString = calculatedFactorialNumber.toString();
+  const calculatedArray = calculatedFactorialString.split('');
+
+  console.log('_________________________');
+  let count = 0;
+
+  // for (let i = calculatedArray.length - 1; i >= 0; i--) {
+  //   const element = calculatedArray[i];
+
+  //   if (element === '0') {
+  //     count++;
+  //   } else {
+  //     break; // ← rompe el loop cuando ya no hay ceros al final
+  //   }
+  // }
+
+  // Contar potencias de 5
+  for (let i = 5; i <= n; i *= 5) {
+    console.log(i, 'variable 1');
+    console.log(count, 'count antes de el math flor');
+    count += Math.floor(n / i);
+    console.log(count, '✅✅✅✅');
+  }
+
+  return count;
+
   // TODO: Implementar conteo de ceros finales
-  // Pista 1: Validar que n sea un número válido
   // Pista 2: Los ceros finales dependen del número de factores 5 y 2
   // Pista 3: Contar cuántas veces 5 divide n
   // Pista 4: Retornar null si n es inválido
   // Pista 5: Para números grandes, contar potencias de 5
-
-  throw new Error('Función countTrailingZeros no implementada');
 }
+
+console.log(countTrailingZeros(30));
 
 module.exports = {
   calculateFactorial,
@@ -121,3 +157,4 @@ module.exports = {
   factorialRange,
   countTrailingZeros,
 };
+
