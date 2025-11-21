@@ -33,8 +33,8 @@ function createMatrix(rows, cols, defaultValue = 0) {
     rows < 0 ||
     cols < 0
   ) {
-    return null;
-    // throw new Error('Dimensiones inválidas');
+    // return null;
+    throw new Error('Dimensiones inválidas');
   }
 
   if (rows === 0 || cols === 0) {
@@ -55,8 +55,7 @@ function createMatrix(rows, cols, defaultValue = 0) {
 
   return matrix;
 }
-const matrix = createMatrix(-1, 2, 0);
-console.log(matrix);
+// const matrix = createMatrix(-1, 2, 0);
 
 /**
  * Obtiene las dimensiones de una matriz
