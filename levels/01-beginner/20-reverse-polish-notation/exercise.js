@@ -85,8 +85,35 @@ function calculateOperation(a, b, operator) {
     // Pista 4: Para división, verificar división por cero
     // Pista 5: Retornar null para operadores no soportados
     
-    throw new Error('Función calculateOperation no implementada');
+    if (typeof a !== 'number' || typeof b !== 'number') {
+        return null;
+    }
+    
+    const array = ['+', '-', '*', '/'];
+    if (!array.includes(operator)) {
+        return null;
+    }
+    
+    // Realizar la operación según el operador
+    switch (operator) {
+        case '+':
+            return a + b;
+        case '-':
+            return a - b;
+        case '*':
+            return a * b;
+        case '/':
+            // Verificar división por cero
+            if (b === 0) {
+                return null;
+            }
+            return a / b;
+        default:
+            return null;
+    }
+
 }
+console.log(calculateOperation(5, 3, '+'));
 
 /**
  * Divide una expresión en tokens (números y operadores)
