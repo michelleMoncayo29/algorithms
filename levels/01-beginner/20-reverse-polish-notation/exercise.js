@@ -28,6 +28,40 @@
  */
 function evaluateRPN(expression) {
   // TODO: Implementar evaluación de expresión RPN
+
+  if (typeof expression !== 'string') {
+    return null;
+  }
+
+  const arr = tokenizeExpression(expression);
+
+  const arrNumber = [];
+  const arrSigno = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    const element = arr[i];
+    const pro = Number(element);
+    if (!Number.isNaN(pro)) {
+      arrNumber.push(pro);
+    } else {
+      arrSigno.push(element);
+    }
+  }
+
+  let count = arrNumber[0];
+
+  for (let o = 0; o < arrSigno.length; o++) {
+    const operator = arrSigno[o];
+
+    for (let n = 1; n < arrNumber.length; n++) {
+      const number = arrNumber[n];
+      const result = calculateOperation(count, number, operator);
+      count = result;
+    }
+  }
+
+  return count;
+
   // Pista 1: Validar que expression sea un string válido
   // Pista 2: Dividir la expresión en tokens usando tokenizeExpression
   // Pista 3: Usar un stack (array) para almacenar números
@@ -36,9 +70,8 @@ function evaluateRPN(expression) {
   // Pista 6: Si es un operador, tomar los últimos 2 números del stack
   // Pista 7: Aplicar la operación usando calculateOperation
   // Pista 8: Retornar el resultado final o null si hay error
-
-  throw new Error('Función evaluateRPN no implementada');
 }
+console.log(evaluateRPN('2 3 + 4 *'));
 
 /**
  * Verifica si una expresión RPN es válida
@@ -136,12 +169,12 @@ function tokenizeExpression(expression) {
     return null;
   }
 
-    const string = expression.replace(/\s+/g, ' ');
-    const arr = string.split(' ');
-    const result = arr.filter(token => token.length > 0);
-    if (result.length === 0) {
-        return null;
-    } 
+  const string = expression.replace(/\s+/g, ' ');
+  const arr = string.split(' ');
+  const result = arr.filter(token => token.length > 0);
+  if (result.length === 0) {
+    return null;
+  }
 
   return result;
 }
@@ -159,15 +192,15 @@ function stackToNumber(stack) {
   // Pista 2: Tomar el último elemento del stack
   // Pista 3: Convertir a número
   // Pista 4: Verificar que sea un número válido
-    // Pista 5: Retornar null si hay error
-    
-      if (!Array.isArray(stack) || stack.length === 0) {
-    return null;
-    }
-    
-    const ultimated = stack[stack.length - 1];
+  // Pista 5: Retornar null si hay error
 
-    return ultimated;
+  if (!Array.isArray(stack) || stack.length === 0) {
+    return null;
+  }
+
+  const ultimated = stack[stack.length - 1];
+
+  return ultimated;
 }
 
 // console.log(stackToNumber([7]));
