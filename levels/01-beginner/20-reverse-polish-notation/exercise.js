@@ -35,26 +35,26 @@ function evaluateRPN(expression) {
 
   const arr = tokenizeExpression(expression);
 
-  const arrNumber = [];
+  const stack = [];
   const arrSigno = [];
 
   for (let i = 0; i < arr.length; i++) {
     const element = arr[i];
     const pro = Number(element);
     if (!Number.isNaN(pro)) {
-      arrNumber.push(pro);
+      stack.push(pro);
     } else {
       arrSigno.push(element);
     }
   }
 
-  let count = arrNumber[0];
+  let count = stack[0];
 
   for (let o = 0; o < arrSigno.length; o++) {
     const operator = arrSigno[o];
 
-    for (let n = 1; n < arrNumber.length; n++) {
-      const number = arrNumber[n];
+    for (let n = 1; n < stack.length; n++) {
+      const number = stack[n];
       const result = calculateOperation(count, number, operator);
       count = result;
     }
@@ -71,7 +71,7 @@ function evaluateRPN(expression) {
   // Pista 7: Aplicar la operación usando calculateOperation
   // Pista 8: Retornar el resultado final o null si hay error
 }
-console.log(evaluateRPN('2 3 + 4 *'));
+console.log(evaluateRPN('2 + 3'));
 
 /**
  * Verifica si una expresión RPN es válida
