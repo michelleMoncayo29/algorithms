@@ -33,45 +33,50 @@ function evaluateRPN(expression) {
     return null;
   }
 
-  const arr = tokenizeExpression(expression);
+  // Dividir la expresión en tokens
+  const tokens = tokenizeExpression(expression);
+  if (tokens === null) {
+    return null;
+  }
 
-  const arrNumber = [];
-  const arrSigno = [];
+  const stack = [];
 
-  for (let i = 0; i < arr.length; i++) {
-    const element = arr[i];
-    const pro = Number(element);
-    if (!Number.isNaN(pro)) {
-      arrNumber.push(pro);
+  for (const token of tokens) {
+    // Verificar si es un número
+    const number = Number(token);
+
+    if (!isNaN(number)) {
+      // Es un número, agregarlo al stack
+      stack.push(number);
     } else {
-      arrSigno.push(element);
+      // Es un operador
+      // Verificar que haya al menos 2 números en el stack
+      if (stack.length < 2) {
+        return null;
+      }
+
+      // Tomar los últimos 2 números del stack
+      const b = stack.pop();
+      const a = stack.pop();
+
+      // Realizar la operación
+      const result = calculateOperation(a, b, token);
+
+      if (result === null) {
+        return null;
+      }
+
+      stack.push(result);
     }
   }
 
-  let count = arrNumber[0];
-
-  for (let o = 0; o < arrSigno.length; o++) {
-    const operator = arrSigno[o];
-
-    for (let n = 1; n < arrNumber.length; n++) {
-      const number = arrNumber[n];
-      const result = calculateOperation(count, number, operator);
-      count = result;
-    }
+  if (stack.length !== 1) {
+    return null;
   }
 
-  return count;
-
-  // Pista 1: Validar que expression sea un string válido
-  // Pista 2: Dividir la expresión en tokens usando tokenizeExpression
-  // Pista 3: Usar un stack (array) para almacenar números
-  // Pista 4: Iterar sobre los tokens
-  // Pista 5: Si es un número, agregarlo al stack
-  // Pista 6: Si es un operador, tomar los últimos 2 números del stack
-  // Pista 7: Aplicar la operación usando calculateOperation
-  // Pista 8: Retornar el resultado final o null si hay error
+  return stackToNumber(stack);
 }
-console.log(evaluateRPN('2 3 + 4 *'));
+console.log(evaluateRPN(''));
 
 /**
  * Verifica si una expresión RPN es válida
@@ -86,15 +91,39 @@ console.log(evaluateRPN('2 3 + 4 *'));
  */
 function isValidRPN(expression) {
   // TODO: Implementar validación de expresión RPN
-  // Pista 1: Validar que expression sea un string válido
-  // Pista 2: Dividir la expresión en tokens
-  // Pista 3: Usar un contador para llevar cuenta de operandos
-  // Pista 4: Para números, incrementar contador
-  // Pista 5: Para operadores, verificar que haya al menos 2 operandos
-  // Pista 6: Decrementar contador en 1 (operador consume 2, produce 1)
-  // Pista 7: Al final, debe quedar exactamente 1 operando
+  if (typeof expression !== 'string') {
+    return false;
+  }
 
-  throw new Error('Función isValidRPN no implementada');
+  // Dividir la expresión en tokens
+  const tokens = tokenizeExpression(expression);
+  if (tokens === null) {
+    return false;
+  }
+
+  // Contador de numeros
+  let operandCount = 0;
+
+  // Iterar sobre los tokens
+  for (const token of tokens) {
+    // Verificar si es un número
+    const number = Number(token);
+
+    if (!isNaN(number)) {
+      
+      operandCount++;
+    } else {
+      
+      if (operandCount < 2) {
+        return false;
+      }
+
+      operandCount--;
+    }
+  }
+
+  // Al final, debe quedar exactamente 1 operando
+  return operandCount === 1;
 }
 
 /**
