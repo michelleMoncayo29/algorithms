@@ -34,7 +34,25 @@ function decimalToBinary(decimal) {
     // Pista 5: El resultado se construye de derecha a izquierda
     // Pista 6: Retornar null si el número es inválido
     
-    throw new Error('Función decimalToBinary no implementada');
+    if (typeof decimal !== 'number' || decimal < 0 || !Number.isInteger(decimal)) {
+        return null;
+    }
+    
+    // Caso especial: 0
+    if (decimal === 0) {
+        return '0';
+    }
+    
+    // Algoritmo de división repetida por 2
+    let result = '';
+    let num = decimal;
+    
+    while (num > 0) {
+        result = (num % 2) + result;
+        num = Math.floor(num / 2);
+    }
+    
+    return result;
 }
 
 /**
