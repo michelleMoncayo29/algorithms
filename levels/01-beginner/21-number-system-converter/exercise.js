@@ -67,15 +67,25 @@ function decimalToBinary(decimal) {
  * binaryToDecimal("11111111") → 255
  */
 function binaryToDecimal(binary) {
-    // TODO: Implementar conversión binario a decimal
-    // Pista 1: Validar que binary sea un string válido
-    // Pista 2: Validar que solo contenga 0s y 1s
-    // Pista 3: Usar el método de posiciones: cada dígito vale 2^n
-    // Pista 4: Empezar desde la derecha (posición 0)
-    // Pista 5: Sumar 2^posición * dígito para cada posición
-    // Pista 6: Retornar null si el número es inválido
+    if (typeof binary !== 'string' || binary.length === 0) {
+        return null;
+    }
     
-    throw new Error('Función binaryToDecimal no implementada');
+    // Validar que solo contenga 0s y 1s
+    if (!/^[01]+$/.test(binary)) {
+        return null;
+    }
+    
+    // Algoritmo de posiciones: cada dígito vale 2^n
+    let result = 0;
+    const len = binary.length;
+    
+    for (let i = 0; i < len; i++) {
+        const digit = binary[len - 1 - i]; // Leer de derecha a izquierda
+        result += parseInt(digit) * Math.pow(2, i);
+    }
+    
+    return result;
 }
 
 /**
@@ -98,7 +108,31 @@ function decimalToHex(decimal) {
     // Pista 5: 10→A, 11→B, 12→C, 13→D, 14→E, 15→F
     // Pista 6: Retornar null si el número es inválido
     
-    throw new Error('Función decimalToHex no implementada');
+    // throw new Error('Función decimalToHex no implementada');
+
+    // Validar que decimal sea un número entero no negativo
+    if (typeof decimal !== 'number' || decimal < 0 || !Number.isInteger(decimal)) {
+        return null;
+    }
+    
+    // Caso especial: 0
+    if (decimal === 0) {
+        return '0';
+    }
+    
+    // Mapeo de dígitos a letras
+    const hexChars = '0123456789ABCDEF';
+    
+    // Algoritmo de división repetida por 16
+    let result = '';
+    let num = decimal;
+    
+    while (num > 0) {
+        result = hexChars[num % 16] + result;
+        num = Math.floor(num / 16);
+    }
+    
+    return result;
 }
 
 /**
