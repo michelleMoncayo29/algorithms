@@ -31,6 +31,21 @@ const EXERCISES = {
       name: 'Find Maximum',
       description: 'Encuentra el valor máximo en un array',
       path: 'levels/01-beginner/04-find-maximum'
+    },
+    '24-pet-registry': {
+      name: 'Pet Registry',
+      description: 'Registro de mascotas usando clases y validaciones',
+      path: 'levels/01-beginner/24-pet-registry'
+    },
+    '25-fleet-maintenance': {
+      name: 'Fleet Maintenance Manager',
+      description: 'Gestor básico de flota usando clases y filtros',
+      path: 'levels/01-beginner/25-fleet-maintenance'
+    },
+    '26-smart-home-monitor': {
+      name: 'Smart Home Monitor',
+      description: 'Control de dispositivos inteligentes con clases',
+      path: 'levels/01-beginner/26-smart-home-monitor'
     }
   },
   '02-intermediate': {
