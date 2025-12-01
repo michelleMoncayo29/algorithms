@@ -129,11 +129,14 @@ function decimalToHex(decimal) {
     
     while (num > 0) {
         result = hexChars[num % 16] + result;
+        console.log(num % 16);
         num = Math.floor(num / 16);
     }
     
     return result;
 }
+
+console.log(decimalToHex(9));
 
 /**
  * Convierte un número hexadecimal a decimal
@@ -147,6 +150,18 @@ function decimalToHex(decimal) {
  * hexToDecimal("0") → 0
  */
 function hexToDecimal(hex) {
+    if (typeof hex !== 'string' || hex.length === 0) {
+        return null;
+    }
+
+    const upperHex = hex.toUpperCase();
+    if (!/^[0-9A-F]+$/.test(upperHex)) {
+        return null;
+    }
+
+     if (hex === '0') {
+        return 0;
+    }
     // TODO: Implementar conversión hexadecimal a decimal
     // Pista 1: Validar que hex sea un string válido
     // Pista 2: Validar que solo contenga 0-9 y A-F (case insensitive)
@@ -156,7 +171,7 @@ function hexToDecimal(hex) {
     // Pista 6: Sumar 16^posición * valor_dígito para cada posición
     // Pista 7: Retornar null si el número es inválido
     
-    throw new Error('Función hexToDecimal no implementada');
+    // throw new Error('Función hexToDecimal no implementada');
 }
 
 /**

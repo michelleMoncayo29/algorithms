@@ -81,14 +81,6 @@ function fibonacciSequence(n) {
   }
 
   return arrFibonacci;
-
-  // TODO: Implementar generación de secuencia
-  // Pista 1: Validar que n sea un número positivo
-  // Pista 2: Generar un array con los primeros n números
-  // Pista 3: Usar fibonacci() o implementar con bucle
-  // Pista 4: Retornar null si n es inválido
-
-  throw new Error('Función fibonacciSequence no implementada');
 }
 
 const num = fibonacciSequence(5);
