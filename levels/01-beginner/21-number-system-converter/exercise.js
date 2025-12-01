@@ -1,11 +1,11 @@
 /**
  * Conversor de Sistemas Numéricos
- * 
+ *
  * Descripción: Implementa funciones para convertir números entre diferentes bases numéricas
  * (decimal, binario, hexadecimal, octal). Los sistemas numéricos son fundamentales
  * en programación y matemáticas.
  * Dificultad: BEGINNER
- * 
+ *
  * Funciones requeridas:
  * - decimalToBinary(decimal): Convierte decimal a binario
  * - binaryToDecimal(binary): Convierte binario a decimal
@@ -18,7 +18,7 @@
  * Convierte un número decimal a binario
  * @param {number} decimal - Número decimal a convertir
  * @returns {string|null} Número en binario o null si es inválido
- * 
+ *
  * Ejemplos:
  * decimalToBinary(5) → "101"
  * decimalToBinary(10) → "1010"
@@ -26,40 +26,44 @@
  * decimalToBinary(255) → "11111111"
  */
 function decimalToBinary(decimal) {
-    // TODO: Implementar conversión decimal a binario
-    // Pista 1: Validar que decimal sea un número entero no negativo
-    // Pista 2: Caso especial: 0 debe retornar "0"
-    // Pista 3: Usar el algoritmo de división repetida por 2
-    // Pista 4: Tomar los restos y construir el número binario
-    // Pista 5: El resultado se construye de derecha a izquierda
-    // Pista 6: Retornar null si el número es inválido
-    
-    if (typeof decimal !== 'number' || decimal < 0 || !Number.isInteger(decimal)) {
-        return null;
-    }
-    
-    // Caso especial: 0
-    if (decimal === 0) {
-        return '0';
-    }
-    
-    // Algoritmo de división repetida por 2
-    let result = '';
-    let num = decimal;
-    
-    while (num > 0) {
-        result = (num % 2) + result;
-        num = Math.floor(num / 2);
-    }
-    
-    return result;
+  // TODO: Implementar conversión decimal a binario
+  // Pista 1: Validar que decimal sea un número entero no negativo
+  // Pista 2: Caso especial: 0 debe retornar "0"
+  // Pista 3: Usar el algoritmo de división repetida por 2
+  // Pista 4: Tomar los restos y construir el número binario
+  // Pista 5: El resultado se construye de derecha a izquierda
+  // Pista 6: Retornar null si el número es inválido
+
+  if (
+    typeof decimal !== 'number' ||
+    decimal < 0 ||
+    !Number.isInteger(decimal)
+  ) {
+    return null;
+  }
+
+  // Caso especial: 0
+  if (decimal === 0) {
+    return '0';
+  }
+
+  // Algoritmo de división repetida por 2
+  let result = '';
+  let num = decimal;
+
+  while (num > 0) {
+    result = (num % 2) + result;
+    num = Math.floor(num / 2);
+  }
+
+  return result;
 }
 
 /**
  * Convierte un número binario a decimal
  * @param {string} binary - Número binario a convertir
  * @returns {number|null} Número decimal o null si es inválido
- * 
+ *
  * Ejemplos:
  * binaryToDecimal("101") → 5
  * binaryToDecimal("1010") → 10
@@ -67,32 +71,32 @@ function decimalToBinary(decimal) {
  * binaryToDecimal("11111111") → 255
  */
 function binaryToDecimal(binary) {
-    if (typeof binary !== 'string' || binary.length === 0) {
-        return null;
-    }
-    
-    // Validar que solo contenga 0s y 1s
-    if (!/^[01]+$/.test(binary)) {
-        return null;
-    }
-    
-    // Algoritmo de posiciones: cada dígito vale 2^n
-    let result = 0;
-    const len = binary.length;
-    
-    for (let i = 0; i < len; i++) {
-        const digit = binary[len - 1 - i]; // Leer de derecha a izquierda
-        result += parseInt(digit) * Math.pow(2, i);
-    }
-    
-    return result;
+  if (typeof binary !== 'string' || binary.length === 0) {
+    return null;
+  }
+
+  // Validar que solo contenga 0s y 1s
+  if (!/^[01]+$/.test(binary)) {
+    return null;
+  }
+
+  // Algoritmo de posiciones: cada dígito vale 2^n
+  let result = 0;
+  const len = binary.length;
+
+  for (let i = 0; i < len; i++) {
+    const digit = binary[len - 1 - i]; // Leer de derecha a izquierda
+    result += parseInt(digit) * Math.pow(2, i);
+  }
+
+  return result;
 }
 
 /**
  * Convierte un número decimal a hexadecimal
  * @param {number} decimal - Número decimal a convertir
  * @returns {string|null} Número en hexadecimal o null si es inválido
- * 
+ *
  * Ejemplos:
  * decimalToHex(10) → "A"
  * decimalToHex(15) → "F"
@@ -100,40 +104,44 @@ function binaryToDecimal(binary) {
  * decimalToHex(0) → "0"
  */
 function decimalToHex(decimal) {
-    // TODO: Implementar conversión decimal a hexadecimal
-    // Pista 1: Validar que decimal sea un número entero no negativo
-    // Pista 2: Caso especial: 0 debe retornar "0"
-    // Pista 3: Usar el algoritmo de división repetida por 16
-    // Pista 4: Mapear dígitos mayores a 9 a letras A-F
-    // Pista 5: 10→A, 11→B, 12→C, 13→D, 14→E, 15→F
-    // Pista 6: Retornar null si el número es inválido
-    
-    // throw new Error('Función decimalToHex no implementada');
+  // TODO: Implementar conversión decimal a hexadecimal
+  // Pista 1: Validar que decimal sea un número entero no negativo
+  // Pista 2: Caso especial: 0 debe retornar "0"
+  // Pista 3: Usar el algoritmo de división repetida por 16
+  // Pista 4: Mapear dígitos mayores a 9 a letras A-F
+  // Pista 5: 10→A, 11→B, 12→C, 13→D, 14→E, 15→F
+  // Pista 6: Retornar null si el número es inválido
 
-    // Validar que decimal sea un número entero no negativo
-    if (typeof decimal !== 'number' || decimal < 0 || !Number.isInteger(decimal)) {
-        return null;
-    }
-    
-    // Caso especial: 0
-    if (decimal === 0) {
-        return '0';
-    }
-    
-    // Mapeo de dígitos a letras
-    const hexChars = '0123456789ABCDEF';
-    
-    // Algoritmo de división repetida por 16
-    let result = '';
-    let num = decimal;
-    
-    while (num > 0) {
-        result = hexChars[num % 16] + result;
-        console.log(num % 16);
-        num = Math.floor(num / 16);
-    }
-    
-    return result;
+  // throw new Error('Función decimalToHex no implementada');
+
+  // Validar que decimal sea un número entero no negativo
+  if (
+    typeof decimal !== 'number' ||
+    decimal < 0 ||
+    !Number.isInteger(decimal)
+  ) {
+    return null;
+  }
+
+  // Caso especial: 0
+  if (decimal === 0) {
+    return '0';
+  }
+
+  // Mapeo de dígitos a letras
+  const hexChars = '0123456789ABCDEF';
+
+  // Algoritmo de división repetida por 16
+  let result = '';
+  let num = decimal;
+
+  while (num > 0) {
+    result = hexChars[num % 16] + result;
+    console.log(num % 16);
+    num = Math.floor(num / 16);
+  }
+
+  return result;
 }
 
 console.log(decimalToHex(9));
@@ -142,7 +150,7 @@ console.log(decimalToHex(9));
  * Convierte un número hexadecimal a decimal
  * @param {string} hex - Número hexadecimal a convertir
  * @returns {number|null} Número decimal o null si es inválido
- * 
+ *
  * Ejemplos:
  * hexToDecimal("A") → 10
  * hexToDecimal("F") → 15
@@ -150,28 +158,28 @@ console.log(decimalToHex(9));
  * hexToDecimal("0") → 0
  */
 function hexToDecimal(hex) {
-    if (typeof hex !== 'string' || hex.length === 0) {
-        return null;
-    }
+  if (typeof hex !== 'string' || hex.length === 0) {
+    return null;
+  }
 
-    const upperHex = hex.toUpperCase();
-    if (!/^[0-9A-F]+$/.test(upperHex)) {
-        return null;
-    }
+  const upperHex = hex.toUpperCase();
+  if (!/^[0-9A-F]+$/.test(upperHex)) {
+    return null;
+  }
 
-     if (hex === '0') {
-        return 0;
-    }
-    // TODO: Implementar conversión hexadecimal a decimal
-    // Pista 1: Validar que hex sea un string válido
-    // Pista 2: Validar que solo contenga 0-9 y A-F (case insensitive)
-    // Pista 3: Mapear letras a valores: A→10, B→11, C→12, D→13, E→14, F→15
-    // Pista 4: Usar el método de posiciones: cada dígito vale 16^n
-    // Pista 5: Convertir cada dígito a su valor decimal
-    // Pista 6: Sumar 16^posición * valor_dígito para cada posición
-    // Pista 7: Retornar null si el número es inválido
-    
-    // throw new Error('Función hexToDecimal no implementada');
+  if (hex === '0') {
+    return 0;
+  }
+  // TODO: Implementar conversión hexadecimal a decimal
+  // Pista 1: Validar que hex sea un string válido
+  // Pista 2: Validar que solo contenga 0-9 y A-F (case insensitive)
+  // Pista 3: Mapear letras a valores: A→10, B→11, C→12, D→13, E→14, F→15
+  // Pista 4: Usar el método de posiciones: cada dígito vale 16^n
+  // Pista 5: Convertir cada dígito a su valor decimal
+  // Pista 6: Sumar 16^posición * valor_dígito para cada posición
+  // Pista 7: Retornar null si el número es inválido
+
+  // throw new Error('Función hexToDecimal no implementada');
 }
 
 /**
@@ -179,7 +187,7 @@ function hexToDecimal(hex) {
  * @param {string} number - Número a validar
  * @param {number} base - Base numérica (2, 8, 10, 16)
  * @returns {boolean} true si es válido, false en caso contrario
- * 
+ *
  * Ejemplos:
  * validateNumberInBase("101", 2) → true (binario válido)
  * validateNumberInBase("1012", 2) → false (tiene un 2)
@@ -187,23 +195,22 @@ function hexToDecimal(hex) {
  * validateNumberInBase("GH", 16) → false (G no es válido)
  */
 function validateNumberInBase(number, base) {
-    // TODO: Implementar validación de número en base
-    // Pista 1: Validar que number sea string y base sea número válido
-    // Pista 2: Validar que base sea 2, 8, 10 o 16
-    // Pista 3: Para base 2: solo 0-1
-    // Pista 4: Para base 8: solo 0-7
-    // Pista 5: Para base 10: solo 0-9
-    // Pista 6: Para base 16: 0-9 y A-F (case insensitive)
-    // Pista 7: Retornar false si es inválido
-    
-    throw new Error('Función validateNumberInBase no implementada');
+  // TODO: Implementar validación de número en base
+  // Pista 1: Validar que number sea string y base sea número válido
+  // Pista 2: Validar que base sea 2, 8, 10 o 16
+  // Pista 3: Para base 2: solo 0-1
+  // Pista 4: Para base 8: solo 0-7
+  // Pista 5: Para base 10: solo 0-9
+  // Pista 6: Para base 16: 0-9 y A-F (case insensitive)
+  // Pista 7: Retornar false si es inválido
+
+  throw new Error('Función validateNumberInBase no implementada');
 }
 
 module.exports = {
-    decimalToBinary,
-    binaryToDecimal,
-    decimalToHex,
-    hexToDecimal,
-    validateNumberInBase
+  decimalToBinary,
+  binaryToDecimal,
+  decimalToHex,
+  hexToDecimal,
+  validateNumberInBase,
 };
-
