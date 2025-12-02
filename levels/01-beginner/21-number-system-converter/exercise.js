@@ -144,7 +144,6 @@ function decimalToHex(decimal) {
   return result;
 }
 
-console.log(decimalToHex(9));
 
 /**
  * Convierte un número hexadecimal a decimal
