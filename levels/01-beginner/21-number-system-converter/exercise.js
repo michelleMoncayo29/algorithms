@@ -144,6 +144,7 @@ function decimalToHex(decimal) {
   return result;
 }
 
+
 /**
  * Convierte un número hexadecimal a decimal
  * @param {string} hex - Número hexadecimal a convertir
