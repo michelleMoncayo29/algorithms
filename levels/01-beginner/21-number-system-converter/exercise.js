@@ -144,8 +144,6 @@ function decimalToHex(decimal) {
   return result;
 }
 
-console.log(decimalToHex(9));
-
 /**
  * Convierte un número hexadecimal a decimal
  * @param {string} hex - Número hexadecimal a convertir
@@ -170,6 +168,45 @@ function hexToDecimal(hex) {
   if (hex === '0') {
     return 0;
   }
+
+  const object = {
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+    5: 5,
+    6: 6,
+    7: 7,
+    8: 8,
+    9: 9,
+    A: 10,
+    B: 11,
+    C: 12,
+    D: 13,
+    E: 14,
+    F: 15,
+  };
+
+  let result = 0;
+
+  const arr = upperHex.split('');
+  arr.reverse();
+
+  for (let i = 0; i < arr.length; i++) {
+    const element = arr[i];
+    if (object[element]) {
+      let valueObject = object[element];
+      // console.log(valueObject);
+      const potencia = Math.pow(16, i);
+      const multi = valueObject * potencia;
+      // console.log(multi);
+
+      result += multi;
+    }
+  }
+
+  console.log(result);
   // TODO: Implementar conversión hexadecimal a decimal
   // Pista 1: Validar que hex sea un string válido
   // Pista 2: Validar que solo contenga 0-9 y A-F (case insensitive)
@@ -181,6 +218,8 @@ function hexToDecimal(hex) {
 
   // throw new Error('Función hexToDecimal no implementada');
 }
+
+console.log(hexToDecimal('FFFF'));
 
 /**
  * Valida si un número es válido en una base numérica específica
