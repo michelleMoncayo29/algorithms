@@ -14,6 +14,22 @@
  * - validateNumberInBase(number, base): Valida número en una base específica
  */
 
+function isHexadecimal(hexadecimal) {
+  if (!/^[0-9A-F]+$/.test(hexadecimal)) {
+    return null;
+  }
+
+  return hexadecimal;
+}
+
+function isBinari(binary) {
+   if (!/^[01]+$/.test(binary)) {
+    return null;
+  }
+
+  return binary;
+}
+
 /**
  * Convierte un número decimal a binario
  * @param {number} decimal - Número decimal a convertir
@@ -144,7 +160,6 @@ function decimalToHex(decimal) {
   return result;
 }
 
-
 /**
  * Convierte un número hexadecimal a decimal
  * @param {string} hex - Número hexadecimal a convertir
@@ -165,6 +180,8 @@ function hexToDecimal(hex) {
   if (!/^[0-9A-F]+$/.test(upperHex)) {
     return null;
   }
+
+  isHexadecimal(upperHex);
 
   if (hex === '0') {
     return 0;
@@ -221,7 +238,7 @@ function hexToDecimal(hex) {
   // throw new Error('Función hexToDecimal no implementada');
 }
 
-console.log(hexToDecimal('FFFF'));
+// console.log(hexToDecimal('FFFF'));
 
 /**
  * Valida si un número es válido en una base numérica específica
