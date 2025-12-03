@@ -207,7 +207,8 @@ function hexToDecimal(hex) {
     }
   }
 
-  console.log(result);
+  return result;
+
   // TODO: Implementar conversión hexadecimal a decimal
   // Pista 1: Validar que hex sea un string válido
   // Pista 2: Validar que solo contenga 0-9 y A-F (case insensitive)
