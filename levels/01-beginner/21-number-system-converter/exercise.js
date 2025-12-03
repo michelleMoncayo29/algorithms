@@ -256,13 +256,13 @@ function validateNumberInBase(number, base) {
   // TODO: Implementar validación de número en base
   // Pista 1: Validar que number sea string y base sea número válido
   // Pista 2: Validar que base sea 2, 8, 10 o 16
-  // Pista 3: Para base 2: solo 0-1
-  // Pista 4: Para base 8: solo 0-7
-  // Pista 5: Para base 10: solo 0-9
-  // Pista 6: Para base 16: 0-9 y A-F (case insensitive)
+  // Pista 3: Para base 2: solo 0-1 //binario
+  // Pista 4: Para base 8: solo 0-7 //octal
+  // Pista 5: Para base 10: solo 0-9 //decimal
+  // Pista 6: Para base 16: 0-9 y A-F (case insensitive) //hexadecimal
   // Pista 7: Retornar false si es inválido
 
-  throw new Error('Función validateNumberInBase no implementada');
+  // throw new Error('Función validateNumberInBase no implementada');
 }
 
 module.exports = {
