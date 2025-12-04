@@ -23,7 +23,7 @@ function isHexadecimal(hexadecimal) {
 }
 
 function isBinari(binary) {
-   if (!/^[01]+$/.test(binary)) {
+  if (!/^[01]+$/.test(binary)) {
     return null;
   }
 
@@ -261,6 +261,45 @@ function validateNumberInBase(number, base) {
   // Pista 5: Para base 10: solo 0-9 //decimal
   // Pista 6: Para base 16: 0-9 y A-F (case insensitive) //hexadecimal
   // Pista 7: Retornar false si es inválido
+
+  // Validar que number sea string y base sea número válido
+  if (
+    typeof number !== 'string' ||
+    typeof base !== 'number' ||
+    !Number.isInteger(base)
+  ) {
+    return false;
+  }
+
+  // Validar que base sea soportada (2, 8, 10, 16)
+  const supportedBases = [2, 8, 10, 16];
+  if (!supportedBases.includes(base)) {
+    return false;
+  }
+
+  // Validar según la base
+  const upperNumber = number.toUpperCase();
+
+  switch (base) {
+    case 2:
+      // Base 2 (binario): solo 0-1
+      return /^[01]+$/.test(upperNumber);
+
+    case 8:
+      // Base 8 (octal): solo 0-7
+      return /^[0-7]+$/.test(upperNumber);
+
+    case 10:
+      // Base 10 (decimal): solo 0-9
+      return /^[0-9]+$/.test(upperNumber);
+
+    case 16:
+      // Base 16 (hexadecimal): 0-9 y A-F
+      return /^[0-9A-F]+$/.test(upperNumber);
+
+    default:
+      return false;
+  }
 
   // throw new Error('Función validateNumberInBase no implementada');
 }

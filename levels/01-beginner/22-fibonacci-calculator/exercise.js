@@ -72,19 +72,18 @@ function fibonacciSequence(n) {
     return null;
   }
 
-  const arrFibonacci = [0, 1];
-
-  for (let i = 2; i <= n; i++) {
-    console.log(arrFibonacci[i - 1]);
-    console.log("✅" , arrFibonacci[i - 2]);
-    arrFibonacci.push(arrFibonacci[i - 1] + arrFibonacci[i - 2]);
+  // n es un número, no usar .length
+  if (n === 1) {
+    return [0];
   }
 
+  // Generar y devolver exactamente n elementos
+  const arrFibonacci = [0, 1];
+  for (let i = 2; i < n; i++) {
+    arrFibonacci.push(arrFibonacci[i - 1] + arrFibonacci[i - 2]);
+  }
   return arrFibonacci;
 }
-
-const num = fibonacciSequence(5);
-console.log(num);
 
 /**
  * Verifica si un número pertenece a la secuencia de Fibonacci
@@ -100,12 +99,15 @@ console.log(num);
 function isFibonacci(num) {
   // TODO: Implementar verificación de número de Fibonacci
   // Pista 1: Validar que num sea un número entero no negativo
+  const arrFibonaccci = fibonacciSequence(20);
+  return arrFibonaccci.includes(num);
   // Pista 2: Puedes generar la secuencia hasta encontrar el número
   // Pista 3: O verificar con fórmula: 5*num² ± 4 es cuadrado perfecto
   // Pista 4: Retornar false si num es inválido
 
-  throw new Error('Función isFibonacci no implementada');
 }
+const num = isFibonacci(55);
+console.log(num);
 
 /**
  * Calcula la suma de los primeros n números de Fibonacci
