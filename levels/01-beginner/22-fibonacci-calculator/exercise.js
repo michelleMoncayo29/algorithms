@@ -45,7 +45,11 @@ function isValidPositiveInteger(number) {
 }
 
 function fibonacci(n) {
-  if (!isValidPositiveInteger(n)) {
+  if (typeof n !== 'number' || isNaN(n) || n < 0) {
+    return null;
+  }
+
+  if (!Number.isInteger(n)) {
     return null;
   }
 
@@ -113,8 +117,6 @@ function isFibonacci(num) {
   // Pista 3: O verificar con fórmula: 5*num² ± 4 es cuadrado perfecto
   // Pista 4: Retornar false si num es inválido
 }
-const num = isFibonacci(55);
-console.log(num);
 
 /**
  * Calcula la suma de los primeros n números de Fibonacci
@@ -170,10 +172,44 @@ function getFibonacciIndex(num) {
   // Pista 4: Retornar el índice (posición 0-based)
   // Pista 5: Retornar null si no es Fibonacci
 
-  if (!isValidPositiveInteger(num)) {
+  if (typeof num !== 'number' || isNaN(num) || num < 0) {
     return null;
   }
+
+  if (!Number.isInteger(num)) {
+    return null;
+  }
+
+  // Casos base
+  if (num === 0) return 0;
+  if (num === 1) return 1;
+
+  const numberFibonacci = isFibonacci(num);
+
+  let count = 0;
+
+  if (!numberFibonacci) return null;
+
+  while (numberFibonacci) {
+    const fibValue = fibonacci(count);
+
+    if (fibValue === num) {
+      return count;
+    }
+
+    // Si ya pasamos el número, no es Fibonacci
+    if (fibValue > num) {
+      break; // El punto de salida del bucle
+    }
+
+    count++; // Incremento
+  }
+
+  return count;
 }
+
+const num = getFibonacciIndex(4);
+console.log(num);
 
 module.exports = {
   fibonacci,
