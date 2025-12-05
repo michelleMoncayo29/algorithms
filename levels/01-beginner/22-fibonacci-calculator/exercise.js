@@ -48,14 +48,22 @@ function fibonacci(n) {
   if (!isValidPositiveInteger(n)) {
     return null;
   }
-  // TODO: Implementar cálculo de Fibonacci
-  // Pista 1: Validar que n sea un entero no negativo
-  // Pista 2: Casos base: F(0) = 0, F(1) = 1
-  // Pista 3: F(n) = F(n-1) + F(n-2)
-  // Pista 4: Puedes usar recursión o iteración
-  // Pista 5: Retornar null si n es inválido
 
-  throw new Error('Función fibonacci no implementada');
+  // Casos base
+  if (n === 0) return 0;
+  if (n === 1) return 1;
+
+  // Usar enfoque iterativo para evitar stack overflow
+  let prev = 0; // F(0)
+  let curr = 1; // F(1)
+
+  for (let i = 2; i <= n; i++) {
+    const next = prev + curr;
+    prev = curr;
+    curr = next;
+  }
+
+  return curr;
 }
 
 /**
@@ -104,7 +112,6 @@ function isFibonacci(num) {
   // Pista 2: Puedes generar la secuencia hasta encontrar el número
   // Pista 3: O verificar con fórmula: 5*num² ± 4 es cuadrado perfecto
   // Pista 4: Retornar false si num es inválido
-
 }
 const num = isFibonacci(55);
 console.log(num);
@@ -125,7 +132,23 @@ function fibonacciSum(n) {
   // Pista 3: O calcular directamente sin almacenar la secuencia
   // Pista 4: Retornar null si n es inválido
 
-  throw new Error('Función fibonacciSum no implementada');
+  if (!isValidPositiveInteger(n)) {
+    return null;
+  }
+
+  if (n === 1) return 0; // Solo F0
+  if (n === 2) return 1; // F0 + F1
+
+  const fibSequence = [0, 1];
+
+  // Generar la secuencia hasta el término n-1
+  for (let i = 2; i < n; i++) {
+    // El nuevo término es la suma de los dos anteriores en el array
+    fibSequence.push(fibSequence[i - 1] + fibSequence[i - 2]);
+  }
+
+  // Sumar todos los elementos del array
+  return fibSequence.reduce((acc, current) => acc + current, 0);
 }
 
 /**
@@ -147,7 +170,9 @@ function getFibonacciIndex(num) {
   // Pista 4: Retornar el índice (posición 0-based)
   // Pista 5: Retornar null si no es Fibonacci
 
-  throw new Error('Función getFibonacciIndex no implementada');
+  if (!isValidPositiveInteger(num)) {
+    return null;
+  }
 }
 
 module.exports = {
