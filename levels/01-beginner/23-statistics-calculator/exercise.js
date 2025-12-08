@@ -25,6 +25,7 @@
  * calculateMean([5, 5, 5, 5]) → 5
  */
 function calculateMean(numbers) {
+
     // TODO: Implementar cálculo de media
     // Pista 1: Validar que numbers sea un array válido
     // Pista 2: Verificar que el array no esté vacío
@@ -33,7 +34,23 @@ function calculateMean(numbers) {
     // Pista 5: Dividir la suma por la cantidad de elementos
     // Pista 6: Retornar null si hay error
     
-    throw new Error('Función calculateMean no implementada');
+    // throw new Error('Función calculateMean no implementada');
+    if (!Array.isArray(numbers) || numbers.length === 0) {
+        return null;
+    }
+
+    for (let i = 0; i < numbers.length; i++) {
+        const element = numbers[i];
+        if (typeof element !== "number") return null;
+    }
+
+    const sumTotal = numbers.reduce((acc, current) => {
+        return acc + current;
+    }, 0);
+
+    const result = sumTotal / numbers.length;
+
+    return result;
 }
 
 /**
