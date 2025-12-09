@@ -55,6 +55,8 @@ function calculateMean(numbers) {
   const sumTotal = numbers.reduce((acc, current) => {
     return acc + current;
   }, 0);
+    
+    console.log(sumTotal/numbers.length, 'resultado de la media'    );
 
   const result = sumTotal / numbers.length;
 
@@ -71,6 +73,8 @@ function calculateMean(numbers) {
  * calculateMedian([1, 2, 3, 4]) → 2.5 (promedio de 2 y 3)
  * calculateMedian([5, 10, 15]) → 10
  */
+
+// !REVISAR ESTO ME falta un test
 function calculateMedian(numbers) {
   // TODO: Implementar cálculo de mediana
   // Pista 1: Validar que numbers sea un array válido
@@ -80,8 +84,34 @@ function calculateMedian(numbers) {
   // Pista 5: Si la cantidad es par, promediar los dos elementos centrales
   // Pista 6: Retornar null si hay error
 
-  throw new Error('Función calculateMedian no implementada');
+    if (!validateArrayNumbers(numbers)) {
+        return null;
+    }
+
+    const lengthArray = numbers.length;
+
+    const numbersSorted = numbers.sort((a, b) => a - b);
+    // console.log(numbersSorted, 'array ordenado');
+
+    let sum = numbersSorted[0];
+
+    for (let i = 1; i < lengthArray; i++) {
+        const element = numbersSorted[i];
+        sum += element;
+    }
+
+    // Si es par
+    if (lengthArray % 2 === 0) {
+        const resultPar = sum / lengthArray;
+        return resultPar;
+    }
+    
+    // redondeamos hacia abajo
+    const resultIn = Math.floor(sum / lengthArray);
+    
+    return resultIn;
 }
+
 
 /**
  * Calcula la moda de un array de números
@@ -144,7 +174,18 @@ function calculateRange(numbers) {
   // Pista 5: Retornar max - min
   // Pista 6: Retornar null si hay error
 
-  throw new Error('Función calculateRange no implementada');
+    if (!validateArrayNumbers(numbers)) {
+        return null;
+    }
+
+    const numbersSorted = numbers.sort((a, b) => a - b);
+
+    const minValue = numbersSorted[0];
+    const maxValue = numbersSorted[numbersSorted.length - 1];
+
+    const range = maxValue - minValue;
+
+    return range;
 }
 
 /**
@@ -165,8 +206,10 @@ function calculateStandardDeviation(numbers) {
   // Pista 5: Retornar null si hay error
   // Nota: Para números decimales, redondear es opcional
 
-  throw new Error('Función calculateStandardDeviation no implementada');
+    const meanValue = calculateMean(numbers);
+    return meanValue;
 }
+console.log(calculateStandardDeviation([1, 1, 1, 1]));
 
 module.exports = {
   calculateMean,
