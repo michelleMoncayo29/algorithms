@@ -55,8 +55,6 @@ function calculateMean(numbers) {
   const sumTotal = numbers.reduce((acc, current) => {
     return acc + current;
   }, 0);
-    
-    console.log(sumTotal/numbers.length, 'resultado de la media'    );
 
   const result = sumTotal / numbers.length;
 
@@ -123,6 +121,8 @@ function calculateMedian(numbers) {
  * calculateMode([1, 1, 2, 2, 3]) → [1, 2]
  * calculateMode([1, 2, 3, 4]) → []
  */
+
+
 function calculateMode(numbers) {
     // TODO: Implementar cálculo de moda
     // Pista 1: Validar que numbers sea un array válido
@@ -136,24 +136,37 @@ function calculateMode(numbers) {
         return null;
     }
 
-    let count = 1;
     const arrFrequency = [];
-    let valueComparate = numbers[0];
+    const contadorObject = {};
+
+    for (const number of numbers) {
+        const clave = String(number);
+        // Si la clave no existe, utiliza 0 como valor inicial; luego, suma 1.
+        contadorObject[clave] = (contadorObject[clave] || 0) + 1;
+    }
+    console.log(contadorObject, 'objeto contador');
+
+    // Convertimos esto en array de la cantidad de valores que se repiten
+    const maxFrequency = Object.values(contadorObject);
     
-    for (let i = 1; i < numbers.length; i++) {
-        const element = numbers[i];
-        if (valueComparate === element) {
-            count++;
-            if (count > 2) {
-                arrFrequency.push(element);
-            }
-        }
-        valueComparate = element;
+    // Buscamos la frecuencia máxima
+    const numberMaxFrequency = Math.max(...maxFrequency);
+
+    if (numberMaxFrequency === 1) {
+        return [];
     }
 
-    return arrFrequency;
+    // Iteramos sobre las claves (los números) del objeto de conteo
+    for (const clave in contadorObject) {
+        if (contadorObject[clave] === numberMaxFrequency) {
+            // Convertimos la clave (que es un string) de vuelta a número antes de agregarlo
+            arrFrequency.push(Number(clave));
+        }
+    }
+    
+    return arrFrequency.sort((a, b) => a - b);
 }
-console.log(calculateMode([1, 1, 1, 2, 2, 3, 3, 3]));
+
 
 /**
  * Calcula el rango de un array de números
@@ -209,7 +222,7 @@ function calculateStandardDeviation(numbers) {
     const meanValue = calculateMean(numbers);
     return meanValue;
 }
-console.log(calculateStandardDeviation([1, 1, 1, 1]));
+// console.log(calculateStandardDeviation([1, 1, 1, 1]));
 
 module.exports = {
   calculateMean,
