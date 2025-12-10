@@ -86,28 +86,37 @@ function calculateMedian(numbers) {
         return null;
     }
 
+    const numbersSorted = [...numbers].sort((a, b) => a - b);
     const lengthArray = numbers.length;
 
-    const numbersSorted = numbers.sort((a, b) => a - b);
+    let indexMiddle = Math.floor(lengthArray / 2);
+       // Si la cantidad es impar, retornar el elemento del medio
+    if (lengthArray % 2 === 1) {
+        return numbersSorted[indexMiddle];
+    }
+    
+    // Si es par, promediar los dos elementos centrales
+    return (numbersSorted[indexMiddle - 1] + numbersSorted[indexMiddle]) / 2;
+
     // console.log(numbersSorted, 'array ordenado');
 
-    let sum = numbersSorted[0];
+    // let sum = numbersSorted[0];
 
-    for (let i = 1; i < lengthArray; i++) {
-        const element = numbersSorted[i];
-        sum += element;
-    }
+    // for (let i = 1; i < lengthArray; i++) {
+    //     const element = numbersSorted[i];
+    //     sum += element;
+    // }
 
-    // Si es par
-    if (lengthArray % 2 === 0) {
-        const resultPar = sum / lengthArray;
-        return resultPar;
-    }
+    // // Si es par
+    // if (lengthArray % 2 === 0) {
+    //     const resultPar = sum / lengthArray;
+    //     return resultPar;
+    // }
     
-    // redondeamos hacia abajo
-    const resultIn = Math.floor(sum / lengthArray);
+    // // redondeamos hacia abajo
+    // const resultIn = Math.floor(sum / lengthArray);    
     
-    return resultIn;
+    // return resultIn;
 }
 
 
@@ -218,11 +227,26 @@ function calculateStandardDeviation(numbers) {
   // Pista 4: Raíz cuadrada de la varianza
   // Pista 5: Retornar null si hay error
   // Nota: Para números decimales, redondear es opcional
+    if (!validateArrayNumbers(numbers)) {
+        return null;
+    }
+
 
     const meanValue = calculateMean(numbers);
-    return meanValue;
+    const lengthArray = numbers.length;
+    let sum = 0;
+
+    for (const value of numbers) {
+        sum += (value - meanValue)**2;
+        // console.log(sum, 'suma de varianza');
+    }
+
+    const variance = sum / lengthArray;
+
+    const raizVariance = Math.sqrt(variance);
+    return raizVariance;
 }
-// console.log(calculateStandardDeviation([1, 1, 1, 1]));
+console.log(calculateStandardDeviation([2, 4, 4, 4, 5, 5, 7, 9]));
 
 module.exports = {
   calculateMean,
