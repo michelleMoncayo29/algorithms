@@ -27,7 +27,20 @@ class Pet {
      * - Assign the validated values to `this`.
      */
     constructor(name, type, age) {
-        throw new Error('Pet constructor not implemented');
+        if (!name) {
+            throw new Error('Pet name is required');
+        }
+        if (!type || type.trim().length === 0) {
+            throw new Error('Pet type is required');
+        }
+        if (typeof age !== 'number' || age < 0) {
+            throw new Error('Pet age must be a number greater than or equal to 0');
+        }
+
+        // --- Almacenamiento de Propiedades ---
+        this.name = name;
+        this.type = type;
+        this.age = age;
     }
 
     /**
@@ -39,10 +52,12 @@ class Pet {
      * - Handle singular versus plural for the word "year".
      */
     getDescription() {
-        throw new Error('Method getDescription not implemented');
+        // Manejo del plural/singular: 'year' si age es 1, 'years' en caso contrario
+        const yearOrYears = this.age === 1 ? 'year' : 'years';
+        return `${this.name} is a ${this.type} that is ${this.age} ${yearOrYears} old`;
     }
 
-    /**
+    /** 
      * Increments the pet age by one year.
      * @returns {number} The updated age.
      *
@@ -51,9 +66,23 @@ class Pet {
      * - Return the new value so callers can chain assertions.
      */
     haveBirthday() {
-        throw new Error('Method haveBirthday not implemented');
+        this.age += 1;
+        return this.age; // Debe devolver la nueva edad
     }
 }
+
+const luna = new Pet('Luna', 'perro', 3);
+console.log('\n1. Mascota creada:', luna);
+
+// 2. Probar getDescription() para edad > 1
+console.log('\n2. Descripción de Luna (3 años):');
+console.log(luna.getDescription());
+
+// 3. Probar haveBirthday()
+console.log('\n3. Celebrando Cumpleaños de Luna...');
+const nuevaEdad = luna.haveBirthday();
+console.log(`Nueva edad de Luna: ${nuevaEdad}`); // Debería ser 4
+console.log('Objeto Luna después del cumpleaños:', luna);
 
 /**
  * Manages the entire registry of pets.
