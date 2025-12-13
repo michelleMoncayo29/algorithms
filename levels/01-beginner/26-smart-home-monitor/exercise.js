@@ -114,6 +114,13 @@ class SmartHomeMonitor {
     if (!(device instanceof SmartDevice)) {
       throw new Error('Device must be an instance of SmartDevice');
     }
+
+    if (this.findByName(device.name)) {
+      throw new Error('Device name already registered');
+    }
+
+    this.devices.push(device);
+    return this.devices.length;
   }
 
   /**
@@ -126,7 +133,16 @@ class SmartHomeMonitor {
    * - Retorna el dispositivo o `null`.
    */
   findByName(name) {
-    throw new Error('Method findByName not implemented');
+    if (typeof name !== 'string') {
+      return null;
+    }
+
+    const normalized = name.trim().toUpperCase();
+    const registerNumber = this.devices.find(function (name) {
+      return name.name === normalized;
+    });
+
+    return registerNumber ?? null;
   }
 
   /**
