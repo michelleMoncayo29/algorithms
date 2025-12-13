@@ -25,7 +25,22 @@ class Vehicle {
      * - Asigna las propiedades a `this`.
      */
     constructor(plate, type, mileage) {
-        throw new Error('Vehicle constructor not implemented');
+        if (plate.trim().length === 0 || typeof type !== 'string') { 
+            throw new Error('Vehicle type is required');
+        }
+
+        if (typeof mileage !== 'number' || mileage < 0 || !Number.isInteger(mileage)) {
+            throw new Error('Vehicle mileage must be a number greater than or equal to 0');
+        }
+        if (type.trim().length === 0 || typeof type !== 'string') { 
+            throw new Error('Vehicle type is required');
+        }
+            
+        
+
+        this.plate = plate.toUpperCase().trim();
+        this.type = type;
+        this.mileage = mileage;
     }
 
     /**
@@ -36,7 +51,7 @@ class Vehicle {
      * - Usa template literals y respeta el formato solicitado.
      */
     getSummary() {
-        throw new Error('Method getSummary not implemented');
+        return `${this.plate} (${this.type}) has ${this.mileage} km`;
     }
 
     /**
@@ -50,7 +65,12 @@ class Vehicle {
      * - Suma al kilometraje y retorna el nuevo valor.
      */
     addTrip(kilometers) {
-        throw new Error('Method addTrip not implemented');
+        if (kilometers <= 0 || isNaN(kilometers)) {
+            throw new Error('Trip distance must be a positive number');            
+        }
+        
+        this.mileage += kilometers;
+        return this.mileage;
     }
 }
 
@@ -60,10 +80,11 @@ class FleetManager {
      *
      * TODO:
      * - Inicializa `this.vehicles` como array vacío.
-     */
-    constructor() {
-        throw new Error('FleetManager constructor not implemented');
-    }
+    */
+
+    vehicles = [];
+
+    constructor() {}
 
     /**
      * Adds a vehicle to the fleet.
@@ -78,7 +99,13 @@ class FleetManager {
      * - Agrega al array y retorna `length`.
      */
     addVehicle(vehicle) {
-        throw new Error('Method addVehicle not implemented');
+        if(!(vehicle instanceof Vehicle)) {
+            throw new Error('Vehicle must be an instance of Vehicle');
+        }
+
+        this.vehicles.push(vehicle);
+
+        return this.vehicles.length;
     }
 
     /**
@@ -89,9 +116,20 @@ class FleetManager {
      * TODO:
      * - Normaliza la entrada (trim + uppercase) y busca en el array.
      * - Retorna la coincidencia o `null` si no existe.
+     * MATRICULA: " abc123 " === "ABC123"
      */
     findByPlate(plate) {
-        throw new Error('Method findByPlate not implemented');
+        if(typeof plate !== 'string') {
+            return null;
+        }
+
+        const normalizedPlate = plate.trim().toUpperCase();
+
+        const foundVehicle = this.vehicles.find(function(vehicle) {
+            return vehicle.plate === normalizedPlate;
+        });
+
+        return foundVehicle ?? null;
     }
 
     /**
@@ -106,9 +144,26 @@ class FleetManager {
      * - Retorna un nuevo array (no expongas el original).
      */
     getMaintenanceList(threshold) {
-        throw new Error('Method getMaintenanceList not implemented');
+        if (threshold < 0) { 
+            throw new Error('Maintenance threshold must be a number greater than or equal to 0');
+        }
+
+        console.log("⭐⭐⭐", threshold);
+ 
+        // me retorna un nuevo array que el kilometro sea mayor o igual al threshold
+        const mutedArray = this.vehicles.filter(function(vehicle) {
+            return vehicle.mileage >= threshold;
+        });
+
+        const arrSummaries = mutedArray.map(function(vehicle) {
+            return vehicle.getSummary();
+        });
+
+        return arrSummaries;
     }
 }
+
+// console.log(FleetManager.getMaintenanceList(1200));
 
 module.exports = {
     Vehicle,
