@@ -69,6 +69,7 @@ class Vehicle {
             throw new Error('Trip distance must be a positive number');            
         }
         
+        // se suma cada vez que se ejecuta de nuevo el metodo de la clase
         this.mileage += kilometers;
         return this.mileage;
     }
