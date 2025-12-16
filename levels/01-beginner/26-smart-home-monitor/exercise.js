@@ -38,10 +38,16 @@ class SmartDevice {
       throw new Error('Device watts must be a positive number');
     }
 
-    this.name = name.toCapitalize();
-    this.room = room.toLowerCase();
+    // Función auxiliar para capitalizar
+    const capitalize = str => {
+      const s = str.trim();
+      return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+    };
+
+    this.name = capitalize(name);
+    this.room = room.trim().toLowerCase();
     this.watts = watts;
-    this.isOn = isOn;
+    this.isOn = isOn; // Asigna el valor por defecto o el recibido
   }
 
   /**
@@ -52,7 +58,7 @@ class SmartDevice {
    * - Actualiza `this.isOn` y retorna el nuevo estado.
    */
   turnOn() {
-    this.isOn = false;
+    this.isOn = true;
     return this.isOn;
   }
 
@@ -79,8 +85,12 @@ class SmartDevice {
    * - En caso contrario, retorna `this.watts * hours`.
    */
   getConsumption(hours) {
-    if (hours <= 0 || isNaN(hours)) {
+    if (hours <= 0 || isNaN(hours) || typeof hours !== 'number') {
       throw new Error('Usage hours must be a positive number');
+    }
+
+    if (!this.isOn) {
+      return 0;
     }
 
     return this.watts * hours;
@@ -115,6 +125,7 @@ class SmartHomeMonitor {
       throw new Error('Device must be an instance of SmartDevice');
     }
 
+    // 2. Evita duplicados (usa findByName para la validación case-insensitive)
     if (this.findByName(device.name)) {
       throw new Error('Device name already registered');
     }
@@ -138,11 +149,13 @@ class SmartHomeMonitor {
     }
 
     const normalized = name.trim().toUpperCase();
-    const registerNumber = this.devices.find(function (name) {
-      return name.name === normalized;
+    // Buscamos en el array
+    const foundDevice = this.devices.find(device => {
+      // Normalizamos el nombre del dispositivo almacenado para la comparación
+      return device.name.toUpperCase() === normalized;
     });
 
-    return registerNumber ?? null;
+    return foundDevice ?? null;
   }
 
   /**
@@ -169,7 +182,18 @@ class SmartHomeMonitor {
    * - Suma `device.getConsumption(hours)` para cada dispositivo y retorna el total.
    */
   getActiveConsumption(hours) {
-    throw new Error('Method getActiveConsumption not implemented');
+    // 1. Valida hours (mismo mensaje que SmartDevice)
+    if (typeof hours !== 'number' || isNaN(hours) || hours <= 0) {
+      throw new Error('Usage hours must be a positive number');
+    }
+
+    // 2. Suma el consumo de cada dispositivo.
+    const totalConsumption = this.devices.reduce((total, device) => {
+      // El método device.getConsumption(hours) ya se encarga de retornar 0 si está apagado
+      return total + device.getConsumption(hours);
+    }, 0);
+
+    return totalConsumption;
   }
 }
 
