@@ -2,7 +2,7 @@
  * Fleet Maintenance Manager
  *
  * Description: Implement two beginner-friendly classes (`Vehicle` and
- * `FleetManager`) to register vehicles, track mileage and build maintenance
+ * `FleetManager`) to register #vehicles, track mileage and build maintenance
  * reports. Follow the README instructions and keep all identifiers/messages
  * in English.
  * Difficulty: BEGINNER
@@ -25,8 +25,8 @@ class Vehicle {
      * - Asigna las propiedades a `this`.
      */
     constructor(plate, type, mileage) {
-        if (plate.trim().length === 0 || typeof type !== 'string') { 
-            throw new Error('Vehicle type is required');
+        if (plate.trim().length === 0 || typeof plate !== 'string') { 
+            throw new Error('Vehicle plate is required');
         }
 
         if (typeof mileage !== 'number' || mileage < 0 || !Number.isInteger(mileage)) {
@@ -80,17 +80,17 @@ class FleetManager {
      * Creates an empty fleet registry.
      *
      * TODO:
-     * - Inicializa `this.vehicles` como array vacío.
+     * - Inicializa `this.#vehicles` como array vacío.
     */
 
-    vehicles = [];
+    #vehicles = [];
 
     constructor() {}
 
     /**
      * Adds a vehicle to the fleet.
      * @param {Vehicle} vehicle
-     * @returns {number} Total vehicles stored
+     * @returns {number} Total #vehicles stored
      *
      * TODO:
      * - Valida que sea instancia de `Vehicle` o lanza
@@ -104,11 +104,16 @@ class FleetManager {
             throw new Error('Vehicle must be an instance of Vehicle');
         }
 
-        this.vehicles.push(vehicle);
-
-        return this.vehicles.length;
+        const isDuplicated = this.isDuplicatedPlate(vehicle.plate);
+        
+        if (isDuplicated) {
+            throw new Error('Vehicle plate already registered');
+        }
+        
+        this.#vehicles.push(vehicle);
+        return this.#vehicles.length;
     }
-
+    
     /**
      * Finds a vehicle by plate (case-insensitive).
      * @param {string} plate
@@ -126,7 +131,7 @@ class FleetManager {
 
         const normalizedPlate = plate.trim().toUpperCase();
 
-        const foundVehicle = this.vehicles.find(function(vehicle) {
+        const foundVehicle = this.#vehicles.find(function(vehicle) {
             return vehicle.plate === normalizedPlate;
         });
 
@@ -134,7 +139,7 @@ class FleetManager {
     }
 
     /**
-     * Returns maintenance summaries for vehicles above a threshold.
+     * Returns maintenance summaries for #vehicles above a threshold.
      * @param {number} threshold
      * @returns {string[]} Array with `getSummary()` results
      *
@@ -152,7 +157,7 @@ class FleetManager {
         console.log("⭐⭐⭐", threshold);
  
         // me retorna un nuevo array que el kilometro sea mayor o igual al threshold
-        const mutedArray = this.vehicles.filter(function(vehicle) {
+        const mutedArray = this.#vehicles.filter(function(vehicle) {
             return vehicle.mileage >= threshold;
         });
 
@@ -162,9 +167,23 @@ class FleetManager {
 
         return arrSummaries;
     }
+
+    isDuplicatedPlate(plate) {
+        
+        const filterPlate = this.#vehicles.filter((vehicle) => {
+            return vehicle.plate.toLowerCase() === plate.toLowerCase()
+        })
+
+        return filterPlate.length > 0; 
+    }
 }
 
-// console.log(FleetManager.getMaintenanceList(1200));
+const toyota = new Vehicle('ref01', 'Truck', 2000);
+const fleet = new FleetManager();
+fleet.addVehicle(toyota);
+// fleet.isDuplicatedPlate('MCKC2');
+
+console.log(fleet);
 
 module.exports = {
     Vehicle,
