@@ -26,16 +26,16 @@ class SmartDevice {
    * - Asigna `isOn` con el valor recibido o `false`.
    */
   constructor(name, room, watts, isOn = false) {
-    if (typeof name !== 'string' || name.length === 0) {
+    if (typeof name !== 'string' || name.trim().length === 0) {
       throw new Error('Device name is required');
     }
 
-    if (typeof room !== 'string' || room.length === 0) {
-      throw new Error('Device name is required');
+    if (typeof room !== 'string' || room.trim().length === 0) {
+      throw new Error('Device room is required');
     }
 
     if (typeof watts !== 'number' || isNaN(watts) || watts <= 0) {
-      throw new Error('Device watts must be a positive number');
+      throw new Error('Device watts must be a number greater than 0');
     }
 
     // Función auxiliar para capitalizar
@@ -169,7 +169,21 @@ class SmartHomeMonitor {
    * - Retorna un objeto nuevo con las claves solicitadas.
    */
   getRoomReport(room) {
-    throw new Error('Method getRoomReport not implemented');
+    if (typeof room !== 'string' || room.trim().length === 0) {
+      throw new Error('Room name is required');
+    }
+
+    const normalizedRoom = room.trim().toLowerCase();
+    const devicesInRoom = this.devices.filter(
+      (device) => device.room === normalizedRoom
+    );
+
+    return {
+      room: normalizedRoom,
+      devices: devicesInRoom.map((device) => device.name),
+      activeDevices: devicesInRoom.filter((device) => device.isOn).length,
+      totalWatts: devicesInRoom.reduce((sum, device) => sum + device.watts, 0)
+    };
   }
 
   /**
