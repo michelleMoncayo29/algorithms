@@ -24,6 +24,15 @@ Cada ejercicio debe seguir la estructura estándar:
 - **Formato**: Prettier + ESLint
 - **Documentación**: Markdown con ejemplos claros
 
+## 🧪 Estándares de Testing
+
+- **Idioma de descripciones**: Todas las descripciones de tests (`describe` y `test`/`it`) DEBEN estar en español
+- **Comentarios en tests**: Cada test DEBE incluir un comentario explicativo que describa:
+  - Lo que específicamente está probando el test
+  - Cómo se debe comportar la función/componente que se está probando
+  - Qué resultado o comportamiento se espera obtener
+- **Estructura de comentarios**: Los comentarios deben ser claros y descriptivos, colocados antes o después de cada bloque `test`/`it`, explicando el propósito y comportamiento esperado
+
 ## 📚 Niveles de Dificultad
 
 - **Beginner**: Fundamentos y conceptos básicos
@@ -54,3 +63,5 @@ Cada ejercicio debe seguir la estructura estándar:
 - Comentarios explicativos del algoritmo
 - Análisis de complejidad temporal y espacial
 - Ejemplos de uso si es necesario
+
+**OBLIGATORIO - Validación de Tests**: Después de crear un ejercicio nuevo con su archivo de solución, SIEMPRE se deben ejecutar los tests usando el archivo de solución correspondiente para verificar que todos los tests pasen correctamente. El comando a usar será equivalente a ejecutar los tests importando la solución desde `solutions/[nivel]/[ejercicio]/solution.js` en lugar de `exercise.js`. Esto garantiza que los tests están correctamente escritos y que la solución funciona según lo esperado.
