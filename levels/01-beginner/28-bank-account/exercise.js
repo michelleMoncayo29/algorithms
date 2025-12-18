@@ -35,7 +35,16 @@ class BankAccount {
      * - Asigna los valores validados a this.accountHolder y this.balance
      */
     constructor(accountHolder, initialBalance = 0) {
-        throw new Error('BankAccount constructor not implemented');
+        if (typeof accountHolder !== 'string' || accountHolder.trim() === '') {
+            throw new Error('Account holder name is required');
+        }
+
+        if (typeof initialBalance !== 'number' || initialBalance < 0 || isNaN(initialBalance)) {
+            throw new Error('Initial balance cannot be negative');
+        }
+
+        this.accountHolder = accountHolder;
+        this.balance = initialBalance;
     }
 
     /**
@@ -56,7 +65,12 @@ class BankAccount {
      * - Retorna el nuevo saldo (this.balance)
      */
     deposit(amount) {
-        throw new Error('Method deposit not implemented');
+        if (typeof amount !== 'number' || amount <= 0 || isNaN(amount)) {
+            throw new Error('Deposit amount must be positive');
+        }        
+        this.balance += amount;
+        // console.log('Deposit method called with amount:', this.balance, '✅');
+        return this.balance;
     }
 
     /**
@@ -79,7 +93,17 @@ class BankAccount {
      * - Retorna el nuevo saldo (this.balance)
      */
     withdraw(amount) {
-        throw new Error('Method withdraw not implemented');
+        if (typeof amount !== 'number' || amount <= 0 || isNaN(amount)) {
+            throw new Error('Withdrawal amount must be positive');
+        }
+
+        if (this.balance < amount) {
+            throw new Error('Insufficient funds');
+        }
+
+        this.balance -= amount;
+        // console.log('Withdraw method called with amount:', this.balance, '✅');
+        return this.balance;
     }
 
     /**
@@ -95,7 +119,7 @@ class BankAccount {
      * - Retorna el valor de this.balance
      */
     getBalance() {
-        throw new Error('Method getBalance not implemented');
+        return this.balance;
     }
 
     /**
@@ -113,10 +137,17 @@ class BankAccount {
      * - Formatea this.balance con 2 decimales usando toFixed(2)
      * - Retorna el string en el formato especificado
      */
-    getAccountInfo() {
-        throw new Error('Method getAccountInfo not implemented');
+    getAccountInfo() {    
+        const formattedBalance = this.balance.toFixed(2);
+    
+        return `Account holder: ${this.accountHolder}, Balance: $${formattedBalance}`;
     }
 }
+
+const acountGenesis = new BankAccount('Genesis', 1000);
+const depositResult = acountGenesis.withdraw(500);
+const balanc = acountGenesis.getBalance();
+console.log(balanc);
 
 module.exports = {
     BankAccount
