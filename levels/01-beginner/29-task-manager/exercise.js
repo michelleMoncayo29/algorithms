@@ -37,7 +37,20 @@ class Task {
      * - Asigna los valores validados a this.description, this.priority y this.completed
      */
     constructor(description, priority = 'medium', completed = false) {
-        throw new Error('Task constructor not implemented');
+        
+        if (typeof description !== 'string' || description.trim().length === 0) {
+            throw new Error('Task description is required');
+        }
+
+        // propiedades a buscar
+        const validPriorities = ['low', 'medium', 'high'];
+        if (!validPriorities.includes(priority)) {
+            throw new Error("Priority must be 'low', 'medium', or 'high'");
+        }
+
+        this.description = description.trim();
+        this.priority = priority;
+        this.completed = completed;
     }
 
     /**
@@ -55,7 +68,7 @@ class Task {
      * - Retorna el nuevo valor de this.completed
      */
     toggleComplete() {
-        throw new Error('Method toggleComplete not implemented');
+        return this.completed = !this.completed;
     }
 }
 
@@ -74,9 +87,10 @@ class TaskManager {
      * TODO:
      * - Inicializa this.tasks como un array vacío []
      */
-    constructor() {
-        throw new Error('TaskManager constructor not implemented');
-    }
+
+    tasks = [];
+
+    constructor() {}
 
     /**
      * Agrega una nueva tarea al gestor.
