@@ -36,7 +36,10 @@ class Book {
    * - Inicializa this.isAvailable = true (el libro está disponible por defecto)
    */
   constructor(title, author, isbn) {
-    throw new Error('Book constructor not implemented');
+    this.title = title;
+    this.author = author;
+    this.isbn = isbn;
+    this.isAvailable = true;
   }
 
   /**
@@ -53,7 +56,7 @@ class Book {
    * - Retorna el nuevo valor de this.isAvailable
    */
   toggleAvailability() {
-    throw new Error('Method toggleAvailability not implemented');
+    return this.isAvailable = !this.isAvailable;
   }
 }
 
@@ -73,9 +76,9 @@ class Library {
    * TODO:
    * - Inicializa this.books como un array vacío []
    */
-  constructor() {
-    throw new Error('Library constructor not implemented');
-  }
+  constructor() {}
+
+  books = [];
 
   /**
    * Agrega un libro a la biblioteca.
@@ -91,7 +94,11 @@ class Library {
    * - Retorna el libro agregado
    */
   addBook(book) {
-    throw new Error('Method addBook not implemented');
+    if (!(book instanceof Book)) {
+      throw new Error('Invalid book');
+    }
+    this.books.push(book);
+    return book;
   }
 
   /**
@@ -109,7 +116,8 @@ class Library {
    * - Retorna el libro encontrado o undefined si no se encuentra
    */
   findBook(isbn) {
-    throw new Error('Method findBook not implemented');
+    const searchedBook = this.books.find((book) => book.isbn === isbn);
+    return searchedBook;
   }
 
   /**
@@ -130,7 +138,15 @@ class Library {
    * - Retorna el libro prestado
    */
   borrowBook(isbn) {
-    throw new Error('Method borrowBook not implemented');
+    const bookToBorrow = this.findBook(isbn);
+    if (!bookToBorrow) {
+      return null;
+    }
+    if (!bookToBorrow.isAvailable) {
+      return null;
+    }
+    bookToBorrow.toggleAvailability();
+    return bookToBorrow;
   }
 
   /**
@@ -150,7 +166,15 @@ class Library {
    * - Retorna el libro devuelto
    */
   returnBook(isbn) {
-    throw new Error('Method returnBook not implemented');
+    const bookToReturn = this.findBook(isbn);
+    if (!bookToReturn) {
+      return null;
+    }
+    if (bookToReturn.isAvailable) {
+      return null;
+    }
+    bookToReturn.toggleAvailability();
+    return bookToReturn;
   }
 }
 
