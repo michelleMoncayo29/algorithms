@@ -37,7 +37,17 @@ class Student {
      * - Inicializa this.grades como un objeto vacío {}
      */
     constructor(name, studentId) {
-        throw new Error('Student constructor not implemented');
+        if (typeof name !== 'string' || name.trim() === '') {
+            throw new Error('Student name is required');
+        }
+
+        if (typeof studentId !== 'string' || studentId.trim() === '') {
+            throw new Error('Student ID is required');
+        }
+
+        this.name = name;
+        this.studentId = studentId;
+        this.grades = {};
     }
 
     /**
@@ -62,7 +72,18 @@ class Student {
      * - Retorna el número total de calificaciones de esa materia (length del array)
      */
     addGrade(subject, grade) {
-        throw new Error('Method addGrade not implemented');
+        if (typeof subject !== 'string' || subject.trim() === '') {
+            throw new Error('Subject name is required');
+        }
+
+        if (typeof grade !== 'number' || grade < 0 || grade > 100 || isNaN(grade)) {
+            throw new Error('Grade must be a number between 0 and 100');
+        }
+
+        this.grades[subject] = [];
+
+        this.grades[subject].push(grade);
+        return this.grades[subject].length;
     }
 
     /**
@@ -85,7 +106,13 @@ class Student {
      * - Retorna el promedio calculado
      */
     getAverage() {
-        throw new Error('Method getAverage not implemented');
+        // if (Object.keys(this.grades).length === 0) {
+        //     return 0;
+        // }
+        // const allGrades = Object.values(this.grades).flat();
+        // const sum = allGrades.reduce((acc, grade) => acc + grade, 0);
+        // const average = sum / allGrades.length;
+        // return parseFloat(average.toFixed(2));
     }
 
     /**
