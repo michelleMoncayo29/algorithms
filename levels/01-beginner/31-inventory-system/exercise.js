@@ -41,7 +41,26 @@ class Product {
      * - Asigna los valores validados a this.name, this.price, this.quantity, this.category
      */
     constructor(name, price, quantity, category) {
-        throw new Error('Product constructor not implemented');
+        if (typeof name !== 'string' || name.trim() === '') {
+            throw new Error('Product name is required');
+        }
+
+        if (typeof price !== 'number' || price <= 0 || isNaN(price)) {
+            throw new Error('Product price must be greater than 0');
+        }
+
+        if (typeof quantity !== 'number' || quantity < 0) {
+            throw new Error('Product quantity must be greater than or equal to 0');
+        }
+
+        if (typeof category !== 'string' || category.trim() === '') {
+            throw new Error('Product category is required');
+        }
+
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.category = category;
     }
 }
 
@@ -60,9 +79,10 @@ class Inventory {
      * TODO:
      * - Inicializa this.products como un array vacío []
      */
-    constructor() {
-        throw new Error('Inventory constructor not implemented');
-    }
+
+
+    products = [];
+    constructor() {}
 
     /**
      * Agrega un nuevo producto al inventario.
@@ -86,7 +106,13 @@ class Inventory {
      * - Retorna el producto creado
      */
     addProduct(name, price, quantity, category) {
-        throw new Error('Method addProduct not implemented');
+        const existingProduct = this.findProduct(name);
+        if (existingProduct) {
+            throw new Error('Product already exists');
+        }
+        const product = new Product(name, price, quantity, category);
+        this.products.push(product);
+        return product;
     }
 
     /**
@@ -105,7 +131,8 @@ class Inventory {
      * - Retorna el producto encontrado o null si no se encuentra
      */
     findProduct(name) {
-        throw new Error('Method findProduct not implemented');
+        const product = this.products.find(product => product.name === name);
+        return product || null;
     }
 
     /**
@@ -129,7 +156,15 @@ class Inventory {
      * - Retorna el producto actualizado
      */
     sellProduct(name, quantity) {
-        throw new Error('Method sellProduct not implemented');
+        const product = this.findProduct(name);
+        if (!product) {
+            throw new Error('Product not found');
+        }
+        if (product.quantity < quantity) {
+            throw new Error('Insufficient stock');
+        }
+        product.quantity -= quantity;
+        return product;
     }
 
     /**
@@ -153,7 +188,15 @@ class Inventory {
      * - Retorna el producto actualizado
      */
     restockProduct(name, quantity) {
-        throw new Error('Method restockProduct not implemented');
+        const product = this.findProduct(name);
+        if (!product) {
+            throw new Error('Product not found');
+        }
+        if (quantity <= 0) {
+            throw new Error('Quantity must be greater than 0');
+        }
+        product.quantity += quantity;
+        return product;
     }
 
     /**
@@ -172,7 +215,10 @@ class Inventory {
      * - Retorna el valor total calculado
      */
     getTotalValue() {
-        throw new Error('Method getTotalValue not implemented');
+        if (this.products.length === 0) {
+            return 0;
+        }
+        return this.products.reduce((total, product) => total + (product.price * product.quantity), 0);
     }
 
     /**
@@ -191,7 +237,7 @@ class Inventory {
      * - Retorna el nuevo array filtrado
      */
     getLowStockProducts(threshold) {
-        throw new Error('Method getLowStockProducts not implemented');
+        return this.products.filter(product => product.quantity <= threshold);
     }
 
     /**
@@ -210,7 +256,7 @@ class Inventory {
      * - Retorna el nuevo array filtrado
      */
     getProductsByCategory(category) {
-        throw new Error('Method getProductsByCategory not implemented');
+        return this.products.filter(product => product.category === category);
     }
 }
 
