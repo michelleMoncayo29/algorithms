@@ -109,7 +109,9 @@ class TaskManager {
      * - Retorna la tarea creada
      */
     addTask(description, priority = 'medium') {
-        throw new Error('Method addTask not implemented');
+        const newTask = new Task(description, priority);
+        this.tasks.push(newTask);
+        return newTask;
     }
 
     /**
@@ -128,7 +130,7 @@ class TaskManager {
      * - Retorna la tarea encontrada o null si no se encuentra
      */
     findTask(description) {
-        throw new Error('Method findTask not implemented');
+        return this.tasks.find(task => task.description === description) || null;
     }
 
     /**
@@ -145,7 +147,8 @@ class TaskManager {
      * - Retorna el nuevo array filtrado
      */
     getPendingTasks() {
-        throw new Error('Method getPendingTasks not implemented');
+        const pendingTask = this.tasks.filter(task => !task.completed);
+        return pendingTask;
     }
 
     /**
@@ -162,7 +165,8 @@ class TaskManager {
      * - Retorna el nuevo array filtrado
      */
     getCompletedTasks() {
-        throw new Error('Method getCompletedTasks not implemented');
+        const completedTask = this.tasks.filter(task => task.completed);
+        return completedTask;
     }
 
     /**
@@ -180,7 +184,8 @@ class TaskManager {
      * - Retorna el nuevo array filtrado
      */
     getTasksByPriority(priority) {
-        throw new Error('Method getTasksByPriority not implemented');
+        const priorityTask = this.tasks.filter(task => task.priority === priority);
+        return priorityTask;
     }
 
     /**
@@ -197,7 +202,8 @@ class TaskManager {
      * - Retorna el nuevo array de strings
      */
     getTaskDescriptions() {
-        throw new Error('Method getTaskDescriptions not implemented');
+        const descriptions = this.tasks.map(task => task.description);
+        return descriptions;
     }
 
     /**
@@ -216,7 +222,12 @@ class TaskManager {
      * - Retorna true si se completó, false si no se encontró o ya estaba completada
      */
     completeTask(description) {
-        throw new Error('Method completeTask not implemented');
+        const task = this.findTask(description);
+        if (task && !task.completed) {
+            task.toggleComplete();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -237,7 +248,16 @@ class TaskManager {
      * - Retorna el porcentaje calculado
      */
     getCompletionPercentage() {
-        throw new Error('Method getCompletionPercentage not implemented');
+        const reduceTask = this.tasks.reduce((count, task) => {
+            return task.completed ? count + 1 : count;
+        }, 0);
+
+        if (this.tasks.length === 0) {
+            return 0;
+        }
+
+        const percentage = (reduceTask / this.tasks.length) * 100;
+        return parseFloat(percentage.toFixed(2));
     }
 
     /**
@@ -255,7 +275,8 @@ class TaskManager {
      * - Retorna el conteo total
      */
     getTaskCount() {
-        throw new Error('Method getTaskCount not implemented');
+        const totalTasks = this.tasks.reduce((count) => count + 1, 0);
+        return totalTasks;
     }
 
     /**
@@ -274,7 +295,11 @@ class TaskManager {
      * - Retorna el objeto con los conteos finales
      */
     getPriorityCounts() {
-        throw new Error('Method getPriorityCounts not implemented');
+        const counts = this.tasks.reduce((acc, task) => {
+            acc[task.priority]++;
+            return acc;
+        }, { low: 0, medium: 0, high: 0 });
+        return counts;
     }
 }
 
