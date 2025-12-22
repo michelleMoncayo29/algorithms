@@ -12,6 +12,8 @@
  * - Uso de métodos de arrays y objetos: reduce, Object.keys, etc.
  */
 
+const { types } = require("@babel/core");
+
 /**
  * Representa un estudiante con sus calificaciones en múltiples materias.
  * Traducción: Estudiante
@@ -80,9 +82,16 @@ class Student {
             throw new Error('Grade must be a number between 0 and 100');
         }
 
-        this.grades[subject] = [];
+      
+        // Si la materia no existe, crea un array vacío para esa materia
+        if (!this.grades[subject]) {
+            this.grades[subject] = [];
+        }
 
+        // Agrega la calificación al array de esa materia
         this.grades[subject].push(grade);
+
+        // Retorna el número total de calificaciones de esa materia
         return this.grades[subject].length;
     }
 
@@ -106,13 +115,14 @@ class Student {
      * - Retorna el promedio calculado
      */
     getAverage() {
-        // if (Object.keys(this.grades).length === 0) {
-        //     return 0;
-        // }
-        // const allGrades = Object.values(this.grades).flat();
-        // const sum = allGrades.reduce((acc, grade) => acc + grade, 0);
-        // const average = sum / allGrades.length;
-        // return parseFloat(average.toFixed(2));
+        const allGradesArrays = Object.values(this.grades);
+        const allGrades = allGradesArrays.flat();
+        const sum = allGrades.reduce((acc, grade) => acc + grade, 0);
+        if (allGrades.length === 0) {
+            return 0;
+        }
+        const average = sum / allGrades.length;
+        return parseFloat(average.toFixed(2));
     }
 
     /**
@@ -135,7 +145,18 @@ class Student {
      * - Retorna el promedio calculado
      */
     getAverageBySubject(subject) {
-        throw new Error('Method getAverageBySubject not implemented');
+        if (!this.grades[subject] || this.grades[subject].length === 0) {
+            return 0;
+        }
+
+        const sum = this.grades[subject].reduce((acc, grade) => acc + grade, 0);
+        if (this.grades[subject].length === 0) {
+            return 0;
+        }
+
+        console.log(subject, '✅☝☝');
+        const average = sum / this.grades[subject].length;
+        return parseFloat(average.toFixed(2));
     }
 
     /**
@@ -155,7 +176,10 @@ class Student {
      * - No debe mutar el array original
      */
     getGradesBySubject(subject) {
-        throw new Error('Method getGradesBySubject not implemented');
+        if (!this.grades[subject] || this.grades[subject].length === 0) {
+            return [];
+        }
+        return [...this.grades[subject]];
     }
 
     /**
@@ -175,7 +199,15 @@ class Student {
      * - Retorna true si promedio >= minGrade, false en caso contrario
      */
     hasPassed(minGrade = 70) {
-        throw new Error('Method hasPassed not implemented');
+        this.getAverage();
+        if (this.getAverage() >= minGrade) {
+            return true;
+        }
+        // Calcula el promedio general
+        const average = this.getAverage();
+
+        // Retorna true si el promedio es mayor o igual a minGrade
+        return average >= minGrade;
     }
 
     /**
@@ -197,7 +229,27 @@ class Student {
      * - Retorna el nombre de la mejor materia
      */
     getBestSubject() {
-        throw new Error('Method getBestSubject not implemented');
+        const materials = Object.keys(this.grades)
+
+        if (materials.length === 0) return null;
+
+        // Inicializa la mejor materia y su promedio
+        let bestSubject = materials[0];
+        let bestAverage = this.getAverageBySubject(bestSubject);
+
+        // Itera sobre las demás materias para encontrar la mejor
+        for (let i = 1; i < materials.length; i++) {
+            const subject = materials[i];
+            const average = this.getAverageBySubject(subject);
+            
+            // Si esta materia tiene un promedio mayor, actualiza la mejor
+            if (average > bestAverage) {
+                bestSubject = subject;
+                bestAverage = average;
+            }
+        }
+
+        return bestSubject;
     }
 
     /**
@@ -214,7 +266,8 @@ class Student {
      * - Retorna el número de materias (length del array)
      */
     getSubjectCount() {
-        throw new Error('Method getSubjectCount not implemented');
+      const materials = Object.keys(this.grades);
+      return materials.length;
     }
 }
 
@@ -222,3 +275,10 @@ module.exports = {
     Student
 };
 
+const student = new Student('Alice', 'S12345');
+student.addGrade('Math', 85);
+student.addGrade('Math', 90);
+student.addGrade('Math', 88);
+student.getAverageBySubject([32,45,66]);
+
+console.log(student);

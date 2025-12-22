@@ -39,7 +39,21 @@ class Room {
      * - Asigna los valores validados a this.name, this.capacity, this.pricePerHour
      */
     constructor(name, capacity, pricePerHour) {
-        throw new Error('Room constructor not implemented');
+        if(typeof name !== 'string' || name.trim().length === 0) {    
+            throw new Error('Room name is required');
+        }
+
+        if(typeof capacity !== 'number' || capacity <= 0 || isNaN(capacity)) {
+            throw new Error('Room capacity must be greater than 0');
+        }
+
+        if(typeof pricePerHour !== 'number' || pricePerHour <= 0 || isNaN(pricePerHour)) {
+            throw new Error('Room price per hour must be greater than 0');
+        }
+
+        this.name = name;
+        this.capacity = capacity;
+        this.pricePerHour = pricePerHour;
     }
 }
 
@@ -59,9 +73,11 @@ class BookingSystem {
      * - Inicializa this.rooms como un array vacío []
      * - Inicializa this.bookings como un array vacío []
      */
-    constructor() {
-        throw new Error('BookingSystem constructor not implemented');
-    }
+
+    rooms = [];
+    bookings = [];
+
+    constructor() {}
 
     /**
      * Agrega una nueva sala al sistema.
@@ -83,7 +99,14 @@ class BookingSystem {
      * - Retorna la sala creada
      */
     addRoom(name, capacity, pricePerHour) {
-        throw new Error('Method addRoom not implemented');
+        if (this.findRoom(name)) {
+            throw new Error('Room already exists');
+        }
+        const newRoom = new Room(name, capacity, pricePerHour);
+        this.rooms.push(newRoom);
+
+        // retorna la instacia del Objeto.
+        return newRoom;
     }
 
     /**
@@ -101,7 +124,9 @@ class BookingSystem {
      * - Retorna la sala encontrada o null si no se encuentra
      */
     findRoom(name) {
-        throw new Error('Method findRoom not implemented');
+        const normalize = name.toLocaleLowerCase();
+        const roomFound = this.rooms.find(room => room.name.toLocaleLowerCase() === normalize);
+        return roomFound || null;
     }
 
     /**
@@ -135,7 +160,25 @@ class BookingSystem {
      * - Retorna el objeto de reserva creado
      */
     bookRoom(roomName, startTime, duration) {
-        throw new Error('Method bookRoom not implemented');
+        if (this.findRoom(roomName)) { 
+            throw new Error('Room not found');
+        }
+
+        if (typeof startTime !== 'number' || startTime < 0 || startTime > 23 || isNaN(startTime)) {
+            throw new Error('Start time must be between 0 and 23');
+        }
+
+        if (typeof duration !== 'number' || duration <= 0 || isNaN(duration)) {
+            throw new Error('Duration must be greater than 0');
+        }
+
+        const endTime = startTime + duration;
+
+        if (endTime > 24) {
+            throw new Error('Booking extends beyond 24 hours');
+        }
+
+        this.bookings
     }
 
     /**
@@ -158,7 +201,11 @@ class BookingSystem {
      * - Retorna el nuevo array filtrado
      */
     getAvailableRooms(startTime, duration) {
-        throw new Error('Method getAvailableRooms not implemented');
+        const endTime = startTime + duration;
+
+        const filterRooms = this.rooms.filter(room => {
+
+        });
     }
 
     /**
@@ -179,7 +226,12 @@ class BookingSystem {
      * - Retorna true si se canceló correctamente
      */
     cancelBooking(roomName, startTime) {
-        throw new Error('Method cancelBooking not implemented');
+        const bookingIndex = this.bookings.findIndex(booking => booking.roomName === roomName && booking.startTime === startTime);
+        if (bookingIndex === -1) {
+            throw new Error('Booking not found');
+        }
+        this.bookings.splice(bookingIndex, 1);
+        return true;
     }
 
     /**
@@ -201,7 +253,18 @@ class BookingSystem {
      * - Retorna el total de ingresos
      */
     getRoomRevenue(roomName) {
-        throw new Error('Method getRoomRevenue not implemented');
+        if (this.findRoom(roomName)) {
+         throw new Error('Room not found');    
+        }
+
+        const filterRooms = this.bookings.filter(booking => booking.roomName === roomName);
+
+        const totalRevenue = filterRooms.reduce((accumulator, booking) => {
+            const room = this.findRoom(booking.roomName);
+            return accumulator + (room.pricePerHour * booking.duration);
+        }, 0);
+
+        return totalRevenue;
     }
 
     /**
@@ -221,7 +284,10 @@ class BookingSystem {
      * - Si no hay reservas, retorna 0
      */
     getTotalRevenue() {
-        throw new Error('Method getTotalRevenue not implemented');
+        return this.bookings.reduce((accumulator, booking) => {
+            const room = this.findRoom(booking.roomName);
+            return accumulator + (room.pricePerHour * booking.duration);
+        }, 0);
     }
 
     /**
@@ -240,7 +306,8 @@ class BookingSystem {
      * - Retorna el nuevo array filtrado
      */
     getBookingsByRoom(roomName) {
-        throw new Error('Method getBookingsByRoom not implemented');
+        const filterBookings = this.bookings.filter(booking => booking.roomName === roomName);
+        return filterBookings;
     }
 }
 
