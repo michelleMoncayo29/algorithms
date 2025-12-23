@@ -38,7 +38,17 @@ class Menu {
      * - Asigna los valores validados a this.name y this.description
      */
     constructor(name, description) {
-        throw new Error('Menu constructor not implemented');
+        if(typeof name !== 'string' || name.trim().length === 0) {
+            throw new Error('Menu name is required');
+        }
+
+        if(typeof description !== 'string' || description.trim().length === 0) {
+            throw new Error('Menu description is required');
+        }
+
+        this.dishes = [];
+        this.name = name;
+        this.description = description;
     }
 
     /**
@@ -69,7 +79,32 @@ class Menu {
      * - Retorna el plato agregado
      */
     addDish(dish) {
-        throw new Error('Method addDish not implemented');
+        if(typeof dish !== 'object' || dish === null) {
+            throw new Error('Dish must be an object');
+        }
+
+        if(typeof dish.name !== 'string' || dish.name.trim().length === 0) {
+            throw new Error('Dish name is required');
+        }
+
+        if(typeof dish.price !== 'number' || dish.price <= 0 || isNaN(dish.price)) {
+            throw new Error('Dish price must be greater than 0');
+        }
+
+        if(typeof dish.category !== 'string' || dish.category.trim().length === 0) {
+            throw new Error('Dish category is required');
+        }
+
+        if(typeof dish.stock !== 'number' || dish.stock < 0 || isNaN(dish.stock)) {
+            throw new Error('Dish stock must be greater than or equal to 0');
+        }
+
+        if (this.findDish(dish.name)) {
+            throw new Error('Dish already exists');
+        }
+
+        this.dishes.push(dish);
+        return dish;
     }
 
     /**
@@ -87,7 +122,8 @@ class Menu {
      * - Retorna el plato encontrado o null si no se encuentra
      */
     findDish(dishName) {
-        throw new Error('Method findDish not implemented');
+        const dish = this.dishes.find(dish => dish.name === dishName);
+        return dish || null;
     }
 
     /**
@@ -108,7 +144,14 @@ class Menu {
      * - Retorna true si se eliminó correctamente
      */
     removeDish(dishName) {
-        throw new Error('Method removeDish not implemented');
+        const dish = this.findDish(dishName);
+        if (!dish) {
+            throw new Error('Dish not found');
+        }
+
+        const index = this.dishes.findIndex(d => d.name === dishName);
+        this.dishes.splice(index, 1);
+        return true;
     }
 
     /**
@@ -126,7 +169,8 @@ class Menu {
      * - Retorna el nuevo array filtrado
      */
     getAvailableDishes() {
-        throw new Error('Method getAvailableDishes not implemented');
+      const availableDishes = this.dishes.filter(dish => dish.stock > 0);
+      return availableDishes;
     }
 
     /**
@@ -145,7 +189,8 @@ class Menu {
      * - Retorna el nuevo array filtrado
      */
     getDishesByCategory(category) {
-        throw new Error('Method getDishesByCategory not implemented');
+        const categoryDishes = this.dishes.filter(dish => dish.category === category);
+        return categoryDishes;
     }
 }
 
@@ -175,7 +220,16 @@ class Order {
      * - Asigna los valores validados a this.tableNumber y this.waiterName
      */
     constructor(tableNumber, waiterName) {
-        throw new Error('Order constructor not implemented');
+        this.items = [];
+        this.completed = false;
+        if(typeof tableNumber !== 'number' || tableNumber <= 0 || isNaN(tableNumber)) {
+            throw new Error('Table number must be greater than 0');
+        }
+        if(typeof waiterName !== 'string' || waiterName.trim().length === 0) {  
+            throw new Error('Waiter name is required');
+        }
+        this.tableNumber = tableNumber;
+        this.waiterName = waiterName;
     }
 
     /**
@@ -205,7 +259,26 @@ class Order {
      * - Retorna true si se agregó correctamente
      */
     addItem(menu, dishName, quantity) {
-        throw new Error('Method addItem not implemented');
+        if (!(menu instanceof Menu)) {
+            throw new Error('Menu must be an instance of Menu');
+        }
+        const dish = menu.findDish(dishName);
+        if (!dish) {
+            throw new Error('Dish not found in menu');
+        }
+        if (typeof quantity !== 'number' || quantity <= 0 || isNaN(quantity)) {
+            throw new Error('Quantity must be greater than 0');
+        }
+        if (dish.stock >= quantity) {
+            throw new Error('Insufficient stock');
+        }
+        const existingItem = this.items.find(item => item.dishName === dishName);
+        if (existingItem) {
+            existingItem.quantity += quantity;
+        } else {
+            this.items.push({ dishName, quantity, price: dish.price });
+        }
+        return true;
     }
 
     /**
@@ -224,7 +297,15 @@ class Order {
      * - Retorna true si se eliminó correctamente
      */
     removeItem(dishName) {
-        throw new Error('Method removeItem not implemented');
+        const elimined = this.items.findIndex(item => item.dishName === dishName);
+
+        // Si no se encuentra, retorna false
+        if (elimined === -1) {
+            return false;
+        }
+
+        this.items.splice(elimined, 1);
+        return true;
     }
 
     /**
@@ -243,7 +324,10 @@ class Order {
      * - Si no hay items, retorna 0
      */
     calculateSubtotal() {
-        throw new Error('Method calculateSubtotal not implemented');
+        const subtotal = this.items.reduce((acc, item) => {
+            return acc + (item.price * item.quantity);
+        }, 0);
+        return subtotal;
     }
 
     /**
@@ -260,7 +344,9 @@ class Order {
      * - Retorna el monto de impuestos
      */
     calculateTaxes() {
-        throw new Error('Method calculateTaxes not implemented');
+        const subtotal = this.calculateSubtotal();
+        const taxes = subtotal * 0.08;
+        return taxes;
     }
 
     /**
@@ -278,7 +364,10 @@ class Order {
      * - Retorna el total
      */
     calculateTotal() {
-        throw new Error('Method calculateTotal not implemented');
+        const subtotal = this.calculateSubtotal();
+        const taxes = this.calculateTaxes();
+        const total = subtotal + taxes;
+        return total;
     }
 
     /**
@@ -294,7 +383,7 @@ class Order {
      * - Retorna true
      */
     markAsCompleted() {
-        throw new Error('Method markAsCompleted not implemented');
+        return this.completed = true;
     }
 }
 
@@ -321,7 +410,12 @@ class Restaurant {
      * - Asigna el nombre validado a this.name
      */
     constructor(name) {
-        throw new Error('Restaurant constructor not implemented');
+        this.menus = [];
+        this.orders = [];
+        if(typeof name !== 'string' || name.trim().length === 0) {
+            throw new Error('Restaurant name is required');
+        }
+        this.name = name;
     }
 
     /**
@@ -340,7 +434,11 @@ class Restaurant {
      * - Retorna el menú agregado
      */
     addMenu(menu) {
-        throw new Error('Method addMenu not implemented');
+        if(!(menu instanceof Menu)) {
+            throw new Error('Menu must be an instance of Menu');
+        }
+        this.menus.push(menu);
+        return menu;
     }
 
     /**
@@ -359,7 +457,12 @@ class Restaurant {
      * - Retorna la orden creada
      */
     createOrder(tableNumber, waiterName) {
-        throw new Error('Method createOrder not implemented');
+        // Crea una nueva instancia de Order
+        const order = new Order(tableNumber, waiterName);
+
+        this.orders.push(order);
+
+        return order;
     }
 
     /**
@@ -377,7 +480,11 @@ class Restaurant {
      * - Retorna la orden en el índice especificado
      */
     getOrder(orderIndex) {
-        throw new Error('Method getOrder not implemented');
+        if (typeof orderIndex !== 'number' || orderIndex >= this.orders.length || isNaN(orderIndex)) {
+            return null;
+        }
+
+        return this.orders[orderIndex];
     }
 
     /**
@@ -395,7 +502,8 @@ class Restaurant {
      * - Retorna el nuevo array filtrado
      */
     getActiveOrders() {
-        throw new Error('Method getActiveOrders not implemented');
+        const filter = this.orders.filter(order => order.completed === false);
+        return filter;
     }
 
     /**
@@ -415,7 +523,11 @@ class Restaurant {
      * - Si no hay órdenes completadas, retorna 0
      */
     getRevenue() {
-        throw new Error('Method getRevenue not implemented');
+        const completedOrders = this.orders.filter(order => order.completed === true);
+        const revenue = completedOrders.reduce((acc, order) => {
+            return acc + order.calculateTotal();
+        }, 0);
+        return revenue;
     }
 }
 
@@ -425,3 +537,6 @@ module.exports = {
     Restaurant
 };
 
+const menu1 = new Menu('Desayunos', 'Deliciosos desayunos para empezar el día');
+menu1.addDish({ name: 'Pancakes', price: 5.99, category: 'Dulce', stock: 10 });
+menu1.addDish({ name: 'Omelette', price: 6.99, category: 'Salado', stock: 5 });
