@@ -102,6 +102,7 @@ class BookingSystem {
         if (this.findRoom(name)) {
             throw new Error('Room already exists');
         }
+
         const newRoom = new Room(name, capacity, pricePerHour);
         this.rooms.push(newRoom);
 
@@ -124,9 +125,8 @@ class BookingSystem {
      * - Retorna la sala encontrada o null si no se encuentra
      */
     findRoom(name) {
-        const normalize = name.toLocaleLowerCase();
-        const roomFound = this.rooms.find(room => room.name.toLocaleLowerCase() === normalize);
-        return roomFound || null;
+        const room = this.rooms.find(room => room.name === name);
+        return room || null;
     }
 
     /**
@@ -204,8 +204,16 @@ class BookingSystem {
         const endTime = startTime + duration;
 
         const filterRooms = this.rooms.filter(room => {
+            const hasOverlap = this.bookings.some(booking => {
+                return booking.roomName === room.name &&
+                       (startTime < booking.endTime) &&
+                       (endTime > booking.startTime);
+            });
 
+            return !hasOverlap;
         });
+
+        return filterRooms;
     }
 
     /**
