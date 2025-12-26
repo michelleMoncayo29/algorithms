@@ -383,7 +383,8 @@ class Order {
      * - Retorna true
      */
     markAsCompleted() {
-        return this.completed = true;
+        this.completed = true;
+        return true;
     }
 }
 
@@ -480,7 +481,7 @@ class Restaurant {
      * - Retorna la orden en el índice especificado
      */
     getOrder(orderIndex) {
-        if (typeof orderIndex !== 'number' || orderIndex >= this.orders.length || isNaN(orderIndex)) {
+        if (typeof orderIndex !== 'number' || orderIndex < 0 || orderIndex >= this.orders.length) {
             return null;
         }
 
@@ -523,11 +524,18 @@ class Restaurant {
      * - Si no hay órdenes completadas, retorna 0
      */
     getRevenue() {
-        const completedOrders = this.orders.filter(order => order.completed === true);
-        const revenue = completedOrders.reduce((acc, order) => {
-            return acc + order.calculateTotal();
+        // Filtra las órdenes completadas
+        const completedOrders = this.orders.filter(order => order.completed);
+
+        // Si no hay órdenes completadas, retorna 0
+        if (completedOrders.length === 0) {
+            return 0;
+        }
+
+        // Usa reduce() para calcular el total de ingresos
+        return completedOrders.reduce((total, order) => {
+            return total + order.calculateTotal();
         }, 0);
-        return revenue;
     }
 }
 
