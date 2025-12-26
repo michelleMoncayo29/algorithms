@@ -173,8 +173,7 @@ class Screening {
             throw new Error("Cinema must be an instance of Cinema");
         }
 
-        const capacity = this.getRoomCapacity(cinema);
-        // const capacity = cinema.getRoomCapacity(this.room);
+        const capacity = cinema.getRoomCapacity(this.room);
         const availableSeats = capacity - this.ticketsSold;
         return availableSeats < 0 ? 0 : availableSeats;
     }
@@ -445,13 +444,20 @@ class Cinema {
             throw new Error("Date must be a Date object");
         }
 
-        const filter = this.screenings.filter(screening => {
-            return screening.startTime.getFullYear() === date.getFullYear() &&
-                   screening.startTime.getMonth() === date.getMonth() &&
-                   screening.startTime.getDate() === date.getDate();
-        });
+        // Normaliza la fecha de búsqueda usando UTC para evitar problemas de zona horaria
+        const searchYear = date.getUTCFullYear();
+        const searchMonth = date.getUTCMonth();
+        const searchDate = date.getUTCDate();
 
-        return filter;
+        // Usa filter() para obtener proyecciones del día especificado
+        return this.screenings.filter(screening => {
+            const screeningDate = screening.startTime;
+            return (
+                screeningDate.getUTCFullYear() === searchYear &&
+                screeningDate.getUTCMonth() === searchMonth &&
+                screeningDate.getUTCDate() === searchDate
+            );
+        });
     }
 
     /**
