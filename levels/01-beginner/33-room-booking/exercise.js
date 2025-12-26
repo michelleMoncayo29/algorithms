@@ -160,25 +160,57 @@ class BookingSystem {
      * - Retorna el objeto de reserva creado
      */
     bookRoom(roomName, startTime, duration) {
-        if (this.findRoom(roomName)) { 
+       // Busca la sala por nombre
+        const room = this.findRoom(roomName);
+        
+        // Valida que la sala exista
+        if (room === null) {
             throw new Error('Room not found');
         }
 
-        if (typeof startTime !== 'number' || startTime < 0 || startTime > 23 || isNaN(startTime)) {
+        // Valida que startTime esté entre 0 y 23
+        if (typeof startTime !== 'number' || startTime < 0 || startTime > 23) {
             throw new Error('Start time must be between 0 and 23');
         }
 
-        if (typeof duration !== 'number' || duration <= 0 || isNaN(duration)) {
+        // Valida que duration sea mayor que 0
+        if (typeof duration !== 'number' || duration <= 0) {
             throw new Error('Duration must be greater than 0');
         }
 
+        // Calcula endTime
         const endTime = startTime + duration;
 
+        // Valida que la reserva no se extienda más allá de 24 horas
         if (endTime > 24) {
             throw new Error('Booking extends beyond 24 hours');
         }
 
-        this.bookings
+        // Valida que no haya solapamientos
+        // Dos reservas se solapan si: (startTime < existingEndTime) && (endTime > existingStartTime)
+        const hasOverlap = this.bookings.some(booking => 
+            booking.roomName === roomName &&
+            startTime < booking.endTime &&
+            endTime > booking.startTime
+        );
+
+        if (hasOverlap) {
+            throw new Error('Room is already booked at this time');
+        }
+
+        // Crea el objeto de reserva
+        const booking = {
+            roomName,
+            startTime,
+            duration,
+            endTime
+        };
+
+        // Agrega la reserva al array
+        this.bookings.push(booking);
+
+        // Retorna el objeto de reserva creado
+        return booking;
     }
 
     /**
