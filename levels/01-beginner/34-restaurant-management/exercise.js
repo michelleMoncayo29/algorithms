@@ -269,7 +269,7 @@ class Order {
         if (typeof quantity !== 'number' || quantity <= 0 || isNaN(quantity)) {
             throw new Error('Quantity must be greater than 0');
         }
-        if (dish.stock >= quantity) {
+        if (dish.stock < quantity) {
             throw new Error('Insufficient stock');
         }
         const existingItem = this.items.find(item => item.dishName === dishName);
