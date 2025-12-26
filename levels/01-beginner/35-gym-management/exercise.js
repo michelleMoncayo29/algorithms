@@ -47,7 +47,25 @@ class Member {
      * - Asigna los valores validados a las propiedades correspondientes
      */
     constructor(id, name, email, membershipType, startDate) {
-        throw new Error('Member constructor not implemented');
+        if (typeof id !== 'string' || id.trim() === '') throw new Error('Member ID is required');
+        if (typeof name !== 'string' || name.trim() === '') throw new Error('Member name is required');
+        if (typeof email !== 'string' || email.trim() === '') throw new Error('Member email is required');
+        // ... resto del código
+
+        if (!['basic', 'premium', 'vip'].includes(membershipType)) {
+            throw new Error("Membership type must be 'basic', 'premium', or 'vip'");
+        }
+
+        if (!(startDate instanceof Date)) {
+            throw new Error("Start date must be a Date object");
+        }
+
+        this.checkIns = [];
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.membershipType = membershipType;
+        this.startDate = startDate;
     }
 
     /**
@@ -65,7 +83,10 @@ class Member {
      * - Retorna la fecha de la entrada registrada
      */
     checkIn() {
-        throw new Error('Method checkIn not implemented');
+        const checkInDate = new Date();
+        const checkInRecord = { date: checkInDate };
+        this.checkIns.push(checkInRecord);
+        return checkInDate;
     }
 
     /**
@@ -82,7 +103,7 @@ class Member {
      * - Esto asegura que no se modifique el array original
      */
     getCheckInHistory() {
-        throw new Error('Method getCheckInHistory not implemented');
+        return [...this.checkIns];
     }
 
     /**
@@ -97,7 +118,7 @@ class Member {
      * - Retorna this.checkIns.length
      */
     getTotalVisits() {
-        throw new Error('Method getTotalVisits not implemented');
+        return this.checkIns.length;
     }
 
     /**
@@ -116,7 +137,16 @@ class Member {
      * - Retorna el valor correspondiente
      */
     getMembershipFee() {
-        throw new Error('Method getMembershipFee not implemented');
+        switch (this.membershipType) {
+            case 'basic':
+                return 30;
+            case 'premium':
+                return 50;
+            case 'vip':
+                return 80;
+            default:
+                return 0; // Esto no debería ocurrir debido a la validación en el constructor
+        }
     }
 
     /**
@@ -135,7 +165,9 @@ class Member {
      * - Retorna true si la fecha actual es anterior a la fecha de vencimiento
      */
     isMembershipActive() {
-        throw new Error('Method isMembershipActive not implemented');
+        const expiryDate = this.getMembershipExpiryDate();
+        // Es más simple comparar directamente los objetos Date
+        return new Date() < expiryDate;
     }
 
     /**
@@ -157,7 +189,15 @@ class Member {
      * - Retorna la nueva fecha de inicio
      */
     renewMembership(months) {
-        throw new Error('Method renewMembership not implemented');
+        if(typeof months !== 'number' || months <= 0) {
+            throw new Error('Months must be greater than 0');
+        }
+
+        // se creo la nueva fecha sumando los meses
+        const newStartDate = new Date(this.startDate);
+        newStartDate.setMonth(newStartDate.getMonth() + months);
+        this.startDate = newStartDate;
+        return this.startDate;
     }
 
     /**
@@ -175,7 +215,9 @@ class Member {
      * - Retorna el número de días
      */
     getDaysSinceJoined() {
-        throw new Error('Method getDaysSinceJoined not implemented');
+        const millisecondsPerDay = new Date() - this.startDate;
+        const diferences = millisecondsPerDay / (1000 * 60 * 60 * 24);
+        return Math.floor(diferences);
     }
 
     /**
@@ -192,7 +234,9 @@ class Member {
      * - Retorna la fecha de vencimiento
      */
     getMembershipExpiryDate() {
-        throw new Error('Method getMembershipExpiryDate not implemented');
+        const newDate = new Date(this.startDate);
+        newDate.setMonth(newDate.getMonth() + 12);
+        return newDate;
     }
 }
 
@@ -221,7 +265,17 @@ class Gym {
      * - Asigna los valores validados a this.name y this.address
      */
     constructor(name, address) {
-        throw new Error('Gym constructor not implemented');
+        if (typeof name !== 'string' || name.trim() === '') {
+            throw new Error('Gym name is required');
+        }
+
+        if (address.trim() === '' || typeof address !== 'string') {
+            throw new Error('Gym address is required');
+        }
+
+        this.members = [];
+        this.name = name;
+        this.address = address;
     }
 
     /**
@@ -243,7 +297,17 @@ class Gym {
      * - Retorna el miembro agregado
      */
     registerMember(member) {
-        throw new Error('Method registerMember not implemented');
+        if(!(member instanceof Member)) {
+            throw new Error('Member must be an instance of Member');
+        }
+
+        const existingMember = this.findMember(member.id);
+        if(existingMember) {
+            throw new Error('Member already registered');
+        }
+
+        this.members.push(member);
+        return member;
     }
 
     /**
@@ -260,7 +324,8 @@ class Gym {
      * - Retorna el miembro encontrado o null si no se encuentra
      */
     findMember(memberId) {
-        throw new Error('Method findMember not implemented');
+        const item = this.members.find(member => member.id === memberId);
+        return item || null;
     }
 
     /**
@@ -280,7 +345,13 @@ class Gym {
      * - Retorna true si se eliminó correctamente
      */
     removeMember(memberId) {
-        throw new Error('Method removeMember not implemented');
+        if(!this.findMember(memberId)) {
+            return false;
+        }
+
+        const index = this.members.findIndex(member => member.id === memberId);
+        this.members.splice(index, 1);
+        return true;
     }
 
     /**
@@ -299,7 +370,8 @@ class Gym {
      * - Retorna el nuevo array filtrado
      */
     getMembersByType(membershipType) {
-        throw new Error('Method getMembersByType not implemented');
+        const filteredMembers = this.members.filter(member => member.membershipType === membershipType);
+        return filteredMembers;
     }
 
     /**
@@ -317,7 +389,8 @@ class Gym {
      * - Retorna el nuevo array filtrado
      */
     getActiveMembers() {
-        throw new Error('Method getActiveMembers not implemented');
+        const filter = this.members.filter(member => member.isMembershipActive());
+        return filter;
     }
 
     /**
@@ -337,7 +410,12 @@ class Gym {
      * - Retorna el nuevo array filtrado
      */
     getMembersNeedingRenewal() {
-        throw new Error('Method getMembersNeedingRenewal not implemented');
+        const filter = this.members.filter(member => {
+            const expiryDate = member.getMembershipExpiryDate();
+            const daysToExpiry = (expiryDate - new Date()) / (1000 * 60 * 60 * 24);
+            return daysToExpiry <= 30 && daysToExpiry > 0;
+        });
+        return filter;
     }
 
     /**
@@ -360,9 +438,20 @@ class Gym {
      * - Retorna un array plano con todas las entradas del día
      */
     getDailyAttendance(date) {
-        throw new Error('Method getDailyAttendance not implemented');
-    }
+        if(!(date instanceof Date)) {
+            throw new Error('Date must be a Date object');
+        }
 
+        // Usamos flatMap para obtener todos los check-ins y "aplanar" el array al mismo tiempo
+        return this.members.flatMap(member => 
+        member.getCheckInHistory().filter(entry => {
+            const d = entry.date;
+            return d.getDate() === date.getDate() &&
+                   d.getMonth() === date.getMonth() &&
+                   d.getFullYear() === date.getFullYear();
+            })
+        );
+    }
     /**
      * Calcula los ingresos totales del gimnasio usando reduce().
      * Traducción: Obtener Ingresos Totales
@@ -379,7 +468,10 @@ class Gym {
      * - Si no hay miembros, retorna 0
      */
     getTotalRevenue() {
-        throw new Error('Method getTotalRevenue not implemented');
+        const total = this.members.reduce((acc, member) => {
+            return acc + member.getMembershipFee();
+        }, 0);
+        return total;
     }
 
     /**
@@ -398,7 +490,16 @@ class Gym {
      * - Retorna el promedio con 2 decimales usando toFixed(2) y parseFloat()
      */
     getAverageVisitsPerMember() {
-        throw new Error('Method getAverageVisitsPerMember not implemented');
+        if(this.members.length === 0) {
+            return 0;
+        }
+
+        const totalVisits = this.members.reduce((acc, member) => {
+            return acc + member.getTotalVisits();
+        }, 0);
+
+        const average = totalVisits / this.members.length;
+        return parseFloat(average.toFixed(2));
     }
 
     /**
@@ -424,7 +525,18 @@ class Gym {
      * - Retorna el objeto con todas las estadísticas
      */
     getGymStatistics() {
-        throw new Error('Method getGymStatistics not implemented');
+        const stadict = {
+            totalMembers: this.members.length,
+            activeMembers: this.getActiveMembers().length,
+            membersByType: this.members.reduce((acc, member) => {
+                acc[member.membershipType] = (acc[member.membershipType] || 0) + 1;
+                return acc;
+            }, {}),
+            totalRevenue: this.getTotalRevenue(),
+            averageVisits: this.getAverageVisitsPerMember()
+        }
+
+        return stadict;
     }
 }
 
