@@ -40,7 +40,21 @@ class Room {
      * - Asigna los valores validados a las propiedades correspondientes
      */
     constructor(number, type, pricePerNight) {
-        throw new Error('Room constructor not implemented');
+        if (typeof number === 'string' || number <= 0 || isNaN(number)) {
+            throw new Error('Room number must be greater than 0');
+        }
+
+        if (typeof type !== 'string' || type.trim().length === 0) {
+            throw new Error('Room type is required');
+        }
+
+        if (typeof pricePerNight !== 'number' || pricePerNight <= 0 || isNaN(pricePerNight)) {
+            throw new Error('Room price per night must be greater than 0');
+        }
+
+        this.number = number;
+        this.type = type;
+        this.pricePerNight = pricePerNight;
     }
 
     /**
@@ -53,7 +67,7 @@ class Room {
      * - Retorna this.type
      */
     getType() {
-        throw new Error('Method getType not implemented');
+        return this.type;
     }
 
     /**
@@ -66,7 +80,7 @@ class Room {
      * - Retorna this.pricePerNight
      */
     getPricePerNight() {
-        throw new Error('Method getPricePerNight not implemented');
+        return this.pricePerNight;
     }
 }
 
@@ -102,7 +116,31 @@ class Reservation {
      * - Asigna los valores validados a las propiedades correspondientes
      */
     constructor(roomNumber, guestName, checkIn, checkOut) {
-        throw new Error('Reservation constructor not implemented');
+        if(typeof roomNumber !== 'number' || roomNumber <= 0 || isNaN(roomNumber)) {
+            throw new Error('Room number must be greater than 0');
+        }
+
+        if (typeof guestName !== 'string' || guestName.trim().length === 0) {
+            throw new Error('Guest name is required');
+        }
+
+        if(!(checkIn instanceof Date)) {
+            throw new Error('Check-in date must be a Date object');
+        }
+
+        if(!(checkOut instanceof Date)) {
+            throw new Error('Check-out date must be a Date object');
+        }
+
+        // puede dar error
+        if (checkOut <= checkIn) {
+            throw new Error('Check-out date must be after check-in date');
+        }
+
+        this.roomNumber = roomNumber;
+        this.guestName = guestName;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
     }
 
     /**
@@ -120,7 +158,9 @@ class Reservation {
      * - Retorna el número de noches
      */
     getDuration() {
-        throw new Error('Method getDuration not implemented');
+        const diffInMs = this.checkOut - this.checkIn;
+        const nights = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+        return nights;
     }
 
     /**
@@ -133,7 +173,7 @@ class Reservation {
      * - Retorna this.guestName
      */
     getGuestName() {
-        throw new Error('Method getGuestName not implemented');
+        return this.guestName;
     }
 
     /**
@@ -150,7 +190,8 @@ class Reservation {
      * - Retorna true si está activa, false en caso contrario
      */
     isActive() {
-        throw new Error('Method isActive not implemented');
+        const now = new Date();
+        return now >= this.checkIn && now < this.checkOut;
     }
 }
 
@@ -177,7 +218,13 @@ class Hotel {
      * - Asigna el nombre validado a this.name
      */
     constructor(name) {
-        throw new Error('Hotel constructor not implemented');
+        if (typeof name !== 'string' || name.trim().length === 0) {
+            throw new Error('Hotel name is required');
+        }
+
+        this.name = name.trim();
+        this.rooms = [];
+        this.reservations = [];
     }
 
     /**
@@ -199,7 +246,16 @@ class Hotel {
      * - Retorna la habitación agregada
      */
     addRoom(room) {
-        throw new Error('Method addRoom not implemented');
+        if (!(room instanceof Room)) {
+            throw new Error('Room must be an instance of Room');
+        }
+
+        if(this.findRoom(room.number) !== null) {
+            throw new Error('Room number already exists');
+        }
+
+        this.rooms.push(room);
+        return room;
     }
 
     /**
@@ -216,7 +272,7 @@ class Hotel {
      * - Retorna la habitación encontrada o null si no se encuentra
      */
     findRoom(roomNumber) {
-        throw new Error('Method findRoom not implemented');
+        return this.rooms.find(room => room.number === roomNumber) || null;
     }
 
     /**
@@ -242,7 +298,9 @@ class Hotel {
      * - Retorna la reserva creada
      */
     createReservation(roomNumber, guestName, checkIn, checkOut) {
-        throw new Error('Method createReservation not implemented');
+        if(!this.findRoom(roomNumber)) {
+            throw new Error('Room not found');
+        }
     }
 
     /**
@@ -263,7 +321,11 @@ class Hotel {
      * - Retorna true si hay solapamiento, false en caso contrario
      */
     hasOverlap(start1, end1, start2, end2) {
-        throw new Error('Method hasOverlap not implemented');
+        if (start1 < end1 && start2 < end2) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -308,7 +370,8 @@ class Hotel {
      * - Retorna el nuevo array filtrado
      */
     getReservationsByGuest(guestName) {
-        throw new Error('Method getReservationsByGuest not implemented');
+        const filter = this.reservations.filter(reservation => reservation.getGuestName() === guestName);
+        return filter;
     }
 
     /**
@@ -329,7 +392,13 @@ class Hotel {
      * - Si no hay reservas, retorna 0
      */
     getTotalRevenue() {
-        throw new Error('Method getTotalRevenue not implemented');
+        const total = this.reservations.reduce((total, reservation) => {
+            const room = this.findRoom(reservation.roomNumber);
+            const reservationTotal = room.getPricePerNight() * reservation.getDuration();
+            return total + reservationTotal;
+        }, 0);
+
+        return total;
     }
 
     /**
@@ -351,7 +420,28 @@ class Hotel {
      * - Retorna la tasa con 2 decimales usando toFixed(2) y parseFloat()
      */
     getOccupancyRate(date) {
-        throw new Error('Method getOccupancyRate not implemented');
+        if (!(date instanceof Date)) {
+            throw new Error('Date must be a Date object');
+        }
+
+        if (this.rooms.length === 0) {
+            return '0.00';
+        }
+
+        // Cuenta cuántas habitaciones tienen reservas activas en esa fecha
+        const occupiedRooms = this.rooms.filter(room => {
+            return this.reservations.some(reservation =>
+                reservation.roomNumber === room.number &&
+                date >= reservation.checkIn &&
+                date < reservation.checkOut
+            );
+        }).length;
+
+        // Calcula la tasa de ocupación
+        const rate = (occupiedRooms / this.rooms.length) * 100;
+
+        // Retorna la tasa con 2 decimales
+        return rate.toFixed(2);
     }
 }
 
