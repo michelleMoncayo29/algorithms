@@ -293,7 +293,7 @@ class BookingSystem {
      * - Retorna el total de ingresos
      */
     getRoomRevenue(roomName) {
-        if (this.findRoom(roomName)) {
+        if (!this.findRoom(roomName)) {
          throw new Error('Room not found');    
         }
 
