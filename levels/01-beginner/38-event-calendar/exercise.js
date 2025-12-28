@@ -1,310 +1,358 @@
 /**
- * Solución: Sistema de Gestión de Eventos y Calendario
- * 
- * Esta implementación muestra cómo crear clases Event y Calendar que gestionan
- * eventos con detección de conflictos de horarios y búsqueda avanzada.
+ * Sistema de Gestión de Eventos y Calendario (Event Calendar Management System)
+ *
+ * Descripción: Implementa dos clases básicas (`Event` y `Calendar`) para practicar
+ * constructores, métodos de instancia, validaciones complejas, manejo de fechas,
+ * detección de conflictos de horarios y búsqueda avanzada de eventos.
+ * Dificultad: BEGINNER
+ *
+ * Principios sugeridos:
+ * - KISS: mantener el código simple y expresivo
+ * - Validaciones Fail Fast: validar antes de continuar
+ * - Responsabilidad Única: cada clase tiene un propósito claro
+ * - Uso de métodos de arrays: find, filter, reduce, some
  */
 
+/**
+ * Representa un evento en el calendario.
+ * Traducción: Evento
+ * @class
+ */
 class Event {
+    /**
+     * Constructor de la clase Event
+     * Traducción: Constructor de Evento
+     *
+     * Crea un nuevo evento con título, descripción, horarios y categoría.
+     * Valida que todos los parámetros sean válidos antes de asignarlos.
+     *
+     * @param {string} title - Título del evento (no puede estar vacío)
+     * @param {string} description - Descripción del evento (no puede estar vacío)
+     * @param {Date} startTime - Fecha y hora de inicio (debe ser instancia de Date)
+     * @param {Date} endTime - Fecha y hora de fin (debe ser instancia de Date y posterior a startTime)
+     * @param {string} category - Categoría del evento (no puede estar vacío)
+     *
+     * TODO:
+     * - Valida que title sea un string no vacío (después de trim)
+     * - Lanza error "Event title is required" si el título es inválido
+     * - Valida que description sea un string no vacío (después de trim)
+     * - Lanza error "Event description is required" si la descripción es inválida
+     * - Valida que startTime sea una instancia de Date
+     * - Lanza error "Start time must be a Date object" si startTime es inválido
+     * - Valida que endTime sea una instancia de Date
+     * - Lanza error "End time must be a Date object" si endTime es inválido
+     * - Valida que endTime sea posterior a startTime
+     * - Si endTime es igual a startTime (mismo timestamp), ajusta endTime para que sea 1 hora después
+     * - Si endTime es anterior a startTime, lanza error "End time must be after start time"
+     * - Valida que category sea un string no vacío (después de trim)
+     * - Lanza error "Event category is required" si la categoría es inválida
+     * - Asigna los valores validados a las propiedades correspondientes (usando trim para strings)
+     */
     constructor(title, description, startTime, endTime, category) {
-        // Valida que el título sea un string no vacío
-        if (typeof title !== 'string' || title.trim().length === 0) {
-            throw new Error('Event title is required');
-        }
-
-        // Valida que la descripción sea un string no vacío
-        if (typeof description !== 'string' || description.trim().length === 0) {
-            throw new Error('Event description is required');
-        }
-
-        // Valida que startTime sea una instancia de Date
-        if (!(startTime instanceof Date)) {
-            throw new Error('Start time must be a Date object');
-        }
-
-        // Valida que endTime sea una instancia de Date
-        if (!(endTime instanceof Date)) {
-            throw new Error('End time must be a Date object');
-        }
-
-        // Valida que endTime sea posterior a startTime
-        // Si son iguales (mismo timestamp), ajusta endTime para que sea 1 hora después
-        let finalEndTime = endTime;
-        if (finalEndTime.getTime() <= startTime.getTime()) {
-            // Si son exactamente iguales, ajusta endTime para que sea 1 hora después
-            if (finalEndTime.getTime() === startTime.getTime()) {
-                finalEndTime = new Date(startTime.getTime() + 60 * 60 * 1000);
-            } else {
-                throw new Error('End time must be after start time');
-            }
-        }
-
-        // Valida que category sea un string no vacío
-        if (typeof category !== 'string' || category.trim().length === 0) {
-            throw new Error('Event category is required');
-        }
-
-        // Asigna los valores validados
-        this.title = title.trim();
-        this.description = description.trim();
-        this.startTime = startTime;
-        this.endTime = finalEndTime;
-        this.category = category.trim();
+        throw new Error('Event constructor not implemented');
     }
 
+    /**
+     * Calcula la duración del evento en horas.
+     * Traducción: Obtener Duración
+     *
+     * @returns {number} Duración en horas con 2 decimales
+     *
+     * TODO:
+     * - Calcula la diferencia en milisegundos: this.endTime - this.startTime
+     * - Convierte a horas dividiendo por (1000 * 60 * 60)
+     * - Usa toFixed(2) para redondear a 2 decimales
+     * - Convierte el resultado a número con parseFloat()
+     * - Retorna el resultado
+     */
     getDuration() {
-        // Calcula la diferencia en milisegundos
-        const diffInMs = this.endTime - this.startTime;
-
-        // Convierte a horas
-        const hours = diffInMs / (1000 * 60 * 60);
-
-        // Retorna con 2 decimales
-        return parseFloat(hours.toFixed(2));
+        throw new Error('Method getDuration not implemented');
     }
 
+    /**
+     * Verifica si el evento es de todo el día (24 horas).
+     * Traducción: Es Todo el Día
+     *
+     * @returns {boolean} true si la duración es exactamente 24 horas
+     *
+     * TODO:
+     * - Usa getDuration() para obtener la duración
+     * - Retorna true si la duración es exactamente 24.00
+     * - Retorna false en caso contrario
+     */
     isAllDay() {
-        // Calcula la duración
-        const duration = this.getDuration();
-
-        // Retorna true si la duración es exactamente 24 horas
-        return duration === 24.00;
+        throw new Error('Method isAllDay not implemented');
     }
 
+    /**
+     * Obtiene la categoría del evento.
+     * Traducción: Obtener Categoría
+     *
+     * @returns {string} Categoría del evento
+     *
+     * TODO:
+     * - Retorna this.category
+     */
     getCategory() {
-        return this.category;
+        throw new Error('Method getCategory not implemented');
     }
 
+    /**
+     * Actualiza el horario del evento.
+     * Traducción: Actualizar Tiempo
+     *
+     * @param {Date} newStartTime - Nueva fecha y hora de inicio
+     * @param {Date} newEndTime - Nueva fecha y hora de fin
+     * @returns {boolean} true si se actualizó correctamente
+     *
+     * TODO:
+     * - Valida que newStartTime sea una instancia de Date
+     * - Lanza error "Start time must be a Date object" si es inválido
+     * - Valida que newEndTime sea una instancia de Date
+     * - Lanza error "End time must be a Date object" si es inválido
+     * - Valida que newEndTime sea posterior a newStartTime
+     * - Lanza error "End time must be after start time" si es inválido
+     * - Actualiza this.startTime y this.endTime con los nuevos valores
+     * - Retorna true
+     */
     updateTime(newStartTime, newEndTime) {
-        // Valida que newStartTime sea una instancia de Date
-        if (!(newStartTime instanceof Date)) {
-            throw new Error('Start time must be a Date object');
-        }
-
-        // Valida que newEndTime sea una instancia de Date
-        if (!(newEndTime instanceof Date)) {
-            throw new Error('End time must be a Date object');
-        }
-
-        // Valida que newEndTime sea posterior a newStartTime
-        if (newEndTime <= newStartTime) {
-            throw new Error('End time must be after start time');
-        }
-
-        // Actualiza las fechas
-        this.startTime = newStartTime;
-        this.endTime = newEndTime;
-
-        // Retorna true
-        return true;
+        throw new Error('Method updateTime not implemented');
     }
 
+    /**
+     * Verifica si este evento se solapa con otro evento.
+     * Traducción: Se Solapa Con
+     *
+     * Dos eventos se solapan si sus horarios se superponen.
+     * Fórmula: (start1 < end2) && (end1 > start2)
+     *
+     * @param {Event} otherEvent - Otro evento para comparar
+     * @returns {boolean} true si se solapan
+     *
+     * TODO:
+     * - Valida que otherEvent sea una instancia de Event
+     * - Lanza error "Other event must be an instance of Event" si es inválido
+     * - Verifica solapamiento usando la fórmula: (this.startTime < otherEvent.endTime) && (this.endTime > otherEvent.startTime)
+     * - Retorna true si se solapan, false en caso contrario
+     */
     overlapsWith(otherEvent) {
-        // Valida que otherEvent sea una instancia de Event
-        if (!(otherEvent instanceof Event)) {
-            throw new Error('Other event must be an instance of Event');
-        }
-
-        // Verifica solapamiento: (start1 < end2) && (end1 > start2)
-        const overlaps = (this.startTime < otherEvent.endTime) && (this.endTime > otherEvent.startTime);
-
-        return overlaps;
+        throw new Error('Method overlapsWith not implemented');
     }
 }
 
+/**
+ * Gestiona un calendario de eventos.
+ * Traducción: Calendario
+ * @class
+ */
 class Calendar {
+    /**
+     * Constructor de la clase Calendar
+     * Traducción: Constructor de Calendario
+     *
+     * Crea un nuevo calendario con el nombre del dueño.
+     *
+     * @param {string} ownerName - Nombre del dueño del calendario (no puede estar vacío)
+     *
+     * TODO:
+     * - Valida que ownerName sea un string no vacío (después de trim)
+     * - Lanza error "Owner name is required" si el nombre es inválido
+     * - Asigna this.ownerName con el nombre validado (usando trim)
+     * - Inicializa this.events como un array vacío
+     */
     constructor(ownerName) {
-        // Valida que ownerName sea un string no vacío
-        if (typeof ownerName !== 'string' || ownerName.trim().length === 0) {
-            throw new Error('Owner name is required');
-        }
-
-        // Asigna el nombre validado
-        this.ownerName = ownerName.trim();
-        this.events = [];
+        throw new Error('Calendar constructor not implemented');
     }
 
+    /**
+     * Agrega un evento al calendario.
+     * Traducción: Agregar Evento
+     *
+     * Valida que no haya conflictos con eventos existentes antes de agregar.
+     *
+     * @param {Event} event - Evento a agregar
+     * @returns {Event} El evento agregado
+     *
+     * TODO:
+     * - Valida que event sea una instancia de Event
+     * - Lanza error "Event must be an instance of Event" si es inválido
+     * - Verifica si el evento ya está en el array usando indexOf()
+     * - Si ya está en el array, retorna el evento (sin agregarlo nuevamente)
+     * - Verifica conflictos con eventos existentes usando some()
+     *   - Si las fechas de inicio son muy cercanas (menos de 1 segundo), no hay conflicto
+     *   - Usa overlapsWith() para verificar solapamiento con cada evento existente
+     * - Si hay conflicto, lanza error "Event conflicts with existing event"
+     * - Agrega el evento al array usando push()
+     * - Retorna el evento agregado
+     */
     addEvent(event) {
-        // Valida que event sea una instancia de Event
-        if (!(event instanceof Event)) {
-            throw new Error('Event must be an instance of Event');
-        }
-
-        // Verifica si el evento ya está en el array
-        const eventIndex = this.events.indexOf(event);
-        
-        // Si el evento ya está en el array, no hay conflicto (puede estar siendo re-agregado)
-        if (eventIndex !== -1) {
-            return event;
-        }
-
-        // Verifica si hay conflictos con eventos existentes
-        // Si las fechas son muy cercanas (menos de 1 segundo de diferencia), no se consideran conflictos
-        // Esto maneja el caso donde se crean eventos con new Date() sin parámetros
-        const hasConflictWithExisting = this.events.some(existingEvent => {
-            // Si las fechas de inicio son muy cercanas (menos de 1 segundo), no hay conflicto
-            const timeDiff = Math.abs(event.startTime.getTime() - existingEvent.startTime.getTime());
-            if (timeDiff < 1000) {
-                return false; // No hay conflicto si las fechas son muy cercanas
-            }
-            return event.overlapsWith(existingEvent);
-        });
-
-        if (hasConflictWithExisting) {
-            throw new Error('Event conflicts with existing event');
-        }
-
-        // Agrega el evento al array
-        this.events.push(event);
-
-        // Retorna el evento agregado
-        return event;
+        throw new Error('Method addEvent not implemented');
     }
 
+    /**
+     * Elimina un evento del calendario.
+     * Traducción: Eliminar Evento
+     *
+     * @param {Event} event - Evento a eliminar
+     * @returns {boolean} true si se eliminó, false si no se encontró
+     *
+     * TODO:
+     * - Encuentra el índice del evento usando findIndex()
+     * - Si no se encuentra (índice === -1), retorna false
+     * - Elimina el evento del array usando splice()
+     * - Retorna true
+     */
     removeEvent(event) {
-        // Encuentra el índice del evento
-        const eventIndex = this.events.findIndex(e => e === event);
-
-        // Si no se encuentra, retorna false
-        if (eventIndex === -1) {
-            return false;
-        }
-
-        // Elimina el evento del array
-        this.events.splice(eventIndex, 1);
-
-        // Retorna true si se eliminó correctamente
-        return true;
+        throw new Error('Method removeEvent not implemented');
     }
 
+    /**
+     * Busca un evento por índice.
+     * Traducción: Buscar Evento
+     *
+     * @param {number} eventIndex - Índice del evento en el array
+     * @returns {Event|null} El evento encontrado o null si el índice es inválido
+     *
+     * TODO:
+     * - Valida que eventIndex sea un número válido (>= 0 y < this.events.length)
+     * - Si el índice es inválido, retorna null
+     * - Retorna el evento en el índice especificado
+     */
     findEvent(eventIndex) {
-        // Valida que el índice sea válido
-        if (typeof eventIndex !== 'number' || eventIndex < 0 || eventIndex >= this.events.length) {
-            return null;
-        }
-
-        // Retorna el evento en el índice especificado
-        return this.events[eventIndex];
+        throw new Error('Method findEvent not implemented');
     }
 
+    /**
+     * Obtiene todos los eventos de una fecha específica.
+     * Traducción: Obtener Eventos por Fecha
+     *
+     * @param {Date} date - Fecha para buscar eventos
+     * @returns {Array<Event>} Array de eventos del día especificado
+     *
+     * TODO:
+     * - Valida que date sea una instancia de Date
+     * - Lanza error "Date must be a Date object" si es inválido
+     * - Normaliza la fecha de búsqueda usando UTC (getUTCFullYear, getUTCMonth, getUTCDate)
+     * - Usa filter() para obtener eventos del día especificado
+     *   - Compara año, mes y día usando métodos UTC del evento.startTime
+     * - Retorna el array filtrado
+     */
     getEventsByDate(date) {
-        // Valida que date sea una instancia de Date
-        if (!(date instanceof Date)) {
-            throw new Error('Date must be a Date object');
-        }
-
-        // Normaliza la fecha de búsqueda usando UTC para evitar problemas de zona horaria
-        const searchYear = date.getUTCFullYear();
-        const searchMonth = date.getUTCMonth();
-        const searchDate = date.getUTCDate();
-
-        // Usa filter() para obtener eventos del día especificado
-        return this.events.filter(event => {
-            const eventDate = event.startTime;
-            return (
-                eventDate.getUTCFullYear() === searchYear &&
-                eventDate.getUTCMonth() === searchMonth &&
-                eventDate.getUTCDate() === searchDate
-            );
-        });
+        throw new Error('Method getEventsByDate not implemented');
     }
 
+    /**
+     * Obtiene todos los eventos de una categoría específica.
+     * Traducción: Obtener Eventos por Categoría
+     *
+     * @param {string} category - Categoría para filtrar
+     * @returns {Array<Event>} Array de eventos de la categoría especificada
+     *
+     * TODO:
+     * - Usa filter() para obtener eventos de la categoría especificada
+     * - Usa getCategory() para obtener la categoría de cada evento
+     * - Retorna el array filtrado
+     */
     getEventsByCategory(category) {
-        // Usa filter() para obtener eventos de la categoría especificada
-        return this.events.filter(event => event.getCategory() === category);
+        throw new Error('Method getEventsByCategory not implemented');
     }
 
+    /**
+     * Obtiene todos los eventos en un rango de fechas.
+     * Traducción: Obtener Eventos por Rango de Fechas
+     *
+     * @param {Date} startDate - Fecha de inicio del rango
+     * @param {Date} endDate - Fecha de fin del rango
+     * @returns {Array<Event>} Array de eventos en el rango especificado
+     *
+     * TODO:
+     * - Valida que startDate sea una instancia de Date
+     * - Lanza error "Start date must be a Date object" si es inválido
+     * - Valida que endDate sea una instancia de Date
+     * - Lanza error "End date must be a Date object" si es inválido
+     * - Usa filter() para obtener eventos en el rango
+     *   - Un evento está en el rango si: event.startTime >= startDate && event.startTime <= endDate
+     * - Retorna el array filtrado
+     */
     getEventsByDateRange(startDate, endDate) {
-        // Valida que startDate sea una instancia de Date
-        if (!(startDate instanceof Date)) {
-            throw new Error('Start date must be a Date object');
-        }
-
-        // Valida que endDate sea una instancia de Date
-        if (!(endDate instanceof Date)) {
-            throw new Error('End date must be a Date object');
-        }
-
-        // Usa filter() para obtener eventos en el rango especificado
-        return this.events.filter(event => {
-            return event.startTime >= startDate && event.startTime <= endDate;
-        });
+        throw new Error('Method getEventsByDateRange not implemented');
     }
 
+    /**
+     * Verifica si un evento tiene conflictos con eventos existentes.
+     * Traducción: Tiene Conflicto
+     *
+     * @param {Event} event - Evento a verificar
+     * @returns {boolean} true si hay conflicto
+     *
+     * TODO:
+     * - Usa some() para verificar si algún evento se solapa
+     * - Excluye el mismo evento si ya está en el array (comparar con ===)
+     * - Si es el mismo objeto, retorna false (no hay conflicto consigo mismo)
+     * - Usa overlapsWith() para verificar solapamiento con otros eventos
+     * - Retorna true si hay conflicto, false en caso contrario
+     */
     hasConflict(event) {
-        // Usa some() para verificar si algún evento se solapa
-        // Excluye el mismo evento si ya está en el array (para evitar comparar consigo mismo)
-        return this.events.some(existingEvent => {
-            // Si es el mismo objeto, no hay conflicto (puede estar siendo agregado)
-            if (existingEvent === event) {
-                return false;
-            }
-            return event.overlapsWith(existingEvent);
-        });
+        throw new Error('Method hasConflict not implemented');
     }
 
+    /**
+     * Obtiene eventos próximos en los próximos N días.
+     * Traducción: Obtener Eventos Próximos
+     *
+     * @param {number} days - Número de días hacia adelante
+     * @returns {Array<Event>} Array de eventos próximos
+     *
+     * TODO:
+     * - Valida que days sea un número mayor que 0
+     * - Lanza error "Days must be greater than 0" si es inválido
+     * - Calcula la fecha de hoy usando new Date()
+     * - Calcula la fecha límite sumando days días a la fecha de hoy
+     * - Usa filter() para obtener eventos próximos
+     *   - Un evento es próximo si: event.startTime >= today && event.startTime <= limitDate
+     * - Retorna el array filtrado
+     */
     getUpcomingEvents(days) {
-        // Valida que days sea un número mayor que 0
-        if (typeof days !== 'number' || days <= 0) {
-            throw new Error('Days must be greater than 0');
-        }
-
-        // Calcula la fecha límite
-        const today = new Date();
-        const limitDate = new Date(today);
-        limitDate.setDate(limitDate.getDate() + days);
-
-        // Usa filter() para obtener eventos próximos
-        return this.events.filter(event => {
-            return event.startTime >= today && event.startTime <= limitDate;
-        });
+        throw new Error('Method getUpcomingEvents not implemented');
     }
 
+    /**
+     * Obtiene un array de fechas que tienen eventos (días ocupados).
+     * Traducción: Obtener Días Ocupados
+     *
+     * @returns {Array<Date>} Array de fechas únicas que tienen eventos
+     *
+     * TODO:
+     * - Crea un Set para almacenar fechas únicas
+     * - Itera sobre todos los eventos usando forEach()
+     * - Para cada evento, crea una fecha con solo año, mes y día (sin hora)
+     *   - Usa new Date(year, month, date) con getFullYear(), getMonth(), getDate()
+     * - Agrega el timestamp de la fecha al Set (usando getTime())
+     * - Convierte el Set a array usando Array.from()
+     * - Mapea cada timestamp a una nueva Date
+     * - Retorna el array de fechas
+     */
     getBusyDays() {
-        // Set para almacenar fechas únicas
-        const busyDaysSet = new Set();
-
-        // Itera sobre todos los eventos
-        this.events.forEach(event => {
-            // Crea una fecha con solo año, mes y día (sin hora)
-            const dateOnly = new Date(
-                event.startTime.getFullYear(),
-                event.startTime.getMonth(),
-                event.startTime.getDate()
-            );
-
-            // Agrega la fecha al Set (usando timestamp para comparación)
-            busyDaysSet.add(dateOnly.getTime());
-        });
-
-        // Convierte el Set a array de fechas
-        return Array.from(busyDaysSet).map(timestamp => new Date(timestamp));
+        throw new Error('Method getBusyDays not implemented');
     }
 
+    /**
+     * Genera un resumen estadístico del calendario.
+     * Traducción: Obtener Resumen del Calendario
+     *
+     * @returns {Object} Objeto con estadísticas del calendario
+     *
+     * TODO:
+     * - Calcula totalEvents como this.events.length
+     * - Calcula eventsByCategory usando reduce()
+     *   - Agrupa eventos por categoría usando getCategory()
+     *   - Retorna un objeto con categoría como clave y cantidad como valor
+     * - Calcula upcomingEvents usando getUpcomingEvents(7).length
+     * - Calcula busyDays usando getBusyDays().length
+     * - Retorna objeto con: { totalEvents, eventsByCategory, upcomingEvents, busyDays }
+     */
     getCalendarSummary() {
-        // Calcula estadísticas básicas
-        const totalEvents = this.events.length;
-
-        // Calcula eventos por categoría usando reduce()
-        const eventsByCategory = this.events.reduce((acc, event) => {
-            const category = event.getCategory();
-            acc[category] = (acc[category] || 0) + 1;
-            return acc;
-        }, {});
-
-        // Calcula eventos próximos (próximos 7 días)
-        const upcomingEvents = this.getUpcomingEvents(7).length;
-
-        // Calcula días ocupados
-        const busyDays = this.getBusyDays().length;
-
-        // Retorna objeto con todas las estadísticas
-        return {
-            totalEvents,
-            eventsByCategory,
-            upcomingEvents,
-            busyDays
-        };
+        throw new Error('Method getCalendarSummary not implemented');
     }
 }
 
@@ -312,4 +360,3 @@ module.exports = {
     Event,
     Calendar
 };
-
