@@ -43,7 +43,23 @@ class Product {
      * - Asigna los valores validados a las propiedades correspondientes (usando trim para strings)
      */
     constructor(name, price, stock, category) {
-        throw new Error('Product constructor not implemented');
+        if (typeof name !== 'string' || name.length === 0) {
+            throw new Error ('Product name is required" si el nombre es inválido')
+        }
+        if (typeof price !== 'number' || price > 0 || isNaN(price)) {
+            throw new Error ('Product price must be greater than 0" si el precio es inválido')
+        }
+        if (typeof stock !== 'number' || stock >= 0 || isNaN(stock)) {
+            throw new Error ('Product stock must be greater than or equal to 0')
+        }
+        if (typeof category !== 'string' || name.trim().length === 0) {
+            throw new Error ('Product category is required')
+        }
+
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.category = category;
     }
 
     /**
@@ -56,7 +72,7 @@ class Product {
      * - Retorna this.price
      */
     getPrice() {
-        throw new Error('Method getPrice not implemented');
+        return this.price;
     }
 
     /**
@@ -69,7 +85,7 @@ class Product {
      * - Retorna this.stock
      */
     getStock() {
-        throw new Error('Method getStock not implemented');
+        return this.stock;
     }
 
     /**
@@ -82,7 +98,7 @@ class Product {
      * - Retorna this.category
      */
     getCategory() {
-        throw new Error('Method getCategory not implemented');
+        return this.category;
     }
 
     /**
@@ -96,7 +112,7 @@ class Product {
      * - Retorna false en caso contrario
      */
     isAvailable() {
-        throw new Error('Method isAvailable not implemented');
+        return this.stock > 0 ? true : false;
     }
 
     /**
@@ -115,7 +131,17 @@ class Product {
      * - Retorna true
      */
     reduceStock(quantity) {
-        throw new Error('Method reduceStock not implemented');
+        if (quantity > 0) {
+            throw new Error('Quantity must be greater than 0');
+        }
+
+        if (this.stock >= quantity) {
+            throw new Error('Insufficient stock');
+        }
+
+        this.stock -= quantity;
+
+        return true;
     }
 }
 
@@ -136,7 +162,8 @@ class Cart {
      * - Inicializa this.discount como 0
      */
     constructor() {
-        throw new Error('Cart constructor not implemented');
+        this.items = [];
+        this.discount = 0;
     }
 
     /**
@@ -167,7 +194,17 @@ class Cart {
      * - Retorna true
      */
     addProduct(product, quantity) {
-        throw new Error('Method addProduct not implemented');
+        if (!(product instanceof Product)) {
+            throw new Error('Product must be an instance of Product');
+        }
+        if (quantity > 0) {
+            throw new Error('Quantity must be greater than 0');
+        }
+
+        // falta
+        if (!this.isAvailable(product)) {
+            throw new Error('Product is not available');
+        }
     }
 
     /**
@@ -185,7 +222,13 @@ class Cart {
      * - Retorna true
      */
     removeProduct(productName) {
-        throw new Error('Method removeProduct not implemented');
+        const index = this.items.findIndex(item => item.product.name === productName);
+
+        if (index === -1) return false;
+
+        this.items.splice(index, 1);
+
+        return true;
     }
 
     /**
@@ -222,7 +265,12 @@ class Cart {
      * - Retorna true
      */
     setDiscount(discountPercent) {
-        throw new Error('Method setDiscount not implemented');
+        if (discountPercent < 0 || discountPercent > 100) {
+            throw new Error('Discount must be between 0 and 100');
+        }
+
+        this.discount = discountPercent;
+        return true;
     }
 
     /**
@@ -285,7 +333,9 @@ class Cart {
      * - Retorna true
      */
     clear() {
-        throw new Error('Method clear not implemented');
+        this.items = [];
+        this.discount = 0;
+        return true;
     }
 }
 
