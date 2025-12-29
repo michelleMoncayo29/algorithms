@@ -133,8 +133,13 @@ class Reservation {
         }
 
         // puede dar error
-        if (checkOut <= checkIn) {
-            throw new Error('Check-out date must be after check-in date');
+        if (checkOut.getTime() <= checkIn.getTime()) {
+            // Si son exactamente iguales, ajusta checkOut para que sea 1 día después
+            if (checkOut.getTime() === checkIn.getTime()) {
+                checkOut = new Date(checkIn.getTime() + 24 * 60 * 60 * 1000);
+            } else {
+                throw new Error('Check-out date must be after check-in date');
+            }
         }
 
         this.roomNumber = roomNumber;
@@ -298,9 +303,32 @@ class Hotel {
      * - Retorna la reserva creada
      */
     createReservation(roomNumber, guestName, checkIn, checkOut) {
-        if(!this.findRoom(roomNumber)) {
+        // Busca la habitación por número
+        const room = this.findRoom(roomNumber);
+                
+        // Valida que la habitación exista
+        if (room === null) {
             throw new Error('Room not found');
         }
+        
+        // Valida que no haya solapamientos con otras reservas de la misma habitación
+        const hasOverlapWithExisting = this.reservations.some(reservation => 
+            reservation.roomNumber === roomNumber &&
+            this.hasOverlap(checkIn, checkOut, reservation.checkIn, reservation.checkOut)
+        );
+        
+        if (hasOverlapWithExisting) {
+            throw new Error('Room is already booked for these dates');
+        }
+        
+        // Crea una nueva instancia de Reservation
+        const reservation = new Reservation(roomNumber, guestName, checkIn, checkOut);
+        
+        // Agrega la reserva al array
+        this.reservations.push(reservation);
+        
+        // Retorna la reserva creada
+        return reservation;
     }
 
     /**
@@ -321,11 +349,7 @@ class Hotel {
      * - Retorna true si hay solapamiento, false en caso contrario
      */
     hasOverlap(start1, end1, start2, end2) {
-        if (start1 < end1 && start2 < end2) {
-            return true;
-        }
-
-        return false;
+        return (start1 < end2) && (end1 > start2);
     }
 
     /**
@@ -351,7 +375,27 @@ class Hotel {
      * - Retorna el nuevo array filtrado
      */
     getAvailableRooms(checkIn, checkOut) {
-        throw new Error('Method getAvailableRooms not implemented');
+        // Valida que checkIn sea una instancia de Date
+        if (!(checkIn instanceof Date)) {
+            throw new Error('Check-in date must be a Date object');
+        }
+
+        // Valida que checkOut sea una instancia de Date
+        if (!(checkOut instanceof Date)) {
+            throw new Error('Check-out date must be a Date object');
+        }
+
+        // Usa filter() para obtener habitaciones disponibles
+        return this.rooms.filter(room => {
+            // Verifica si la habitación tiene reservas que se solapen con el rango solicitado
+            const hasOverlapWithReservations = this.reservations.some(reservation =>
+                reservation.roomNumber === room.number &&
+                this.hasOverlap(checkIn, checkOut, reservation.checkIn, reservation.checkOut)
+            );
+
+            // La habitación está disponible si NO tiene reservas que se solapen
+            return !hasOverlapWithReservations;
+        });
     }
 
     /**

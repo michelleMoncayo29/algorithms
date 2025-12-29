@@ -49,7 +49,43 @@ class Event {
      * - Asigna los valores validados a las propiedades correspondientes (usando trim para strings)
      */
     constructor(title, description, startTime, endTime, category) {
-        throw new Error('Event constructor not implemented');
+        if (typeof title !== 'string' || title.trim().length === 0) {
+            throw new Error('Event title is required');
+        }
+
+        if (typeof description !== 'string' || description.trim().length === 0) {
+            throw new Error('Event description is required');
+        }
+
+        if (!(startTime instanceof Date)) {
+            throw new Error('Start time must be a Date object');
+        }
+        
+        if (!(endTime instanceof Date)) {
+            throw new Error('End time must be a Date object');
+        } 
+
+        let finalEndTime = endTime;
+        if (finalEndTime.getTime() <= startTime.getTime()) {
+            // Si son exactamente iguales, ajusta endTime para que sea 1 hora después
+            if (finalEndTime.getTime() === startTime.getTime()) {
+                finalEndTime = new Date(startTime.getTime() + 60 * 60 * 1000);
+            } else {
+                throw new Error('End time must be after start time');
+            }
+        }
+
+        // Valida que category sea un string no vacío
+        if (typeof category !== 'string' || category.trim().length === 0) {
+            throw new Error('Event category is required');
+        }
+
+        // Asigna los valores validados
+        this.title = title.trim();
+        this.description = description.trim();
+        this.startTime = startTime;
+        this.endTime = finalEndTime;
+        this.category = category.trim();
     }
 
     /**
@@ -66,7 +102,9 @@ class Event {
      * - Retorna el resultado
      */
     getDuration() {
-        throw new Error('Method getDuration not implemented');
+        const diferentMilSeconds = this.endTime - this.startTime;
+        const hours = diferentMilSeconds / (1000 * 60 * 60);
+        return parseFloat(hours.toFixed(2));
     }
 
     /**
@@ -81,7 +119,8 @@ class Event {
      * - Retorna false en caso contrario
      */
     isAllDay() {
-        throw new Error('Method isAllDay not implemented');
+        const duraction = this.getDuration();
+        return duraction === 24.00;
     }
 
     /**
@@ -94,7 +133,7 @@ class Event {
      * - Retorna this.category
      */
     getCategory() {
-        throw new Error('Method getCategory not implemented');
+        return this.category;
     }
 
     /**
@@ -116,7 +155,21 @@ class Event {
      * - Retorna true
      */
     updateTime(newStartTime, newEndTime) {
-        throw new Error('Method updateTime not implemented');
+        if (!(newStartTime instanceof Date)) {
+            throw new Error('Start time must be a Date object');
+        }
+        if (!(newEndTime instanceof Date)) {
+            throw new Error('End time must be a Date object');
+        }
+
+        if (newEndTime <= newStartTime) {
+            throw new Error('End time must be after start time');
+        }
+
+        this.startTime = newStartTime;
+        this.endTime = newEndTime;
+
+        return true;
     }
 
     /**
@@ -136,7 +189,15 @@ class Event {
      * - Retorna true si se solapan, false en caso contrario
      */
     overlapsWith(otherEvent) {
-        throw new Error('Method overlapsWith not implemented');
+        if (!(otherEvent instanceof Event)) {
+            throw new Error('Other event must be an instance of Event');
+        }
+
+        if ((this.startTime < otherEvent.endTime) && (this.endTime > otherEvent.startTime)) {
+            return true;
+        }
+
+        return false;
     }
 }
 
@@ -161,7 +222,12 @@ class Calendar {
      * - Inicializa this.events como un array vacío
      */
     constructor(ownerName) {
-        throw new Error('Calendar constructor not implemented');
+        if (typeof ownerName !== 'string' || ownerName.trim().length === 0) {
+            throw new Error('Owner name is required');
+        }
+
+        this.ownerName = ownerName.trim();
+        this.events = [];
     }
 
     /**
@@ -186,7 +252,18 @@ class Calendar {
      * - Retorna el evento agregado
      */
     addEvent(event) {
-        throw new Error('Method addEvent not implemented');
+        if (!(event instanceof Event)) {
+            throw new Error('Event must be an instance of Event');
+        }
+
+        // Verifica si el evento ya está en el array
+        const eventIndex = this.events.indexOf(event);
+
+        if (eventIndex !== -1) {
+            return event;
+        }
+
+        // no se termino 
     }
 
     /**
@@ -203,7 +280,15 @@ class Calendar {
      * - Retorna true
      */
     removeEvent(event) {
-        throw new Error('Method removeEvent not implemented');
+        const eventIndex = this.events.indexOf(event);
+
+        if (eventIndex === -1) {
+            return false;
+        }
+
+        this.events.splice(eventIndex, 1);
+
+        return true;
     }
 
     /**
