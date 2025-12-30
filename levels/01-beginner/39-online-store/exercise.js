@@ -43,23 +43,28 @@ class Product {
      * - Asigna los valores validados a las propiedades correspondientes (usando trim para strings)
      */
     constructor(name, price, stock, category) {
-        if (typeof name !== 'string' || name.length === 0) {
-            throw new Error ('Product name is required" si el nombre es inválido')
-        }
-        if (typeof price !== 'number' || price > 0 || isNaN(price)) {
-            throw new Error ('Product price must be greater than 0" si el precio es inválido')
-        }
-        if (typeof stock !== 'number' || stock >= 0 || isNaN(stock)) {
-            throw new Error ('Product stock must be greater than or equal to 0')
-        }
-        if (typeof category !== 'string' || name.trim().length === 0) {
-            throw new Error ('Product category is required')
+
+        if (typeof name !== 'string' || name.trim().length === 0) {
+            throw new Error('Product name is required');
         }
 
-        this.name = name;
+        if (typeof price !== 'number' || price <= 0 || isNaN(price)) {
+            throw new Error('Product price must be greater than 0');
+        }
+
+        if (typeof stock !== 'number' || stock < 0 || isNaN(stock)) {
+            throw new Error('Product stock must be greater than or equal to 0');
+        }
+
+
+        if (typeof category !== 'string' || category.trim().length === 0) {
+            throw new Error('Product category is required');
+        }
+
+        this.name = name.trim();
         this.price = price;
         this.stock = stock;
-        this.category = category;
+        this.category = category.trim();
     }
 
     /**
@@ -131,16 +136,16 @@ class Product {
      * - Retorna true
      */
     reduceStock(quantity) {
-        if (quantity > 0) {
+        // Error corregido: antes tenías quantity > 0, debe ser <= 0 para lanzar el error
+        if (typeof quantity !== 'number' || quantity <= 0) {
             throw new Error('Quantity must be greater than 0');
         }
 
-        if (this.stock >= quantity) {
+        if (this.stock < quantity) {
             throw new Error('Insufficient stock');
         }
 
         this.stock -= quantity;
-
         return true;
     }
 }
@@ -197,14 +202,31 @@ class Cart {
         if (!(product instanceof Product)) {
             throw new Error('Product must be an instance of Product');
         }
-        if (quantity > 0) {
+        // Error corregido: validación de cantidad positiva
+        if (typeof quantity !== 'number' || quantity <= 0) {
             throw new Error('Quantity must be greater than 0');
         }
 
-        // falta
-        if (!this.isAvailable(product)) {
+        // Usar el método del objeto product
+        if (!product.isAvailable()) {
             throw new Error('Product is not available');
         }
+
+        const existingItem = this.items.find(item => item.product.name === product.name);
+
+        if (existingItem) {
+            const newTotalQuantity = existingItem.quantity + quantity;
+            if (product.getStock() < newTotalQuantity) {
+                throw new Error('Insufficient stock');
+            }
+            existingItem.quantity = newTotalQuantity;
+        } else {
+            if (product.getStock() < quantity) {
+                throw new Error('Insufficient stock');
+            }
+            this.items.push({ product, quantity });
+        }
+        return true;
     }
 
     /**
@@ -248,7 +270,19 @@ class Cart {
      * - Retorna true
      */
     updateQuantity(productName, newQuantity) {
-        throw new Error('Method updateQuantity not implemented');
+        if (typeof newQuantity !== 'number' || newQuantity <= 0) {
+            throw new Error('Quantity must be greater than 0');
+        }
+
+        const searchItem = this.items.find(item => item.product.name === productName);
+
+        if (!searchItem) {
+            throw new Error('Product not found in cart');
+        }
+
+        searchItem.quantity = newQuantity;
+
+        return true;
     }
 
     /**
@@ -286,7 +320,14 @@ class Cart {
      * - Retorna el subtotal
      */
     getSubtotal() {
-        throw new Error('Method getSubtotal not implemented');
+        if (this.items.length === 0) {
+            return 0;
+        }
+
+        return this.items.reduce((acc, current) => {
+            const subTotalItem = current.product.getPrice() * current.quantity;
+            return acc + subTotalItem;
+        }, 0);
     }
 
     /**
@@ -302,7 +343,10 @@ class Cart {
      * - Retorna el total
      */
     getTotal() {
-        throw new Error('Method getTotal not implemented');
+        const subtotal = this.getSubtotal();
+        const discount = subtotal * (this.discount / 100);
+        const total = subtotal - discount;
+        return total;
     }
 
     /**
@@ -318,7 +362,15 @@ class Cart {
      * - Retorna el total
      */
     getTotalItems() {
-        throw new Error('Method getTotalItems not implemented');
+        if (this.items.length === 0) {
+            return 0;
+        }
+
+        // Usamos reduce para sumar solo las cantidades (item.quantity)
+        return this.items.reduce((acc, item) => {
+            // En cada paso, sumamos la cantidad del item actual al acumulador
+            return acc + item.quantity;
+        }, 0)
     }
 
     /**
@@ -360,7 +412,12 @@ class Store {
      * - Inicializa this.products como un array vacío
      */
     constructor(name) {
-        throw new Error('Store constructor not implemented');
+        if (typeof name !== 'string' || name.trim().length === 0) {
+            throw new Error('Store name is required');
+        }
+
+        this.name = name;
+        this.products = [];
     }
 
     /**
@@ -379,7 +436,18 @@ class Store {
      * - Retorna el producto agregado
      */
     addProduct(product) {
-        throw new Error('Method addProduct not implemented');
+        // Validar instancia
+        if (!(product instanceof Product)) {
+            throw new Error('Product must be an instance of Product');
+        }
+
+        // Verificar si ya existe por nombre
+        if (this.findProduct(product.name)) {
+            throw new Error('Product already exists');
+        }
+
+        this.products.push(product);
+        return product;
     }
 
     /**
@@ -394,7 +462,8 @@ class Store {
      * - Retorna el producto encontrado o null si no existe
      */
     findProduct(productName) {
-        throw new Error('Method findProduct not implemented');
+        const searchItem = this.products.find(product => product.name === productName);
+        return searchItem || null;
     }
 
     /**
@@ -409,7 +478,7 @@ class Store {
      * - Retorna el array filtrado
      */
     getAvailableProducts() {
-        throw new Error('Method getAvailableProducts not implemented');
+        return this.products.filter(product => product.isAvailable());
     }
 
     /**
@@ -425,7 +494,7 @@ class Store {
      * - Retorna el array filtrado
      */
     getProductsByCategory(category) {
-        throw new Error('Method getProductsByCategory not implemented');
+        return this.products.filter(product => product.getCategory() === category);
     }
 
     /**
@@ -454,7 +523,35 @@ class Store {
      * - Retorna el total de la compra
      */
     processPurchase(cart) {
-        throw new Error('Method processPurchase not implemented');
+        if (!(cart instanceof Cart)) {
+            throw new Error('Cart must be an instance of Cart');
+        }
+        
+        // Valida que el carrito no esté vacío
+        if (cart.items.length === 0) {
+            throw new Error('Cart is empty');
+        }
+        
+        // Valida que todos los productos tengan suficiente stock disponible
+        cart.items.forEach(item => {
+            if (item.product.getStock() < item.quantity) {
+                throw new Error(`Insufficient stock for product: ${item.product.name}`);
+            }
+        });
+        
+        // Itera sobre los items del carrito y reduce el stock
+        cart.items.forEach(item => {
+            item.product.reduceStock(item.quantity);
+        });
+        
+        // Calcula el total
+        const total = cart.getTotal();
+        
+        // Vacía el carrito
+        cart.clear();
+        
+        // Retorna el total de la compra
+        return total;
     }
 
     /**
@@ -470,7 +567,14 @@ class Store {
      * - Retorna el valor total
      */
     getInventoryValue() {
-        throw new Error('Method getInventoryValue not implemented');
+        if (this.products.length === 0) {
+            return 0;
+        }
+
+        // Usa reduce() para calcular el valor total del inventario
+        return this.products.reduce((total, product) => {
+            return total + (product.getPrice() * product.getStock());
+        }, 0);
     }
 }
 
