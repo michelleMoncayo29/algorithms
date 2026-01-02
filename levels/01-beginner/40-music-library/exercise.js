@@ -43,7 +43,23 @@ class Song {
      * - Asigna los valores validados a las propiedades correspondientes
      */
     constructor(title, artist, duration, genre) {
-        throw new Error('Song constructor not implemented');
+        if (typeof title !== 'string' || title.trim().length === 0) {
+            throw new Error('Song title is required');
+        }
+        if (typeof artist !== 'string' || artist.trim().length === 0) {
+            throw new Error('Song artist is required');
+        }
+        if (typeof duration !== 'number' || duration <= 0 || isNaN(duration)) {
+            throw new Error('Song duration must be greater than 0');
+        }
+        if (typeof genre !== 'string' || genre.trim().length === 0) {
+            throw new Error('Song genre is required');
+        }
+
+        this.title = title;
+        this.artist = artist;
+        this.duration = duration;
+        this.genre = genre;
     }
 
     /**
@@ -56,7 +72,7 @@ class Song {
      * - Retorna this.duration
      */
     getDuration() {
-        throw new Error('Method getDuration not implemented');
+        return this.duration;
     }
 
     /**
@@ -69,7 +85,7 @@ class Song {
      * - Retorna this.artist
      */
     getArtist() {
-        throw new Error('Method getArtist not implemented');
+        return this.artist;
     }
 
     /**
@@ -82,7 +98,7 @@ class Song {
      * - Retorna this.genre
      */
     getGenre() {
-        throw new Error('Method getGenre not implemented');
+        return this.genre;
     }
 
     /**
@@ -100,7 +116,13 @@ class Song {
      * - Retorna el string formateado como "MM:SS"
      */
     getFormattedDuration() {
-        throw new Error('Method getFormattedDuration not implemented');
+        const minutes = Math.floor(this.duration / 60);
+        const seconds = this.duration % 60;
+
+        const mm = String(minutes).padStart(2, '0');
+        const ss = String(seconds).padStart(2, '0');
+
+        return `${mm}:${ss}`;
     }
 }
 
@@ -126,7 +148,12 @@ class Playlist {
      * - Asigna el nombre validado a this.name
      */
     constructor(name) {
-        throw new Error('Playlist constructor not implemented');
+        if (typeof name !== 'string' || name.trim().length === 0) {
+            throw new Error('Playlist name is required');
+        }
+
+        this.name = name;
+        this.songs = [];
     }
 
     /**
@@ -148,7 +175,18 @@ class Playlist {
      * - Retorna la canción agregada
      */
     addSong(song) {
-        throw new Error('Method addSong not implemented');
+        if (!(song instanceof Song)) {
+            throw new Error('Song must be an instance of Song');
+        }
+
+        const ExistMusic = this.songs.some(music => music === song);
+
+        if (ExistMusic) {
+            throw new Error('Song already in playlist');
+        }
+
+        this.songs.push(song);
+        return song;
     }
 
     /**
@@ -168,7 +206,15 @@ class Playlist {
      * - Retorna true si se eliminó correctamente
      */
     removeSong(songTitle) {
-        throw new Error('Method removeSong not implemented');
+        const songIndex = this.songs.findIndex(song => song.title === songTitle);
+
+        if (songIndex === -1) {
+            return false;
+        }
+
+        this.songs.splice(songIndex, 1);
+
+        return true;
     }
 
     /**
@@ -187,7 +233,13 @@ class Playlist {
      * - Si la lista está vacía, retorna 0
      */
     getTotalDuration() {
-        throw new Error('Method getTotalDuration not implemented');
+        if (this.songs.length === 0) {
+            return 0;
+        }
+
+        return this.songs.reduce((total, song) => {
+            return total + song.getDuration();
+        }, 0);
     }
 
     /**
@@ -206,7 +258,7 @@ class Playlist {
      * - Retorna el nuevo array filtrado
      */
     getSongsByArtist(artist) {
-        throw new Error('Method getSongsByArtist not implemented');
+        return this.songs.filter(song => song.getArtist() === artist);
     }
 
     /**
@@ -225,7 +277,7 @@ class Playlist {
      * - Retorna el nuevo array filtrado
      */
     getSongsByGenre(genre) {
-        throw new Error('Method getSongsByGenre not implemented');
+        return this.songs.filter(song => song.getGenre() === genre);
     }
 
     /**
@@ -244,7 +296,10 @@ class Playlist {
      * - Retorna true
      */
     shuffle() {
-        throw new Error('Method shuffle not implemented');
+        const copie = [...this.songs];
+        // Para ordenar aleatoriamente
+        copie.sort(() => Math.random() - 0.5);
+        return true;
     }
 
     /**
@@ -257,7 +312,7 @@ class Playlist {
      * - Retorna this.songs.length
      */
     getSongCount() {
-        throw new Error('Method getSongCount not implemented');
+        return this.songs.length;
     }
 }
 
@@ -284,7 +339,13 @@ class MusicLibrary {
      * - Asigna el nombre validado a this.name
      */
     constructor(name) {
-        throw new Error('MusicLibrary constructor not implemented');
+        if (typeof name !== 'string' || name.trim().length === 0) {
+            throw new Error('Library name is required');
+        }
+
+        this.songs = [];
+        this.playlists = [];
+        this.name = name;
     }
 
     /**
@@ -306,7 +367,21 @@ class MusicLibrary {
      * - Retorna la canción agregada
      */
     addSong(song) {
-        throw new Error('Method addSong not implemented');
+        if (!(song instanceof Song)) {
+            throw new Error('Song must be an instance of Song');
+        }
+
+        const alreadyExists = this.songs.some(s => 
+            s.title === song.title && s.artist === song.artist
+        );
+
+        if (alreadyExists) {
+            throw new Error('Song already exists in library');
+        }
+
+        this.songs.push(song);
+
+        return song;
     }
 
     /**
@@ -323,7 +398,9 @@ class MusicLibrary {
      * - Retorna la canción encontrada o null si no se encuentra
      */
     findSong(title) {
-        throw new Error('Method findSong not implemented');
+        const existMusic = this.songs.find(song => song.title === title);
+        return existMusic || null;
+
     }
 
     /**
@@ -341,7 +418,9 @@ class MusicLibrary {
      * - Retorna la lista creada
      */
     createPlaylist(playlistName) {
-        throw new Error('Method createPlaylist not implemented');
+        const newList = new Playlist(playlistName);
+        this.playlists.push(newList);
+        return newList;
     }
 
     /**
@@ -360,7 +439,7 @@ class MusicLibrary {
      * - Retorna el nuevo array filtrado
      */
     getSongsByArtist(artist) {
-        throw new Error('Method getSongsByArtist not implemented');
+        return this.songs.filter(song => song.getArtist() === artist);
     }
 
     /**
@@ -379,7 +458,7 @@ class MusicLibrary {
      * - Retorna el nuevo array filtrado
      */
     getSongsByGenre(genre) {
-        throw new Error('Method getSongsByGenre not implemented');
+        return this.songs.filter(song => song.getGenre() === genre);
     }
 
     /**
@@ -398,7 +477,9 @@ class MusicLibrary {
      * - Si no hay canciones, retorna 0
      */
     getTotalDuration() {
-        throw new Error('Method getTotalDuration not implemented');
+        return this.songs.reduce((acc, song) => {
+            return acc + song.getDuration();
+        }, 0);
     }
 
     /**
@@ -417,7 +498,30 @@ class MusicLibrary {
      * - Si hay empate, retorna el primero encontrado
      */
     getMostPopularArtist() {
-        throw new Error('Method getMostPopularArtist not implemented');
+        if (this.songs.length === 0) {
+            return null;
+        }
+
+        // Agrupa las canciones por artista y cuenta cuántas canciones tiene cada uno
+        const artistCounts = this.songs.reduce((acc, song) => {
+            const artist = song.getArtist();
+            acc[artist] = (acc[artist] || 0) + 1;
+            return acc;
+        }, {});
+
+        // Encuentra el artista con más canciones
+        let mostPopular = null;
+        let maxCount = 0;
+
+        Object.keys(artistCounts).forEach(artist => {
+            if (artistCounts[artist] > maxCount) {
+                maxCount = artistCounts[artist];
+                mostPopular = artist;
+            }
+        });
+
+        // Retorna el nombre del artista más popular
+        return mostPopular;
     }
 
     /**
@@ -443,7 +547,25 @@ class MusicLibrary {
      * - Retorna el objeto con todas las estadísticas
      */
     getStatistics() {
-        throw new Error('Method getStatistics not implemented');
+        // Calcula estadísticas básicas
+        const totalSongs = this.songs.length;
+        const totalPlaylists = this.playlists.length;
+        const totalDuration = this.getTotalDuration();
+
+        // Cuenta artistas únicos usando Set
+        const artists = new Set(this.songs.map(song => song.getArtist()));
+
+        // Cuenta géneros únicos usando Set
+        const genres = new Set(this.songs.map(song => song.getGenre()));
+
+        // Retorna objeto con todas las estadísticas
+        return {
+            totalSongs,
+            totalPlaylists,
+            totalDuration,
+            artists: artists.size,
+            genres: genres.size
+        };
     }
 }
 
