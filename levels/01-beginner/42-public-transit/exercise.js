@@ -40,7 +40,19 @@ class Bus {
      * - Asigna los valores validados a this.busNumber y this.capacity
      */
     constructor(busNumber, capacity) {
-        throw new Error('Bus constructor not implemented');
+        if (typeof busNumber !== 'string' || busNumber.trim().length === 0) {
+            throw new Error('Bus number is required');
+        }
+        
+        if (typeof capacity !== 'number' || capacity <= 0 || isNaN(capacity)) {
+            throw new Error('Bus capacity must be greater than 0');
+        }
+
+        this.currentPassengers = 0;
+        this.currentRoute = null;
+        this.isInService = true;
+        this.busNumber = busNumber;
+        this.capacity = capacity;
     }
 
     /**
@@ -55,13 +67,23 @@ class Bus {
      * TODO:
      * - Valida que count sea un número mayor que 0
      * - Lanza error "Passenger count must be greater than 0" si el conteo es inválido
-     * - Valida que haya capacidad disponible: (this.currentPassengers + count) <= this.capacity
+     * - Valida que haya capacidad disponible: (this.currentPassengers + count) > this.capacity
      * - Lanza error "Not enough capacity" si no hay suficiente capacidad
      * - Incrementa this.currentPassengers con count
      * - Retorna el nuevo total de pasajeros
      */
     boardPassengers(count) {
-        throw new Error('Method boardPassengers not implemented');
+        if (typeof count !== 'number' || count <= 0 || isNaN(count)) {
+            throw new Error('Passenger count must be greater than 0');
+        }
+
+        if (this.currentPassengers + count > this.capacity) {
+            throw new Error('Not enough capacity');
+        }
+
+        this.currentPassengers += count;
+        
+        return this.currentPassengers;
     }
 
     /**
@@ -76,13 +98,22 @@ class Bus {
      * TODO:
      * - Valida que count sea un número mayor que 0
      * - Lanza error "Passenger count must be greater than 0" si el conteo es inválido
-     * - Valida que haya suficientes pasajeros: this.currentPassengers >= count
+     * - Valida que haya suficientes pasajeros: this.currentPassengers < count
      * - Lanza error "Not enough passengers on board" si no hay suficientes pasajeros
      * - Decrementa this.currentPassengers con count
      * - Retorna el nuevo total de pasajeros
      */
     alightPassengers(count) {
-        throw new Error('Method alightPassengers not implemented');
+        if (typeof count !== 'number' || count <= 0 || isNaN(count)) {
+            throw new Error('Passenger count must be greater than 0');
+        }
+        
+        if (this.currentPassengers <= count) {
+            throw new Error('Not enough passengers on board');
+        }
+
+        this.currentPassengers -= count;
+        return this.currentPassengers;
     }
 
     /**
@@ -98,7 +129,8 @@ class Bus {
      * - Retorna el número de asientos disponibles (no puede ser negativo, retorna 0 si es negativo)
      */
     getAvailableSeats() {
-        throw new Error('Method getAvailableSeats not implemented');
+        const seatsAvailable = this.capacity - this.currentPassengers;
+        return seatsAvailable > 0 ? seatsAvailable : 0;
     }
 
     /**
@@ -117,7 +149,11 @@ class Bus {
      * - Retorna true
      */
     setRoute(route) {
-        throw new Error('Method setRoute not implemented');
+        if (!(route instanceof Route)) {
+            throw new Error('Route must be an instance of Route');
+        }
+        this.currentRoute = route;
+        return true;
     }
 
     /**
@@ -134,7 +170,8 @@ class Bus {
      * - Retorna el porcentaje calculado
      */
     getOccupancyRate() {
-        throw new Error('Method getOccupancyRate not implemented');
+        const personPercentage = (this.currentPassengers / this.capacity) * 100;
+        return parseFloat(personPercentage.toFixed(2));
     }
 }
 
@@ -166,7 +203,21 @@ class Route {
      * - Asigna los valores validados a las propiedades correspondientes
      */
     constructor(routeNumber, distance, fare) {
-        throw new Error('Route constructor not implemented');
+        if (typeof routeNumber !== 'string' || routeNumber.trim().length === 0) {
+            throw new Error('Route number is required');
+        }
+        if (typeof distance !== 'number' || distance <= 0 || isNaN(distance)) {
+            throw new Error('Route distance must be greater than 0');
+        }
+
+        if (typeof fare !== 'number' || fare <= 0 || isNaN(fare)) {
+            throw new Error('Route fare must be greater than 0');
+        }
+
+        this.stops = [];
+        this.routeNumber = routeNumber;
+        this.distance = distance;
+        this.fare = fare;
     }
 
     /**
@@ -187,7 +238,17 @@ class Route {
      * - Retorna el número total de paradas (this.stops.length)
      */
     addStop(stopName) {
-        throw new Error('Method addStop not implemented');
+        if (typeof stopName !== 'string' || stopName.trim().length === 0) {
+            throw new Error('Stop name is required');
+        }
+
+        const paradaStop = stopName.trim();
+        if (this.stops.includes(paradaStop)) {
+            throw new Error('Stop already exists');
+        }
+
+        this.stops.push(paradaStop);
+        return this.stops.length;
     }
 
     /**
@@ -202,7 +263,7 @@ class Route {
      * - Retorna this.stops.length
      */
     getTotalStops() {
-        throw new Error('Method getTotalStops not implemented');
+        return this.stops.length;
     }
 
     /**
@@ -217,7 +278,7 @@ class Route {
      * - Retorna this.distance
      */
     getDistance() {
-        throw new Error('Method getDistance not implemented');
+        return this.distance;
     }
 
     /**
@@ -237,7 +298,12 @@ class Route {
      * - Retorna el tiempo calculado
      */
     calculateTravelTime(averageSpeed) {
-        throw new Error('Method calculateTravelTime not implemented');
+        if (typeof averageSpeed !== 'number' || averageSpeed <= 0 || isNaN(averageSpeed)) {
+            throw new Error('Average speed must be greater than 0');
+        }
+
+        const calculateTime = this.distance / averageSpeed;
+        return parseFloat(calculateTime.toFixed(2));
     }
 }
 
@@ -263,7 +329,13 @@ class TransitSystem {
      * - Asigna el nombre validado a this.name
      */
     constructor(name) {
-        throw new Error('TransitSystem constructor not implemented');
+        if (typeof name !== 'string' || name.trim().length === 0) {
+            throw new Error('Transit system name is required');
+        }
+
+        this.buses = [];
+        this.routes = []
+        this.name = name;
     }
 
     /**
@@ -284,7 +356,17 @@ class TransitSystem {
      * - Retorna el número total de buses (this.buses.length)
      */
     addBus(bus) {
-        throw new Error('Method addBus not implemented');
+        if (!(bus instanceof Bus)) {
+            throw new Error('Bus must be an instance of Bus');
+        }
+
+        const existingBus = this.buses.find(b => b.busNumber === bus.busNumber);
+        if (existingBus) {
+            throw new Error('Bus number already exists');
+        }
+
+        this.buses.push(bus);
+        return this.buses.length;
     }
 
     /**
@@ -305,7 +387,18 @@ class TransitSystem {
      * - Retorna el número total de rutas (this.routes.length)
      */
     addRoute(route) {
-        throw new Error('Method addRoute not implemented');
+
+        if (!(route instanceof Route)) {
+            throw new Error('Route must be an instance of Route');
+        }
+
+        const existingRoute = this.routes.find(r => r.routeNumber === route.routeNumber);
+        if (existingRoute) {
+            throw new Error('Route number already exists');
+        }
+
+        this.routes.push(route);
+        return this.routes.length;
     }
 
     /**
@@ -331,7 +424,25 @@ class TransitSystem {
      * - Retorna true
      */
     assignBusToRoute(busNumber, routeNumber) {
-        throw new Error('Method assignBusToRoute not implemented');
+        if (typeof busNumber !== 'string' || busNumber.trim().length === 0) {
+            throw new Error('Bus number must be a string');
+        }
+        if (typeof routeNumber !== 'string' || routeNumber.trim().length === 0) {
+            throw new Error('Route number must be a string');
+        }
+
+        const bus = this.buses.find(b => b.busNumber === busNumber);
+        if (!bus) {
+            throw new Error('Bus not found');
+        }
+
+        const route = this.routes.find(r => r.routeNumber === routeNumber);
+        if (!route) {
+            throw new Error('Route not found');
+        }
+
+        bus.setRoute(route);
+        return true;
     }
 
     /**
@@ -352,7 +463,16 @@ class TransitSystem {
      * - Retorna el nuevo array filtrado
      */
     getBusesByRoute(routeNumber) {
-        throw new Error('Method getBusesByRoute not implemented');
+        if (typeof routeNumber !== 'string') {
+            throw new Error('Route number must be a string');
+        }
+
+        const route = this.routes.find(r => r.routeNumber === routeNumber);
+        if (!route) {
+            return [];
+        }
+
+        return this.buses.filter(bus => bus.currentRoute === route);
     }
 
     /**
@@ -370,7 +490,7 @@ class TransitSystem {
      * - Si no hay buses, retorna 0
      */
     getTotalPassengers() {
-        throw new Error('Method getTotalPassengers not implemented');
+        return this.buses.reduce((total, bus) => total + bus.currentPassengers, 0);
     }
 
     /**
@@ -390,7 +510,14 @@ class TransitSystem {
      * - Retorna el total de ingresos
      */
     getRevenue() {
-        throw new Error('Method getRevenue not implemented');
+        const revenue = this.buses.reduce((total, bus) => {
+            if (bus.currentRoute) {
+                return total + (bus.currentPassengers * bus.currentRoute.fare);
+            }
+            return total;
+        }, 0);
+
+        return parseFloat(revenue.toFixed(2));
     }
 
     /**
@@ -410,7 +537,24 @@ class TransitSystem {
      * - Si ninguna ruta tiene buses asignados, retorna null
      */
     getMostPopularRoute() {
-        throw new Error('Method getMostPopularRoute not implemented');
+          if (this.routes.length === 0) {
+            return null;
+        }
+
+        let maxPassengers = 0;
+        let popularRoute = null;
+
+        for (const route of this.routes) {
+            const busesOnRoute = this.getBusesByRoute(route.routeNumber);
+            const totalPassengers = busesOnRoute.reduce((sum, bus) => sum + bus.currentPassengers, 0);
+
+            if (totalPassengers > maxPassengers) {
+                maxPassengers = totalPassengers;
+                popularRoute = route;
+            }
+        }
+
+        return popularRoute;
     }
 }
 
