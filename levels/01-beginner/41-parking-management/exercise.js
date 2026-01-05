@@ -40,7 +40,21 @@ class ParkingSpot {
      * - Asigna los valores validados a this.spotNumber y this.type
      */
     constructor(spotNumber, type) {
-        throw new Error('ParkingSpot constructor not implemented');
+        if (typeof spotNumber !== 'string' || spotNumber.trim().length === 0) {
+            throw new Error('Spot number is required');
+        }
+        
+        const types = ['compact', 'standard', 'large'];
+
+        if (!types.includes(type)) {
+            throw new Error("Spot type must be 'compact', 'standard', or 'large'");
+        }
+
+        this.isOccupied = false;
+        this.vehiclePlate = null;
+        this.entryTime = null;
+        this.spotNumber = spotNumber;
+        this.type = type;
     }
 
     /**
@@ -67,7 +81,23 @@ class ParkingSpot {
      * - Retorna true
      */
     parkVehicle(plate, entryTime) {
-        throw new Error('Method parkVehicle not implemented');
+        if (typeof plate !== 'string' || plate.trim().length === 0) {
+            throw new Error('Vehicle plate is required');
+        }
+
+        if (!(entryTime instanceof Date)) {
+            throw new Error('Entry time must be a Date object');
+        }
+
+        if (this.isOccupied) {
+            throw new Error('Spot is already occupied');
+        }
+
+        this.vehiclePlate = plate.trim();
+        this.entryTime = entryTime;
+        this.isOccupied = true;
+
+        return true;
     }
 
     /**
@@ -95,7 +125,35 @@ class ParkingSpot {
      * - Retorna objeto { duration, fee }
      */
     exitVehicle(exitTime, ratePerHour) {
-        throw new Error('Method exitVehicle not implemented');
+        if (!(exitTime instanceof Date)) {
+            throw new Error('Exit time must be a Date object');
+        }
+
+        // Valida que ratePerHour sea un número mayor que 0
+        if (typeof ratePerHour !== 'number' || ratePerHour <= 0) {
+            throw new Error('Rate per hour must be greater than 0');
+        }
+
+        // Valida que el espacio esté ocupado
+        if (!this.isOccupied) {
+            throw new Error('Spot is not occupied');
+        }
+
+        // Valida que exitTime sea posterior a entryTime
+        if (exitTime <= this.entryTime) {
+            throw new Error('Exit time must be after entry time');
+        }
+
+        // Calcula duración y tarifa
+        const duration = this.getParkingDuration(exitTime);
+        const fee = this.calculateFee(exitTime, ratePerHour);
+
+        // Libera el espacio
+        this.isOccupied = false;
+        this.vehiclePlate = null;
+        this.entryTime = null;
+
+        return { duration, fee };
     }
 
     /**
@@ -118,7 +176,19 @@ class ParkingSpot {
      * - Retorna la duración calculada
      */
     getParkingDuration(exitTime) {
-        throw new Error('Method getParkingDuration not implemented');
+        if (!(exitTime instanceof Date)){
+            throw new Error('Exit time must be a Date object');
+        }
+        
+        if (!this.isOccupied) {
+            throw new Error('Spot is not occupied');
+        }
+
+        const diferentMinut = exitTime - this.entryTime;
+
+        const hours = diferentMinut / (1000 * 60 * 60);
+
+        return parseFloat(hours.toFixed(2));
     }
 
     /**
@@ -144,7 +214,22 @@ class ParkingSpot {
      * - Retorna la tarifa calculada
      */
     calculateFee(exitTime, ratePerHour) {
-        throw new Error('Method calculateFee not implemented');
+        if (!(exitTime instanceof Date)) {
+            throw new Error('Exit time must be a Date object');
+        }
+
+        if (ratePerHour <= 0 || typeof ratePerHour !== 'number') {
+            throw new Error('Rate per hour must be greater than 0');
+        }
+
+        if (!this.isOccupied) {
+            throw new Error('Spot is not occupied');
+        }
+
+        const duration = this.getParkingDuration(exitTime);
+        const fee = duration * ratePerHour;
+
+        return parseFloat(fee.toFixed(2));
     }
 
     /**
@@ -165,7 +250,19 @@ class ParkingSpot {
      * - Retorna true si es compatible, false en caso contrario
      */
     isCompatible(vehicleType) {
-        throw new Error('Method isCompatible not implemented');
+        if (typeof vehicleType !== 'string') {
+            throw new Error('Vehicle type must be a string');
+        }
+
+        if (this.type === 'compact') {
+            return vehicleType === 'compact';
+        } else if (this.type === 'standard') {
+            return vehicleType === 'compact' || vehicleType === 'standard';
+        } else if (this.type === 'large') {
+            return vehicleType === 'compact' || vehicleType === 'standard' || vehicleType === 'large';
+        }
+
+        return false;
     }
 }
 
@@ -192,7 +289,23 @@ class ParkingLot {
      * - Asigna el nombre validado a this.name
      */
     constructor(name) {
-        throw new Error('ParkingLot constructor not implemented');
+        if (typeof name !== 'string' || name.trim().length === 0) {
+            throw new Error('Parking lot name is required');
+        }
+
+        // Asigna valores iniciales
+        this.name = name.trim();
+        this.spots = [];
+        this.hourlyRates = {
+            compact: 2,
+            standard: 3,
+            large: 5
+        };
+        this.revenue = {
+            compact: 0,
+            standard: 0,
+            large: 0
+        };
     }
 
     /**
@@ -217,7 +330,26 @@ class ParkingLot {
      * - Retorna el espacio creado
      */
     addSpot(spotNumber, type) {
-        throw new Error('Method addSpot not implemented');
+        if (typeof spotNumber !== 'string' || spotNumber.trim().length === 0) {
+            throw new Error('Spot number is required');
+        }
+        
+        const validTypes = ['compact', 'standard', 'large'];
+        if (!validTypes.includes(type)) {
+            throw new Error("Spot type must be 'compact', 'standard', or 'large'");
+        }
+        
+        // TU CÓDIGO
+        const existingSpot = this.spots.find(spot => spot.spotNumber === spotNumber.trim());
+        const spot = new ParkingSpot(spotNumber, type);
+
+        if (existingSpot) {
+            throw new Error('Spot number already exists');
+        }
+        
+        this.spots.push(spot);
+        
+        return spot;
     }
 
     /**
@@ -238,7 +370,13 @@ class ParkingLot {
      * - Retorna el espacio encontrado o null si no hay disponible
      */
     findAvailableSpot(vehicleType) {
-        throw new Error('Method findAvailableSpot not implemented');
+        if (typeof vehicleType !== 'string') {
+            throw new Error('Vehicle type must be a string');
+        }
+
+        return this.spots.find(spot => 
+            !spot.isOccupied && spot.isCompatible(vehicleType)
+        ) || null;
     }
 
     /**
@@ -265,7 +403,26 @@ class ParkingLot {
      * - Retorna el espacio donde se estacionó
      */
     parkVehicle(vehicleType, plate, entryTime) {
-        throw new Error('Method parkVehicle not implemented');
+        if (typeof vehicleType !== 'string') {
+            throw new Error('Vehicle type must be a string');
+        }
+
+        if (typeof plate !== 'string' || plate.trim().length === 0) {
+            throw new Error('Vehicle plate is required');
+        }
+        
+        if (!(entryTime instanceof Date)) {
+            throw new Error('Entry time must be a Date object');
+        }
+        
+        const spot = this.findAvailableSpot(vehicleType);
+        if (!spot) {
+            throw new Error('No available spot for this vehicle type');
+        }
+
+        spot.parkVehicle(plate.trim(), entryTime);
+
+        return spot;
     }
 
     /**
@@ -291,7 +448,33 @@ class ParkingLot {
      * - Retorna objeto { spot, duration: result.duration, fee: result.fee }
      */
     exitVehicle(plate, exitTime) {
-        throw new Error('Method exitVehicle not implemented');
+        if (typeof plate !== 'string' || plate.trim().length === 0) {
+            throw new Error('Vehicle plate is required');
+        }
+
+        if (!(exitTime instanceof Date)) {
+            throw new Error('Exit time must be a Date object');
+        }
+
+        const spot = this.spots.find(s => 
+            s.isOccupied && s.vehiclePlate === plate.trim()
+        );
+
+        if (!spot) {
+            throw new Error('Vehicle not found');
+        }
+
+        const ratePerHour = this.hourlyRates[spot.type];
+
+        const result = spot.exitVehicle(exitTime, ratePerHour);
+
+        this.revenue[spot.type] += result.fee;
+
+        return {
+            spot,
+            duration: result.duration,
+            fee: result.fee
+        };
     }
 
     /**
@@ -310,7 +493,15 @@ class ParkingLot {
      * - Retorna el porcentaje calculado
      */
     getOccupancyRate() {
-        throw new Error('Method getOccupancyRate not implemented');
+        if (this.spots.length === 0) {
+            return 0;
+        }
+
+        const occupiedCount = this.spots.filter(spot => spot.isOccupied).length;
+
+        const rate = (occupiedCount / this.spots.length) * 100;
+
+        return parseFloat(rate.toFixed(2));
     }
 
     /**
@@ -326,7 +517,7 @@ class ParkingLot {
      * - Esto asegura que no se modifique el objeto original desde fuera
      */
     getRevenueByType() {
-        throw new Error('Method getRevenueByType not implemented');
+        return { ...this.revenue };
     }
 
     /**
@@ -345,7 +536,12 @@ class ParkingLot {
      * - Retorna el nuevo array filtrado
      */
     getSpotsByType(type) {
-        throw new Error('Method getSpotsByType not implemented');
+        const validTypes = ['compact', 'standard', 'large'];
+        if (!validTypes.includes(type)) {
+            throw new Error("Spot type must be 'compact', 'standard', or 'large'");
+        }
+
+        return this.spots.filter(spot => spot.type === type);
     }
 }
 
