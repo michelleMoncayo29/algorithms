@@ -3,7 +3,21 @@
  */
 class Course {
     constructor(courseId, title, instructor, duration, price) {
-        throw new Error('Course constructor not implemented');
+        if (typeof courseId !== 'string' || courseId.trim().length === 0) {
+            throw new Error('Course ID is required');
+        }
+
+        if (typeof title !== 'string' || title.trim().length === 0) {
+            throw new Error('Course title is required');
+        }
+        
+        if (typeof duration !== 'number' || duration <= 0 || isNaN(duration)) {
+            throw new Error('Course duration must be greater than 0');
+        }
+
+        if (typeof price !== 'number' || price <= 0 || isNaN(price)) {
+            throw new Error('Course price must be greater than 0');
+        }
     }
 
     enrollStudent(student) {
