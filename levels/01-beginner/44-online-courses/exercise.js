@@ -10,7 +10,11 @@ class Course {
         if (typeof title !== 'string' || title.trim().length === 0) {
             throw new Error('Course title is required');
         }
-        
+
+        if (typeof instructor !== 'string' || instructor.trim().length === 0) {
+            throw new Error('Course instructor is required');
+        }
+
         if (typeof duration !== 'number' || duration <= 0 || isNaN(duration)) {
             throw new Error('Course duration must be greater than 0');
         }
@@ -18,6 +22,16 @@ class Course {
         if (typeof price !== 'number' || price <= 0 || isNaN(price)) {
             throw new Error('Course price must be greater than 0');
         }
+
+        this.courseId = courseId;
+        this.title = title;
+        this.instructor = instructor;
+        this.duration = duration;
+        this.price = price;
+
+        this.enrolledStudents = [];
+        this.lessons = [];
+
     }
 
     enrollStudent(student) {
