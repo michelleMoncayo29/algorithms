@@ -61,11 +61,34 @@ class Course {
 
 class Student {
     constructor(studentId, name, email) {
-        throw new Error('Student constructor not implemented');
+        if (typeof studentId !== 'string' || studentId.trim().length === 0) {
+            throw new Error('Student ID is required');
+        }
+        if (typeof name !== 'string' || name.trim().length === 0) {
+            throw new Error('Not enrolled in this course');
+        }
+        if (typeof email !== 'string' || email.trim().length === 0) {
+            throw new Error('Progress must be between 0 and 100');
+        }
+
+        this.studentId = studentId;
+        this.name = name;
+        this.email = email;
+        this.enrollInCourse = [];
+        this.completeCourse = [];
+        this.progress = {};
     }
 
     enrollInCourse(course) {
-        throw new Error('Method enrollInCourse not implemented');
+        if (!(course instanceof Course)) {
+            throw new Error('Course must be an instance of Course');
+        }
+        if (this.enrolledCourses.includes(course)) {
+            throw new Error('Already enrolled in this course');
+        }
+        this.enrolledCourses.push(course);
+        this.progress[course.courseId] = 0;
+        return true;
     }
 
     completeCourse(courseId) {
