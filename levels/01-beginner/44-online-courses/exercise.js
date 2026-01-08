@@ -4,23 +4,23 @@
 class Course {
     constructor(courseId, title, instructor, duration, price) {
         if (typeof courseId !== 'string' || courseId.trim().length === 0) {
-            throw new Error('Course ID is required');
+        throw new Error('Course ID is required');
         }
 
         if (typeof title !== 'string' || title.trim().length === 0) {
-            throw new Error('Course title is required');
+        throw new Error('Course title is required');
         }
 
         if (typeof instructor !== 'string' || instructor.trim().length === 0) {
-            throw new Error('Course instructor is required');
+        throw new Error('Course instructor is required');
         }
 
         if (typeof duration !== 'number' || duration <= 0 || isNaN(duration)) {
-            throw new Error('Course duration must be greater than 0');
+        throw new Error('Course duration must be greater than 0');
         }
 
         if (typeof price !== 'number' || price <= 0 || isNaN(price)) {
-            throw new Error('Course price must be greater than 0');
+        throw new Error('Course price must be greater than 0');
         }
 
         this.courseId = courseId;
@@ -31,51 +31,74 @@ class Course {
 
         this.enrolledStudents = [];
         this.lessons = [];
-
     }
 
     enrollStudent(student) {
-        throw new Error('Method enrollStudent not implemented');
+        if (!(student instanceof Student)) {
+            throw new Error('Student must be an instance of Student');
+        }
+        if (this.enrolledStudents.includes(student)) {
+            throw new Error('Student already enrolled');
+        }
+
+        this.enrolledStudents.push(student);
+
+        return this.enrolledStudents.length;
     }
 
     addLesson(lessonTitle, duration) {
-        throw new Error('Method addLesson not implemented');
+        if (typeof lessonTitle !== 'string' || lessonTitle.trim().length === 0) {
+            throw new Error('Lesson title is required');
+        }
+
+        if (typeof duration !== 'number' || duration <= 0) {
+            throw new Error('Lesson duration must be greater than 0');
+        }
+
+        this.lessons.push({ title: lessonTitle.trim(), duration });
+        return this.lessons.length;
     }
 
     getTotalLessons() {
-        throw new Error('Method getTotalLessons not implemented');
+        return this.lessons.length;
     }
 
     getTotalDuration() {
-        throw new Error('Method getTotalDuration not implemented');
+        return this.lessons.reduce((total, lesson) => total + lesson.duration, 0);
     }
 
     getEnrollmentCount() {
-        throw new Error('Method getEnrollmentCount not implemented');
+        return this.enrolledStudents.length;
     }
 
     getCompletionRate() {
-        throw new Error('Method getCompletionRate not implemented');
+        if (this.enrolledStudents.length === 0) return 0;
+        const completed = this.enrolledStudents.filter(s =>
+        s.completedCourses.includes(this.courseId)
+        ).length;
+        return parseFloat(
+        ((completed / this.enrolledStudents.length) * 100).toFixed(2)
+        );
     }
 }
 
 class Student {
     constructor(studentId, name, email) {
         if (typeof studentId !== 'string' || studentId.trim().length === 0) {
-            throw new Error('Student ID is required');
+        throw new Error('Student ID is required');
         }
         if (typeof name !== 'string' || name.trim().length === 0) {
-            throw new Error('Not enrolled in this course');
+        throw new Error('Not enrolled in this course');
         }
         if (typeof email !== 'string' || email.trim().length === 0) {
-            throw new Error('Progress must be between 0 and 100');
+        throw new Error('Progress must be between 0 and 100');
         }
 
         this.studentId = studentId;
         this.name = name;
         this.email = email;
-        this.enrollInCourse = [];
-        this.completeCourse = [];
+        this.enrollInCourses = [];
+        this.completedCourses = [];
         this.progress = {};
     }
 
@@ -83,42 +106,70 @@ class Student {
         if (!(course instanceof Course)) {
             throw new Error('Course must be an instance of Course');
         }
-        if (this.enrolledCourses.includes(course)) {
+        if (this.enrollInCourses.includes(course)) {
             throw new Error('Already enrolled in this course');
         }
-        this.enrolledCourses.push(course);
+        this.enrollInCourses.push(course);
         this.progress[course.courseId] = 0;
         return true;
     }
 
     completeCourse(courseId) {
-        throw new Error('Method completeCourse not implemented');
+        if (!this.enrollInCourses.find(c => c.courseId === courseId)) {
+            throw new Error('Not enrolled in this course');
+        }
+        if (!this.completedCourses.includes(courseId)) {
+            this.completedCourses.push(courseId);
+            this.progress[courseId] = 100;
+        }
+        return true;
     }
 
     updateProgress(courseId, percentage) {
-        throw new Error('Method updateProgress not implemented');
+        if (typeof percentage !== 'number' || percentage < 0 || percentage > 100) {
+            throw new Error('Progress must be between 0 and 100');
+        }
+        if (!this.enrollInCourses.find(c => c.courseId === courseId)) {
+            throw new Error('Not enrolled in this course');
+        }
+        this.progress[courseId] = percentage;
+        return percentage;
     }
 
     getProgress(courseId) {
-        throw new Error('Method getProgress not implemented');
+        return this.progress[courseId] || 0;
     }
 
     getTotalCoursesEnrolled() {
-        throw new Error('Method getTotalCoursesEnrolled not implemented');
+        return this.enrollInCourses.length;
     }
 
     getCompletionRate() {
-        throw new Error('Method getCompletionRate not implemented');
+        if (this.enrollInCourses.length === 0) return 0;
+        return parseFloat(((this.completedCourses.length / this.enrollInCourses.length) * 100).toFixed(2));
     }
 }
 
 class LearningPlatform {
     constructor(name) {
-        throw new Error('LearningPlatform constructor not implemented');
+        if (typeof name !== 'string' || name.trim().length === 0) {
+        throw new Error('Platform name is required');
+        }
+
+        this.name = name;
+        this.courses = [];
+        this.students = [];
     }
 
     addCourse(course) {
-        throw new Error('Method addCourse not implemented');
+        if (!(course instanceof Course)) {
+            throw new Error('Course must be an instance of Course');
+        }
+        if (this.courses.find(c => c.courseId === course.courseId)) {
+            throw new Error('Course already exists');
+        }
+        this.courses.push(course);
+        return course;
     }
 
     registerStudent(student) {
@@ -147,4 +198,3 @@ class LearningPlatform {
 }
 
 module.exports = { Course, Student, LearningPlatform };
-
