@@ -88,16 +88,16 @@ class Student {
         throw new Error('Student ID is required');
         }
         if (typeof name !== 'string' || name.trim().length === 0) {
-        throw new Error('Not enrolled in this course');
+        throw new Error('Student name is required');
         }
         if (typeof email !== 'string' || email.trim().length === 0) {
-        throw new Error('Progress must be between 0 and 100');
+        throw new Error('Student email is required');
         }
 
         this.studentId = studentId;
         this.name = name;
         this.email = email;
-        this.enrollInCourses = [];
+        this.enrolledCourses = [];
         this.completedCourses = [];
         this.progress = {};
     }
@@ -106,16 +106,16 @@ class Student {
         if (!(course instanceof Course)) {
             throw new Error('Course must be an instance of Course');
         }
-        if (this.enrollInCourses.includes(course)) {
+        if (this.enrolledCourses.includes(course)) {
             throw new Error('Already enrolled in this course');
         }
-        this.enrollInCourses.push(course);
+        this.enrolledCourses.push(course);
         this.progress[course.courseId] = 0;
         return true;
     }
 
     completeCourse(courseId) {
-        if (!this.enrollInCourses.find(c => c.courseId === courseId)) {
+        if (!this.enrolledCourses.find(c => c.courseId === courseId)) {
             throw new Error('Not enrolled in this course');
         }
         if (!this.completedCourses.includes(courseId)) {
@@ -129,7 +129,7 @@ class Student {
         if (typeof percentage !== 'number' || percentage < 0 || percentage > 100) {
             throw new Error('Progress must be between 0 and 100');
         }
-        if (!this.enrollInCourses.find(c => c.courseId === courseId)) {
+        if (!this.enrolledCourses.find(c => c.courseId === courseId)) {
             throw new Error('Not enrolled in this course');
         }
         this.progress[courseId] = percentage;
@@ -173,27 +173,52 @@ class LearningPlatform {
     }
 
     registerStudent(student) {
-        throw new Error('Method registerStudent not implemented');
+        if (!(student instanceof Student)) {
+            throw new Error('Student must be an instance of Student');
+        }
+
+        if (!this.students.find(s => s.studentId === student.studentId)) {
+            this.students.push(student);
+        }
+
+        return student;
     }
 
     getCoursesByInstructor(instructor) {
-        throw new Error('Method getCoursesByInstructor not implemented');
+        return this.courses.filter(c => c.instructor === instructor);
     }
 
     getMostPopularCourse() {
-        throw new Error('Method getMostPopularCourse not implemented');
+        if (this.courses.length === 0) return null;
+        return this.courses.reduce((popular, current) => {
+            return (current.getEnrollmentCount() > popular.getEnrollmentCount()) ? current : popular;
+        });
     }
 
     getTotalRevenue() {
-        throw new Error('Method getTotalRevenue not implemented');
+        return this.courses.reduce((total, course) => {
+            return total + (course.price * course.getEnrollmentCount());
+        }, 0);
     }
 
     getAverageCompletionRate() {
-        throw new Error('Method getAverageCompletionRate not implemented');
+        if (this.courses.length === 0) return 0;
+        const sumRates = this.courses.reduce((total, course) => {
+            return total + course.getCompletionRate();
+        }, 0);
+        return parseFloat((sumRates / this.courses.length).toFixed(2));
     }
 
     getStudentStatistics(studentId) {
-        throw new Error('Method getStudentStatistics not implemented');
+        const student = this.students.find(s => s.studentId === studentId);
+        if (!student) throw new Error('Student not found');
+
+        return {
+            enrolledCount: student.getTotalCoursesEnrolled(),
+            completedCount: student.completedCourses.length,
+            completionRate: student.getCompletionRate(),
+            currentProgress: student.progress
+        };
     }
 }
 
