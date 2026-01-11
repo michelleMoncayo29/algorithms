@@ -38,6 +38,10 @@ function delay(ms) {
     if(typeof ms !== 'number' || isNaN(ms)) {
         return Promise.reject(new Error('Delay must be a number'));
     }
+
+    if(ms < 0) {
+        return Promise.reject(new Error('Delay must be greater than or equal to 0'));
+    }
 }
 
 /**
