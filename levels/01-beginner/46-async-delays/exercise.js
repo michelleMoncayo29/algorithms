@@ -35,7 +35,9 @@
  * - Después del delay, llama resolve("Delay completed")
  */
 function delay(ms) {
-    throw new Error('Function delay not implemented');
+    if(typeof ms !== 'number' || isNaN(ms)) {
+        return Promise.reject(new Error('Delay must be a number'));
+    }
 }
 
 /**
