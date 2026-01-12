@@ -42,6 +42,15 @@ function delay(ms) {
     if(ms < 0) {
         return Promise.reject(new Error('Delay must be greater than or equal to 0'));
     }
+
+    // Retornar una nueva promesa
+    return new Promise((resolve) => {
+        // Usar setTimeout para esperar ms milisegundos
+        setTimeout(() => {
+            // Resolver la promesa con el mensaje
+            resolve('Delay completed');
+        }, ms);
+    });
 }
 
 /**
