@@ -36,11 +36,11 @@
  */
 function delay(ms) {
     if(typeof ms !== 'number' || isNaN(ms)) {
-        return Promise.reject(new Error('Delay must be a number'));
+        return Promise.reject(new Error('Delay must be a number')); // esto es como twrow new Error pero para promesas
     }
 
     if(ms < 0) {
-        return Promise.reject(new Error('Delay must be greater than or equal to 0'));
+        return Promise.reject(new Error('Delay must be greater than or equal to 0')); // esto es como twrow new Error pero para promesas
     }
 
     // Retornar una nueva promesa
@@ -48,10 +48,13 @@ function delay(ms) {
         // Usar setTimeout para esperar ms milisegundos
         setTimeout(() => {
             // Resolver la promesa con el mensaje
-            resolve('Delay completed');
+            resolve('Delay completed'); // Este es el mensaje que imprime cuando se ejecuta la función.
         }, ms);
     });
 }
+
+// !OJO aca ya lo imprime directamente para que veas como funciona la funcion delay
+const restultDelay = delay(3000).then(message => console.log(message)); // Imprime "Delay completed" después de 1 segundo
 
 /**
  * Simula obtener datos de un usuario desde una "API" con un delay de 500ms.
@@ -64,7 +67,7 @@ function delay(ms) {
  *
  * Ejemplo:
  * fetchUserData(123).then(user => console.log(user));
- * // Después de 500ms: { id: 123, name: "User 123", email: "user123@example.com" }
+//  * // Después de 500ms: { id: 123, name: "User 123", email: "user123@example.com" }
  *
  * TODO:
  * - Valida que userId no sea null, undefined o string vacío
@@ -74,8 +77,21 @@ function delay(ms) {
  * - Después del delay, resuelve con objeto: { id: userId, name: "User " + userId, email: "user" + userId + "@example.com" }
  */
 function fetchUserData(userId) {
-    throw new Error('Function fetchUserData not implemented');
+    if (userId === null || userId === undefined || userId.length === 0) { 
+        return Promise.reject(new Error('User ID is requied'));
+    }
+
+    return new Promise((resolve => {
+        setTimeout(() => {
+            resolve({
+                id: userId,
+                name: "User " + userId,
+                email: "user" + userId + "@example.com"
+            })
+        })
+    }))
 }
+// const restulFetchUser = fetchUserData(4000).then(message => console.log(message)); 
 
 /**
  * Simula procesar datos con un delay de 300ms.
@@ -97,8 +113,18 @@ function fetchUserData(userId) {
  * - Después del delay, resuelve con "Processed: " + String(data)
  */
 function processData(data) {
-    throw new Error('Function processData not implemented');
+    if (data === null || data === undefined) { 
+        return Promise.reject(new Error('Data is required'));
+    }
+
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve('Processed: ' + String(data));
+        });
+    })
 }
+
+const resultProcessData = processData("Hello").then(message => console.log(message));
 
 /**
  * Encadena operaciones asíncronas usando .then():
@@ -114,7 +140,7 @@ function processData(data) {
  *
  * Ejemplo:
  * handleAsyncOperation(456).then(result => console.log(result));
- * // Después de ~800ms (500ms + 300ms): "Processed: User 456"
+//  * // Después de ~800ms (500ms + 300ms): "Processed: User 456"
  *
  * TODO:
  * - Llama a fetchUserData(userId) y encadena con .then()
