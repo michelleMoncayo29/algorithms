@@ -34,6 +34,8 @@
  * - Dentro de la promesa, usa setTimeout() para esperar ms milisegundos
  * - Después del delay, llama resolve("Delay completed")
  */
+
+// se ejecuta por su lado la asincrona
 function delay(ms) {
     if(typeof ms !== 'number' || isNaN(ms)) {
         return Promise.reject(new Error('Delay must be a number')); // esto es como twrow new Error pero para promesas
@@ -54,7 +56,16 @@ function delay(ms) {
 }
 
 // !OJO aca ya lo imprime directamente para que veas como funciona la funcion delay
-const restultDelay = delay(3000).then(message => console.log(message)); // Imprime "Delay completed" después de 1 segundo
+// Imprime "Delay completed" después de 1 segundo
+// delay(3000)
+//     .then(message => {        
+//         return message +  " Then 1"
+//     })
+//     .then(cualquiera => {
+//       return cualquiera + " then 2"
+//     })
+//     .then(final => console.log("✅ final: ", final))
+//     .catch(error => console.error("❌ error final: ", error.message)); 
 
 /**
  * Simula obtener datos de un usuario desde una "API" con un delay de 500ms.
@@ -78,7 +89,7 @@ const restultDelay = delay(3000).then(message => console.log(message)); // Impri
  */
 function fetchUserData(userId) {
     if (userId === null || userId === undefined || userId.length === 0) { 
-        return Promise.reject(new Error('User ID is requied'));
+        return Promise.reject(new Error('User ID is required'));
     }
 
     return new Promise((resolve => {
@@ -88,7 +99,7 @@ function fetchUserData(userId) {
                 name: "User " + userId,
                 email: "user" + userId + "@example.com"
             })
-        })
+        }, 500);
     }))
 }
 // const restulFetchUser = fetchUserData(4000).then(message => console.log(message)); 
@@ -120,11 +131,11 @@ function processData(data) {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve('Processed: ' + String(data));
-        });
+        }, 300);
     })
 }
 
-const resultProcessData = processData("Hello").then(message => console.log(message));
+// const resultProcessData = processData("Hello").then(message => console.log(message));
 
 /**
  * Encadena operaciones asíncronas usando .then():
@@ -149,7 +160,9 @@ const resultProcessData = processData("Hello").then(message => console.log(messa
  * - Opcional: Agrega .catch() para manejar errores y re-lanzarlos con throw error
  */
 function handleAsyncOperation(userId) {
-    throw new Error('Function handleAsyncOperation not implemented');
+    return fetchUserData(userId).then(user => {
+        return processData(user.name).then(result => result);
+    });
 }
 
 /**
@@ -175,7 +188,13 @@ function handleAsyncOperation(userId) {
  * - En el catch, re-lanza el error con throw error
  */
 async function handleAsyncOperationWithAwait(userId) {
-    throw new Error('Function handleAsyncOperationWithAwait not implemented');
+    try {
+        const userData = await fetchUserData(userId);
+        const processedData = await processData(userData.name);
+        return processedData;
+    } catch (error) {
+        throw error;
+    }
 }
 
 /**
@@ -189,8 +208,8 @@ async function handleAsyncOperationWithAwait(userId) {
  *
  * Ejemplo:
  * fetchMultipleUsers([1, 2, 3]).then(users => console.log(users));
- * // Después de ~500ms (no 1500ms, porque es en paralelo):
- * // [{id:1, name:"User 1", email:"user1@example.com"}, ...]
+//  * // Después de ~500ms (no 1500ms, porque es en paralelo):
+//  * // [{id:1, name:"User 1", email:"user1@example.com"}, ...]
  *
  * TODO:
  * - Valida que userIds sea un array usando Array.isArray()
@@ -203,7 +222,19 @@ async function handleAsyncOperationWithAwait(userId) {
  * - Retorna el resultado de Promise.all()
  */
 function fetchMultipleUsers(userIds) {
-    throw new Error('Function fetchMultipleUsers not implemented');
+    if (!Array.isArray(userIds)) {
+        return Promise.reject(new Error('User IDs must be an array'));
+    }
+
+    // Validar que el array no esté vacío
+    if (userIds.length === 0) {
+        return Promise.reject(new Error('User IDs array cannot be empty'));
+    }
+
+    const promises = userIds.map(userId => fetchUserData(userId));
+
+    return Promise.all(promises);
+
 }
 
 module.exports = {
