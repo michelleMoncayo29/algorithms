@@ -33,8 +33,31 @@
  * - Si random >= successRate → reject(new Error("API call failed"))
  */
 function simulateApiCall(successRate = 0.8) {
-    throw new Error('Function simulateApiCall not implemented');
+    if(typeof successRate !== 'number' || isNaN(successRate)) {
+        return Promise.reject(new Error('Success rate must be a number'));
+    }
+
+    if (successRate < 0 || successRate > 1) {
+        return Promise.reject(new Error('Success rate must be between 0 and 1'));
+    }
+
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const random = Math.random();
+            
+            if (random < successRate) {
+                resolve('Success');
+            } else {
+                reject(new Error('API call failed'));
+            }
+
+        }, 200); 
+    });
 }
+
+simulateApiCall(3)
+    .then(message => console.log(message)) //pregunta a sam sobre el error que me rompe todo
+    .catch(error => console.log(error));
 
 /**
  * Reintenta una operación que retorna una promesa si falla.
@@ -58,7 +81,17 @@ function simulateApiCall(successRate = 0.8) {
  * - Si falla y maxRetries <= 0, rechaza con el error
  */
 function retryOperation(operation, maxRetries = 3) {
-    throw new Error('Function retryOperation not implemented');
+    if (typeof operation !== 'function') {
+        return Promise.reject(new Error('Operation must be a function'));
+    }
+
+    if (typeof maxRetries !== 'number') {
+        return Promise.reject(new Error('Max retries must be a number'));
+    }
+
+    if (maxRetries < 0) {
+        return Promise.reject(new Error('Max retries must be greater than or equal to 0'));
+    }
 }
 
 /**
