@@ -197,7 +197,6 @@ function fetchWithRetry(url, maxRetries = 3) {
     if (maxRetries <= 0) {
         return Promise.reject(new Error('Max retries must be greater than or equal to 0'));
     }
-
     
     return withTimeout(retryOperation(
         () => simulateApiCall(0.6),
