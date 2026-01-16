@@ -55,10 +55,6 @@ function simulateApiCall(successRate = 0.8) {
     });
 }
 
-// simulateApiCall(3)
-//     .then(message => console.log(message)) //pregunta a sam sobre el error que me rompe todo
-//     .catch(error => console.log(error));
-
 /**
  * Reintenta una operación que retorna una promesa si falla.
  * Traducción: Reintentar Operación
@@ -84,33 +80,40 @@ function retryOperation(operation, maxRetries = 3) {
     if (typeof operation !== 'function') {
         return Promise.reject(new Error('Operation must be a function'));
     }
-
+    
     if (typeof maxRetries !== 'number') {
         return Promise.reject(new Error('Max retries must be a number'));
     }
-
+    
     if (maxRetries < 0) {
         return Promise.reject(new Error('Max retries must be greater than or equal to 0'));
     }
 
-    // preguntarle a samuel que me explique bien no entendi
+    
     return operation()
-        .then(result => {
-            // Si tiene éxito, devolvemos el resultado hacia arriba
-            return result;
-        })
-        .catch(error => {
-            // Si falla y aún nos quedan intentos...
-            if (maxRetries > 0) {
-                // ...llamamos a la función de nuevo con un intento menos
-                return retryOperation(operation, maxRetries - 1);
-            }
-            // Si ya no quedan intentos, lanzamos el error
-            throw error;
-        });
+    .then(result => result)
+        .catch(err => {
+        
+        if (maxRetries === 0) throw new Error('Failed');
+        
+        return retryOperation(operation, maxRetries - 1)
+    })
 }
 
+
+
+// Ejemplo
+/* 
+- Consultar usuarios -> operación
+Consultar usuarios, 3 intentos
+
+getUsers () -> 400 error
+getUser -> 400
+getUser -> 200
+ */
+
 /**
+ * añadir un limite de espera. para las promesa
  * Agrega un timeout a una promesa existente.
  * Traducción: Con Timeout
  *
@@ -152,6 +155,14 @@ function withTimeout(promise, timeoutMs = 5000) {
     return Promise.race([promise, newPromises]);
 }
 
+/* 
+getUsers -> 1 | 1000
+timeout => 500
+
+getUsers > 500
+error
+ */
+
 /**
  * Combina retry y timeout para obtener datos de una URL.
  * Traducción: Obtener con Reintento
@@ -186,8 +197,15 @@ function fetchWithRetry(url, maxRetries = 3) {
     if (maxRetries <= 0) {
         return Promise.reject(new Error('Max retries must be greater than or equal to 0'));
     }
+
+    
+    return withTimeout(retryOperation(
+        () => simulateApiCall(0.6),
+        maxRetries
+    ), 1000).then(() => `Data from ${url}`);
 }
 
+fetchWithRetry("Mi url", 5).then(console.log).catch(console.error);
 /**
  * Procesa múltiples URLs en paralelo, cada una con su propio retry.
  * Traducción: Procesar Múltiples Requests
