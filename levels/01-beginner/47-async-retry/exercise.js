@@ -55,9 +55,9 @@ function simulateApiCall(successRate = 0.8) {
     });
 }
 
-simulateApiCall(3)
-    .then(message => console.log(message)) //pregunta a sam sobre el error que me rompe todo
-    .catch(error => console.log(error));
+// simulateApiCall(3)
+//     .then(message => console.log(message)) //pregunta a sam sobre el error que me rompe todo
+//     .catch(error => console.log(error));
 
 /**
  * Reintenta una operación que retorna una promesa si falla.
@@ -92,6 +92,22 @@ function retryOperation(operation, maxRetries = 3) {
     if (maxRetries < 0) {
         return Promise.reject(new Error('Max retries must be greater than or equal to 0'));
     }
+
+    // preguntarle a samuel que me explique bien no entendi
+    return operation()
+        .then(result => {
+            // Si tiene éxito, devolvemos el resultado hacia arriba
+            return result;
+        })
+        .catch(error => {
+            // Si falla y aún nos quedan intentos...
+            if (maxRetries > 0) {
+                // ...llamamos a la función de nuevo con un intento menos
+                return retryOperation(operation, maxRetries - 1);
+            }
+            // Si ya no quedan intentos, lanzamos el error
+            throw error;
+        });
 }
 
 /**
@@ -115,7 +131,25 @@ function retryOperation(operation, maxRetries = 3) {
  * - Retorna el resultado de Promise.race()
  */
 function withTimeout(promise, timeoutMs = 5000) {
-    throw new Error('Function withTimeout not implemented');
+    if (!(promise instanceof Promise)) {
+        return Promise.reject(new Error('Promise must be a Promise instance'));
+    }
+
+    if (typeof timeoutMs !== 'number') {
+        return Promise.reject(new Error('Timeout must be a number'));
+    }
+
+    if( timeoutMs <= 0) {
+        return Promise.reject(new Error('Timeout must be greater than 0'));
+    }
+
+    const newPromises = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            reject(new Error('Operation timed out'));
+        }, timeoutMs);
+    });
+
+    return Promise.race([promise, newPromises]);
 }
 
 /**
@@ -141,7 +175,17 @@ function withTimeout(promise, timeoutMs = 5000) {
  * - Retorna el resultado de retryOperation()
  */
 function fetchWithRetry(url, maxRetries = 3) {
-    throw new Error('Function fetchWithRetry not implemented');
+    if (typeof url !== 'string' || url.trim().length === 0) {
+        return Promise.reject(new Error('URL is required'));
+    }
+
+    if( typeof maxRetries !== 'number') {
+        return Promise.reject(new Error('Max retries must be a number'));
+    }
+
+    if (maxRetries <= 0) {
+        return Promise.reject(new Error('Max retries must be greater than or equal to 0'));
+    }
 }
 
 /**
@@ -164,7 +208,13 @@ function fetchWithRetry(url, maxRetries = 3) {
  * - Retorna el array filtrado y mapeado
  */
 function processMultipleRequests(urls) {
-    throw new Error('Function processMultipleRequests not implemented');
+    if (!Array.isArray(urls)) {
+        return Promise.reject(new Error('URLs must be an array'));
+    }
+
+    if (urls.length === 0) {
+        return Promise.reject(new Error('URLs array cannot be empty'));
+    }
 }
 
 module.exports = {
