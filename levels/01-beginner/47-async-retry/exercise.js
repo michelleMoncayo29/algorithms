@@ -92,10 +92,9 @@ function retryOperation(operation, maxRetries = 3) {
     
     return operation()
     .then(result => result)
-        .catch(err => {
+    .catch(err => {
         
-        if (maxRetries === 0) throw new Error('Failed');
-        
+        if (maxRetries === 0) throw err;
         return retryOperation(operation, maxRetries - 1)
     })
 }
@@ -201,7 +200,8 @@ function fetchWithRetry(url, maxRetries = 3) {
     return withTimeout(retryOperation(
         () => simulateApiCall(0.6),
         maxRetries
-    ), 1000).then(() => `Data from ${url}`);
+    ), 1000)
+        .then(() => `Data from ${url}`)
 }
 
 fetchWithRetry("Mi url", 5).then(console.log).catch(console.error);
@@ -225,6 +225,9 @@ fetchWithRetry("Mi url", 5).then(console.log).catch(console.error);
  * - Retorna el array filtrado y mapeado
  */
 function processMultipleRequests(urls) {
+
+    // urls es un arrayre
+
     if (!Array.isArray(urls)) {
         return Promise.reject(new Error('URLs must be an array'));
     }
@@ -232,7 +235,38 @@ function processMultipleRequests(urls) {
     if (urls.length === 0) {
         return Promise.reject(new Error('URLs array cannot be empty'));
     }
+
+    // Promise.all Espera que todas las promesas termine si fueron aceptadas o rechazadas.
+    const promises = urls.map(url => {
+        return fetchWithRetry(url,1);
+    })
+    /* 
+    ✅ [
+        { status: 'fulfilled', value: 'Data from url 1' },
+        { status: 'fulfilled', value: 'Data from url 2' },
+        {
+            status: 'rejected',
+            reason: Error: Failed
+                at C:\Users\monca\Desktop\CursoPlatzi\algorithms\levels\01-beginner\47-async-retry\exercise.js:97:37
+                at async Promise.allSettled (index 2)
+        }
+        ]
+    */
+
+    return Promise.allSettled(promises)
+        .then(results => {
+            const arr = results.filter(result => result.status === 'fulfilled');
+
+            return arr;
+        })
+
+    // Promise.allSettled() te devuelve un array de objetos que describen el resultado de cada promesa. esto lo maneja de forma simultanea.
+
+
 }
+
+processMultipleRequests(["url 1", "url 2", "url 3"]).then(result => console.log('✅', result))
+.catch(error => console.error('❌', error));
 
 module.exports = {
     simulateApiCall,

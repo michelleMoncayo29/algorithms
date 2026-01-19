@@ -86,7 +86,7 @@ describe('Simulador de Operaciones con Retry y Timeout', () => {
             expect(results.length).toBeGreaterThan(0);
             expect(results.length).toBeLessThanOrEqual(3);
             results.forEach(result => {
-                expect(result).toMatch(/^Data from https:\/\/api\d\.com$/);
+                expect(result.value).toMatch(/^Data from https:\/\/api\d\.com$/);
             });
         }, 15000);
     });
@@ -219,8 +219,8 @@ describe('Simulador de Operaciones con Retry y Timeout', () => {
 
             // Verificar que los resultados mantienen el orden
             if (results.length > 1) {
-                const firstIndex = urls.findIndex(url => results[0].includes(url.split('//')[1].split('.')[0]));
-                const secondIndex = urls.findIndex(url => results[1] && results[1].includes(url.split('//')[1].split('.')[0]));
+                const firstIndex = urls.findIndex(url => results[0].value.includes(url.split('//')[1].split('.')[0]));
+                const secondIndex = urls.findIndex(url => results[1].value && results[1].value.includes(url.split('//')[1].split('.')[0]));
                 if (firstIndex !== -1 && secondIndex !== -1) {
                     expect(firstIndex).toBeLessThan(secondIndex);
                 }
@@ -229,3 +229,4 @@ describe('Simulador de Operaciones con Retry y Timeout', () => {
     });
 });
 
+ 
