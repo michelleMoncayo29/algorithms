@@ -30,8 +30,24 @@
  * - Después del delay, resuelve con a + b
  */
 async function asyncAdd(a, b) {
-    throw new Error('Function asyncAdd not implemented');
-}
+    if (typeof a !== 'number') {
+        return Promise.reject(new Error('First number must be a number'));
+    }
+
+    if (typeof b !== 'number') {
+        return Promise.reject(new Error('Second number must be a number'));
+    }
+
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(a + b);
+        }, 200);
+    })
+};
+
+asyncAdd('6', 10)
+    .then(result => { console.log('✅ suma:', result) })
+    .catch(err => { console.log('✖️ suma erronea', err) });
 
 /**
  * Simula una multiplicación asíncrona con un delay de 300ms.
@@ -51,8 +67,24 @@ async function asyncAdd(a, b) {
  * - Después del delay, resuelve con a * b
  */
 async function asyncMultiply(a, b) {
-    throw new Error('Function asyncMultiply not implemented');
+    if (typeof a !== 'number') {
+        return Promise.reject(new Error('First number must be a number'));
+    }
+
+    if (typeof b !== 'number') {
+        return Promise.reject(new Error('Second number must be a number'));
+    }
+
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(a * b);
+        }, 300);
+    })
 }
+
+asyncMultiply(4, 7)
+    .then(result => { console.log('✅ mult:', result) })
+    .catch(err => { console.log('✖️ error mult:' , err)})
 
 /**
  * Calcula una secuencia de operaciones matemáticas de forma secuencial.
@@ -77,7 +109,13 @@ async function asyncMultiply(a, b) {
  * - Retorna el resultado final
  */
 async function asyncCalculate(operations) {
-    throw new Error('Function asyncCalculate not implemented');
+    if (!Array.isArray(operations)) {
+        return Promise.reject(new Error('Operations must be an array'));
+    }
+
+    if (operations.length === 0) {
+        return Promise.reject(new Error('Operations array cannot be empty'));
+    }
 }
 
 /**
