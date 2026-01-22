@@ -154,7 +154,11 @@ async function asyncCalculateParallel(operations) {
  * - Retorna diferencia (tiempoFinal - tiempoInicial)
  */
 async function measureExecutionTime(asyncFn) {
-    throw new Error('Function measureExecutionTime not implemented');
+    if (typeof asyncFn !== 'function') {
+        return Promise.reject(new Error('Function must be a function'));   
+    }
+
+    const date = Date.now();
 }
 
 module.exports = {
