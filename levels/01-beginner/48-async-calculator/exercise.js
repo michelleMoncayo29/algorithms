@@ -45,7 +45,7 @@ async function asyncAdd(a, b) {
     })
 };
 
-asyncAdd('6', 10)
+asyncAdd(6, 10)
     .then(result => { console.log('✅ suma:', result) })
     .catch(err => { console.log('✖️ suma erronea', err) });
 
@@ -116,7 +116,29 @@ async function asyncCalculate(operations) {
     if (operations.length === 0) {
         return Promise.reject(new Error('Operations array cannot be empty'));
     }
+
+    const arrResult = [];
+
+    let result = operations[0].a;
+
+    for (const element of operations) {
+        if (element.type === 'add') {
+            result =  await asyncAdd(result, element.b);
+        } else if(element.type === 'multiply') {
+            result =  await asyncMultiply(result, element.b);
+        }
+
+        arrResult.push(result);
+    }
+    return result;
 }
+asyncCalculate([
+    {type: 'add', a: 5, b: 3},      // 5 + 3 = 8 (200ms)
+    {type: 'multiply', a: 8, b: 2}, // 8 * 2 = 16 (300ms)
+    {type: 'add', a: 16, b: 4}      // 16 + 4 = 20 (200ms)
+]).then(result => {
+    console.log(result); // Después de ~700ms (200+300+200): 20
+});
 
 /**
  * Calcula múltiples operaciones independientes en paralelo y suma los resultados.
@@ -135,9 +157,30 @@ async function asyncCalculate(operations) {
  * - Retorna la suma total
  */
 async function asyncCalculateParallel(operations) {
-    throw new Error('Function asyncCalculateParallel not implemented');
+    if (!Array.isArray(operations)) {
+        return Promise.reject(new Error('Operations must be an array'));
+    }
+
+    if (operations.length === 0) {
+        return Promise.reject(new Error('Operations array cannot be empty'));
+    }
+
+    const arrPromise = operations.map(item => {
+        if (item.type === 'add') {
+            return asyncAdd(item.a, item.b);
+        } else if (item.type === 'multiply') {
+            return asyncMultiply(item.a, item.b);
+        }
+    })
 }
 
+asyncCalculateParallel([
+    {type: 'add', a: 5, b: 3},      // 8 (200ms)
+    {type: 'multiply', a: 4, b: 2}, // 8 (300ms)
+    {type: 'add', a: 1, b: 1}       // 2 (200ms)
+]).then(result => {
+    console.log(result); // Después de ~300ms (no 700ms): 18 (8+8+2)
+});
 /**
  * Mide el tiempo de ejecución de una función asíncrona.
  * Traducción: Medir Tiempo de Ejecución
