@@ -122,6 +122,15 @@ async function asyncCalculate(operations) {
     let result = operations[0].a;
 
     for (const element of operations) {
+
+        if (!element.type) {
+            return Promise.reject(new Error('Operation must have type, a, and b'));
+        }
+
+        if (element.type !== 'add' && element.type !== 'multiply') {
+           return Promise.reject(new Error("Operation type must be 'add' or 'multiply'")); 
+        }
+
         if (element.type === 'add') {
             result =  await asyncAdd(result, element.b);
         } else if(element.type === 'multiply') {
@@ -171,7 +180,10 @@ async function asyncCalculateParallel(operations) {
         } else if (item.type === 'multiply') {
             return asyncMultiply(item.a, item.b);
         }
-    })
+    });
+
+    const results = await Promise.all(arrPromise);
+    return results.reduce((sum, result) => sum + result, 0);
 }
 
 asyncCalculateParallel([
@@ -201,8 +213,21 @@ async function measureExecutionTime(asyncFn) {
         return Promise.reject(new Error('Function must be a function'));   
     }
 
-    const date = Date.now();
+    const initialDate = Date.now();
+    await asyncFn();
+    const endDate = Date.now();
+
+    return endDate - initialDate;
 }
+
+const slowOperation = async () => {
+    await asyncAdd(1, 2);
+    await asyncMultiply(3, 4);
+};
+
+measureExecutionTime(slowOperation).then(time => {
+    console.log(`Tardó ${time}ms`); // Aproximadamente 500ms (200+300)
+});
 
 module.exports = {
     asyncAdd,
