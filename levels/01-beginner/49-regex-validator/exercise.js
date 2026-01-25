@@ -15,9 +15,14 @@
  */
 
 function validateRegex(text, patternType) {
-    // TODO: Implementar la solución aquí
-    
-    // Pista 1: Valida que text sea un string y patternType sea un string
+    if (typeof text !== 'string') {
+        throw new Error('Text must be a string');
+    }
+
+    if (typeof patternType !== 'string') {
+        throw new Error('Pattern type must be a string');
+    }
+
     
     // Pista 2: Define los patrones regex para cada tipo:
     //   - email: debe contener @, dominio válido, etc.
@@ -29,8 +34,26 @@ function validateRegex(text, patternType) {
     // Pista 3: Usa el método test() de la expresión regular para validar el texto
     
     // Pista 4: Retorna true si coincide, false si no coincide
-    
-    throw new Error('Función no implementada');
+
+    const patterns = {
+        email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        phone: /^(\d{3}[-.\s]?|\(\d{3}\)\s?)\d{3}[-.\s]?\d{4}$/,
+        postalCode: /^\d{5}(-\d{4})?$/,
+        url: /^https?:\/\/[^\s/$.?#].[^\s]*$/i,
+        date: /^(\d{1,2}\/\d{1,2}\/\d{4})$/
+    };
+
+    // 3. Obtenemos el patrón solicitado
+    const pattern = patterns[patternType];
+
+    // 4. Si el patrón no existe, lanzamos el error con las opciones disponibles
+    if (!pattern) {
+        const validOptions = Object.keys(patterns).join(', ');
+        throw new Error(`Invalid pattern type: ${patternType}. Use one of: ${validOptions}`);
+    }
+
+    // 5. Retornamos el resultado de la validación
+    return pattern.test(text);
 }
 
 module.exports = validateRegex;
