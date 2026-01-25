@@ -21,7 +21,10 @@ function generatePassword(length, options = {}) {
     // TODO: Implementar la solución aquí
     
     // Pista 1: Valida que length sea un número entre 8 y 128
-    
+    if (length > 8 || length <= 128) {
+        throw new Error('');
+    }
+
     // Pista 2: Valida que al menos una opción esté habilitada (includeUppercase, includeLowercase, includeNumbers, includeSpecialChars)
     
     // Pista 3: Define los conjuntos de caracteres disponibles:
