@@ -21,17 +21,27 @@ function generatePassword(length, options = {}) {
     // TODO: Implementar la solución aquí
     
     // Pista 1: Valida que length sea un número entre 8 y 128
-    if (length > 8 || length <= 128) {
-        throw new Error('');
+    if (length > 8 || length <= 128 || typeof length !== 'number') {
+        throw new Error('Length must be an integer between 8 and 128');
     }
 
     // Pista 2: Valida que al menos una opción esté habilitada (includeUppercase, includeLowercase, includeNumbers, includeSpecialChars)
+    const {
+        includeUppercase = false,
+        includeLowercase = false,
+        includeNumbers = false,
+        includeSpecialChars = false
+    } = options;
     
     // Pista 3: Define los conjuntos de caracteres disponibles:
     //   - Mayúsculas: "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     //   - Minúsculas: "abcdefghijklmnopqrstuvwxyz"
     //   - Números: "0123456789"
     //   - Especiales: "!@#$%^&*"
+    const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+    const numbers = '0123456789';
+    const specialChars = '!@#$%^&*';
     
     // Pista 4: Construye un string con todos los caracteres permitidos según las opciones
     
