@@ -18,7 +18,20 @@ function calculateCompoundInterest(principal, rate, time, compoundFrequency = 1)
     // TODO: Implementar la solución aquí
     
     // Pista 1: Valida que principal, rate, time y compoundFrequency sean números positivos
-    
+    if (principal < 0 || typeof principal !== 'number' || isNaN(principal)) {
+        throw new Error('error');
+    }
+    if (rate < 0 || typeof rate !== 'number' || isNaN(rate)) {
+        throw new Error('error');
+    }
+    if (time < 0 || typeof time !== 'number' || isNaN(time)) {
+        throw new Error('error');
+    }
+    if (compoundFrequency < 0 || typeof compoundFrequency !== 'number' || isNaN(compoundFrequency)) {
+        throw new Error('error');
+    }
+
+
     // Pista 2: La fórmula del interés compuesto es:
     //   A = P * (1 + r/n)^(n*t)
     //   Donde:
@@ -27,12 +40,15 @@ function calculateCompoundInterest(principal, rate, time, compoundFrequency = 1)
     //   - r = Tasa de interés anual
     //   - n = Frecuencia de capitalización por año
     //   - t = Tiempo en años
-    
+
     // Pista 3: Usa Math.pow() para calcular la potencia
     
     // Pista 4: Redondea el resultado a 2 decimales usando Math.round() o toFixed()
     
-    throw new Error('Función no implementada');
+    const mountFinish = principal * Math.pow(1 + rate / compoundFrequency, compoundFrequency * time);
+
+    // Redondear el resultado a 2 decimales
+    return Math.round(mountFinish * 100) / 100;
 }
 
 /**

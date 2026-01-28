@@ -41,7 +41,7 @@ function generatePassword(length, options = {}) {
     const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const lowercase = 'abcdefghijklmnopqrstuvwxyz';
     const numbers = '0123456789';
-    const specialChars = '!@#$%^&*';
+    const specialChars = '!@#$%^&*'; 
     
     // Pista 4: Construye un string con todos los caracteres permitidos según las opciones
     
