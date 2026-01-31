@@ -3,7 +3,21 @@
 // debo dividir el length. Para saber que es lo que me debe entregar y luego construir
 
 // es decir  [ABCD],[*&/],[1234] = LUEGO NUNIFICARLOS ESTO ES PARA CUANDO ME DIGA QUE DEBO TRAER VARIOS ELEMENTOS 
-function getRamdonChars(string, length = 1) { }
+function getRamdonChars(string, length = 1, numeberCaracter) { 
+
+    const limitCaracter = numeberCaracter / length;
+
+    let pass = '';
+
+    for (let i = 0; i < limitCaracter; i++) {
+        const randomIndice = Math.floor(Math.random() * string.length);
+        
+        pass += string.charAt(randomIndice);  
+    }
+
+
+    return pass;
+}
 
 
 /**
@@ -51,6 +65,10 @@ function generatePassword(length, options = {}) {
     const numbers = '0123456789';
     const specialChars = '!@#$%^&*';
 
+    if (!includeUppercase && !includeLowercase && !includeNumbers && !includeSpecialChars) {
+        throw new Error('At least one character type must be enabled');
+    }
+
     let count = 0;
 
     if (includeUppercase) {
@@ -69,30 +87,43 @@ function generatePassword(length, options = {}) {
         count++;
     } 
     
-
-    // necestio  
-    const numberLimit = count? count : 1;
-    console.log(numberLimit, 'NUMEROOOOO 🎄🎄🎄🎄');
-
+    const numberLimit = count ? count : 1;
     // Pista 4: Construye un string con todos los caracteres permitidos según las opciones
     let password = '';
-
+    
     // Pista 5: Asegúrate de que la contraseña incluya al menos un carácter de cada tipo habilitado
-    // *Esto puede ser un for
+    // Esto es una prueba
+    if (includeUppercase) {
+        password += getRamdonChars(uppercase, numberLimit, length);
+    }
+
+    if (includeLowercase) {
+        password += getRamdonChars(lowercase, numberLimit, length);
+    }
+
+    if (includeNumbers) {
+        password += getRamdonChars(numbers, numberLimit, length);
+    }
+
+    if (includeSpecialChars) {
+        password += getRamdonChars(specialChars, numberLimit, length);
+    }
 
     // Pista 6: Genera caracteres aleatorios usando Math.random() y el string de caracteres permitidos
-
+    console.log(password, 'letras random y su longitud es: ', password.length);
+    
+    const cort = password.slice(0, length);
+    
     // Pista 7: Mezcla los caracteres para que no estén en orden predecible
-
-    // throw new Error('Función no implementada');
+    return cort.split('').sort(() => Math.random() - 0.5).join('');
 }
 console.log(
   '✅✅',
-  generatePassword(12, {
-    includeUppercase: false,
+  generatePassword(13, {
+    includeUppercase: true,
     includeLowercase: true,
     includeNumbers: true,
-    includeSpecialChars: false,
+    includeSpecialChars: true,
   })
 );
 
