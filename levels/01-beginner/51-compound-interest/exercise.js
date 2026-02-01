@@ -20,45 +20,26 @@ function calculateCompoundInterest(
   time,
   compoundFrequency = 1
 ) {
-  // TODO: Implementar la solución aquí
-
-  // Pista 1: Valida que principal, rate, time y compoundFrequency sean números positivos
-  if (principal < 0 || typeof principal !== 'number' || isNaN(principal)) {
-    throw new Error('error');
+  // 1. Validaciones (Principio Fail Fast)
+  if (typeof principal !== 'number' || isNaN(principal) || principal < 0) {
+    throw new Error('Principal must be a non-negative number');
   }
-  if (rate < 0 || typeof rate !== 'number' || isNaN(rate)) {
-    throw new Error('error');
+  if (typeof rate !== 'number' || isNaN(rate) || rate < 0) {
+    throw new Error('Rate must be a non-negative number');
   }
-  if (time < 0 || typeof time !== 'number' || isNaN(time)) {
-    throw new Error('error');
+  if (typeof time !== 'number' || isNaN(time) || time < 0) {
+    throw new Error('Time must be a non-negative number');
   }
-  if (
-    compoundFrequency < 0 ||
-    typeof compoundFrequency !== 'number' ||
-    isNaN(compoundFrequency)
-  ) {
+  if (typeof compoundFrequency !== 'number' || compoundFrequency <= 0) {
     throw new Error('Compound frequency must be a positive number');
   }
 
-  // Pista 2: La fórmula del interés compuesto es:
-  //   A = P * (1 + r/n)^(n*t)
-  //   Donde:
-  //   - A = Monto final
-  //   - P = Principal (capital inicial)
-  //   - r = Tasa de interés anual
-  //   - n = Frecuencia de capitalización por año
-  //   - t = Tiempo en años
+  // 2. Lógica Matemática
+  // Fórmula: A = P * (1 + r/n)^(n*t)
+  const amount = principal * Math.pow(1 + rate / compoundFrequency, compoundFrequency * time);
 
-  // Pista 3: Usa Math.pow() para calcular la potencia
-
-  // Pista 4: Redondea el resultado a 2 decimales usando Math.round() o toFixed()
-
-  const mountFinish =
-    principal *
-    Math.pow(1 + rate / compoundFrequency, compoundFrequency * time);
-
-  // Redondear el resultado a 2 decimales
-  return Math.round(mountFinish * 100) / 100;
+  // 3. Redondeo a 2 decimales
+  return Math.round(amount * 100) / 100;
 }
 
 /**
@@ -79,7 +60,7 @@ function calculateFutureValueWithDeposits(
   rate,
   years
 ) {
-  // TODO: Implementar la solución aquí
+  // 1. Validaciones
   if (typeof initialDeposit !== 'number' || initialDeposit < 0) {
     throw new Error('Initial deposit must be a non-negative number');
   }
@@ -93,34 +74,28 @@ function calculateFutureValueWithDeposits(
     throw new Error('Years must be a non-negative number');
   }
 
-  // Pista 1: Calcula el valor futuro del depósito inicial usando calculateCompoundInterest
+  // 2. Cálculo del interés del depósito inicial (Capitalización mensual n=12)
   const futureValueInitial = calculateCompoundInterest(initialDeposit, rate, years, 12);
 
-  // Pista 2: Calcula el valor futuro de los depósitos mensuales usando la fórmula de anualidad:
-  //   FV = PMT * (((1 + r/n)^(n*t) - 1) / (r/n))
-  //   Donde PMT es el pago mensual, r es la tasa anual, n es 12 (mensual), t es años
-
-  // Pista 3: Suma ambos valores para obtener el total
-
-  // Calcular el valor futuro de los depósitos mensuales
+  // 3. Cálculo del valor futuro de los depósitos mensuales (Anualidad)
   let futureValueDeposits = 0;
 
   if (rate === 0) {
-    // Si la tasa es 0, simplemente suma los depósitos
+    // Si no hay interés, es simplemente la suma de los depósitos
     futureValueDeposits = monthlyDeposit * 12 * years;
   } else {
-    // Fórmula de anualidad: FV = PMT * (((1 + r/n)^(n*t) - 1) / (r/n))
-    const monthlyRate = rate / 12;
-    const numberOfPayments = 12 * years;
-    const futureValueFactor =
-      (Math.pow(1 + monthlyRate, numberOfPayments) - 1) / monthlyRate;
-    futureValueDeposits = monthlyDeposit * futureValueFactor;
+    // Fórmula de anualidad ordinaria: FV = PMT * [((1 + r/n)^(nt) - 1) / (r/n)]
+    const n = 12; // Mensual
+    const monthlyRate = rate / n;
+    const totalPayments = n * years;
+    
+    const growthFactor = (Math.pow(1 + monthlyRate, totalPayments) - 1) / monthlyRate;
+    futureValueDeposits = monthlyDeposit * growthFactor;
   }
 
-  // Sumar ambos valores
+  // 4. Resultado final
   const total = futureValueInitial + futureValueDeposits;
 
-  // Redondear a 2 decimales
   return Math.round(total * 100) / 100;
 }
 
