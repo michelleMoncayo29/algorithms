@@ -15,8 +15,12 @@ function formatMarkdown(text) {
     // TODO: Implementar la solución aquí
     
     // Pista 1: Valida que text sea un string
-    
+    if (typeof text !== 'string' || text.length === 0) {
+        throw new Error('Error');
+    }
+
     // Pista 2: Convierte negritas: **texto** o __texto__ → <strong>texto</strong>
+    // const negri
     
     // Pista 3: Convierte cursivas: *texto* o _texto_ → <em>texto</em>
     
