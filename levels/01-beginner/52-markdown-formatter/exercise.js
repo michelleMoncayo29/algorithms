@@ -25,7 +25,10 @@ function formatMarkdown(text) {
 
     for (let i = 0; i < line.length; i++) {
         const letterFish = line[i];
-        console.log(letterFish);
+    
+        if (letterFish.startsWith('###')) {
+            
+        }
         
     }
     console.log(line, text);
