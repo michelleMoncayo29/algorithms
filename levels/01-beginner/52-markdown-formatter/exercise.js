@@ -19,6 +19,17 @@ function formatMarkdown(text) {
         throw new Error('Error');
     }
 
+    // *Aplanar texto.
+    const line = text.split('\n');
+    const result = [];
+
+    for (let i = 0; i < line.length; i++) {
+        const letterFish = line[i];
+        console.log(letterFish);
+        
+    }
+    console.log(line, text);
+
     // Pista 2: Convierte negritas: **texto** o __texto__ → <strong>texto</strong>
     // const negri
     
@@ -32,8 +43,10 @@ function formatMarkdown(text) {
     
     // Pista 7: Usa expresiones regulares para encontrar y reemplazar patrones
     
-    throw new Error('Función no implementada');
+    // throw new Error('Función no implementada');
 }
+// Input
 
+console.log(formatMarkdown("**Hello** *world*"));
 module.exports = formatMarkdown;
 
