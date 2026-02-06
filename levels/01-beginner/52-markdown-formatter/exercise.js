@@ -1,55 +1,72 @@
 /**
  * Formateador de Texto Markdown Básico
- * 
+ *
  * Descripción: Convierte texto plano a formato Markdown básico (negritas, cursivas, listas).
  * Dificultad: BEGINNER
- * 
+ *
  * @param {string} text - Texto plano a formatear
  * @returns {string} Texto formateado en Markdown
- * 
+ *
  * Ejemplo:
  * formatMarkdown("**Hello** *world*") // Retorna texto con formato aplicado
  */
 
 function formatMarkdown(text) {
-    // TODO: Implementar la solución aquí
-    
-    // Pista 1: Valida que text sea un string
-    if (typeof text !== 'string' || text.length === 0) {
-        throw new Error('Error');
+  // 1. DIVIDIR: Convertimos el string en un array de líneas
+  const lines = text.split('\n');
+  let result = [];
+  
+  // 2. MEMORIA: Variables para saber si estamos dentro de una lista
+  let inUnorderedList = false;
+  let inOrderedList = false;
+
+  // 3. RECORRER: Iteramos sobre cada línea
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i];
+
+    // --- LÓGICA DE LISTAS NO ORDENADAS (- ) ---
+    if (line.startsWith('- ')) {
+      if (!inUnorderedList) {
+        result.push('<ul>'); // Abrimos la lista si es la primera vez
+        inUnorderedList = true;
+      }
+      // Transformamos la línea en un item de lista
+      let content = line.slice(2);
+      result.push('<li>' + content + '</li>');
+      continue; // Saltamos a la siguiente línea
+    } else if (inUnorderedList) {
+      result.push('</ul>'); // Cerramos si la línea actual ya no es lista
+      inUnorderedList = false;
     }
 
-    // *Aplanar texto.
-    const line = text.split('\n');
-    const result = [];
-
-    for (let i = 0; i < line.length; i++) {
-        const letterFish = line[i];
+    // --- LÓGICA DE ENCABEZADOS (#) ---
+    if (line.startsWith('### ')) {
+      result.push('<h3>' + line.slice(4) + '</h3>');
+    } else if (line.startsWith('## ')) {
+      result.push('<h2>' + line.slice(3) + '</h2>');
+    } else if (line.startsWith('# ')) {
+      result.push('<h1>' + line.slice(2) + '</h1>');
+    } 
     
-        if (letterFish.startsWith('###')) {
-            
-        }
-        
+    // --- TEXTO NORMAL ---
+    else if (line.trim() !== "") {
+      // Si no es nada de lo anterior, lo guardamos como está
+      result.push(line);
     }
-    console.log(line, text);
+  }
 
-    // Pista 2: Convierte negritas: **texto** o __texto__ → <strong>texto</strong>
-    // const negri
-    
-    // Pista 3: Convierte cursivas: *texto* o _texto_ → <em>texto</em>
-    
-    // Pista 4: Convierte listas no ordenadas: líneas que empiezan con - o * → <ul><li>...</li></ul>
-    
-    // Pista 5: Convierte listas ordenadas: líneas que empiezan con número. → <ol><li>...</li></ol>
-    
-    // Pista 6: Convierte encabezados: # Título → <h1>Título</h1>, ## Subtítulo → <h2>Subtítulo</h2>
-    
-    // Pista 7: Usa expresiones regulares para encontrar y reemplazar patrones
-    
-    // throw new Error('Función no implementada');
+  // 4. CIERRE DE SEGURIDAD: Por si el texto termina en una lista
+  if (inUnorderedList) result.push('</ul>');
+
+  // 5. UNIR Y TRANSFORMAR ESTILOS (Negritas y Cursivas)
+  let finalHTML = result.join('\n');
+
+  // Aquí aplicarías los .replace() con Regex para ** y *
+  // finalHTML = finalHTML.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+  return finalHTML;
 }
 // Input
 
-console.log(formatMarkdown("**Hello** *world*"));
+console.log(formatMarkdown('* subtitle'));
 module.exports = formatMarkdown;
-
