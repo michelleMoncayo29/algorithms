@@ -15,7 +15,7 @@ function formatMarkdown(text) {
   // 1. DIVIDIR: Convertimos el string en un array de líneas
   const lines = text.split('\n');
   let result = [];
-  
+
   // 2. MEMORIA: Variables para saber si estamos dentro de una lista
   let inUnorderedList = false;
   let inOrderedList = false;
@@ -47,9 +47,15 @@ function formatMarkdown(text) {
     } else if (line.startsWith('# ')) {
       result.push('<h1>' + line.slice(2) + '</h1>');
     } 
-    
+      
+    //   else if (line.startsWith('** ')) {
+    //   result.push('<strong>' + line.slice(3) + '</strong>');
+    // } else if (line.startsWith('* ')) {
+    //   result.push('<em>' + line.slice(2) + '</em>');
+    // }
+
     // --- TEXTO NORMAL ---
-    else if (line.trim() !== "") {
+    else if (line.trim() !== '') {
       // Si no es nada de lo anterior, lo guardamos como está
       result.push(line);
     }
@@ -63,6 +69,10 @@ function formatMarkdown(text) {
 
   // Aquí aplicarías los .replace() con Regex para ** y *
   // finalHTML = finalHTML.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  finalHTML = finalHTML.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Para **texto**
+  finalHTML = finalHTML.replace(/__(.*?)__/g, '<strong>$1</strong>'); // Para __texto__
+  finalHTML = finalHTML.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Para *texto*
+  finalHTML = finalHTML.replace(/_(.*?)_/g, '<em>$1</em>');
 
   return finalHTML;
 }
