@@ -24,7 +24,12 @@ class SettingsManager {
      * - Store a copy of defaults for reset functionality
      */
     constructor(defaults = {}) {
-        throw new Error('SettingsManager constructor not implemented');
+        if (typeof defaults !== 'object' || defaults === null || Array.isArray(defaults)) {
+            throw new Error('Defaults must be an object');
+        }
+
+        this.settings = { ...defaults };
+        this.defaults = { ...defaults };
     }
 
     /**
@@ -37,7 +42,11 @@ class SettingsManager {
      * - Return the value for the key, or undefined if not found
      */
     get(key) {
-        throw new Error('Method get not implemented');
+        if (typeof key !== 'string' || key.trim().length === 0) {
+            throw new Error('Key must be a non-empty string');
+        }
+
+        return this.settings[key];
     }
 
     /**
@@ -52,7 +61,12 @@ class SettingsManager {
      * - Return this for method chaining
      */
     set(key, value) {
-        throw new Error('Method set not implemented');
+        if (typeof key !== 'string' || key.trim().length === 0) {
+            throw new Error('Key must be a non-empty string');
+        }
+
+        this.settings[key] = value;
+        return this;
     }
 
     /**
@@ -75,7 +89,11 @@ class SettingsManager {
      * @returns {boolean} true if setting exists, false otherwise.
      */
     has(key) {
-        throw new Error('Method has not implemented');
+        if (typeof key !== 'string' || key.trim().length === 0) {
+            return false;
+        }
+
+        return key in this.settings;
     }
 
     /**
@@ -84,7 +102,16 @@ class SettingsManager {
      * @returns {boolean} true if setting was removed, false if it didn't exist.
      */
     remove(key) {
-        throw new Error('Method remove not implemented');
+        if (typeof key !== 'string' || key.trim().length === 0) {
+            return false;
+        }
+
+        if (key in this.settings) {
+            delete this.settings[key];
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -96,7 +123,8 @@ class SettingsManager {
      * - Return this for method chaining
      */
     reset() {
-        throw new Error('Method reset not implemented');
+        this.settings = { ...this.defaults };
+        return this;
     }
 
     /**
@@ -104,7 +132,7 @@ class SettingsManager {
      * @returns {Object} Copy of all settings.
      */
     getAll() {
-        throw new Error('Method getAll not implemented');
+        return { ...this.settings };
     }
 
     /**
@@ -112,7 +140,8 @@ class SettingsManager {
      * @returns {SettingsManager} Returns this for method chaining.
      */
     clear() {
-        throw new Error('Method clear not implemented');
+        this.settings = {};
+        return this;
     }
 
     /**
@@ -120,7 +149,7 @@ class SettingsManager {
      * @returns {number} Number of settings.
      */
     size() {
-        throw new Error('Method size not implemented');
+        return Object.keys(this.settings).length;
     }
 }
 
