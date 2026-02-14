@@ -22,7 +22,7 @@ class MessageQueue {
      * - Initialize internal array for messages
      */
     constructor() {
-        throw new Error('MessageQueue constructor not implemented');
+        this.messages = [];
     }
 
     /**
@@ -38,7 +38,16 @@ class MessageQueue {
      * - Return queue size
      */
     enqueue(message, priority = 0) {
-        throw new Error('Method enqueue not implemented');
+        if (typeof message !== 'string' || message.trim().length === 0) {
+            throw new Error('Message must be a non-empty string');
+        }
+
+        if (isNaN(priority) || priority < 0 || priority > 2) {
+            throw new Error('Priority must be 0 (normal), 1 (high), or 2 (urgent)');
+        }
+
+        this.messages.push({ message, priority });
+        return this.messages.length;
     }
 
     /**
@@ -53,7 +62,9 @@ class MessageQueue {
      * - Remove and return that message
      */
     dequeue() {
-        throw new Error('Method dequeue not implemented');
+        if (this.messages.length === 0) {
+            return null;
+        }
     }
 
     /**
@@ -69,7 +80,7 @@ class MessageQueue {
      * @returns {number} Queue size.
      */
     size() {
-        throw new Error('Method size not implemented');
+        return this.messages.length;
     }
 
     /**
@@ -77,7 +88,7 @@ class MessageQueue {
      * @returns {boolean} true if empty, false otherwise.
      */
     isEmpty() {
-        throw new Error('Method isEmpty not implemented');
+        return this.messages.length === 0;
     }
 
     /**
@@ -85,7 +96,8 @@ class MessageQueue {
      * @returns {MessageQueue} Returns this for method chaining.
      */
     clear() {
-        throw new Error('Method clear not implemented');
+        this.messages = [];
+        return this;
     }
 
     /**
@@ -93,7 +105,7 @@ class MessageQueue {
      * @returns {Array<Object>} Array of message objects.
      */
     getAll() {
-        throw new Error('Method getAll not implemented');
+        return [...this.messages];
     }
 }
 

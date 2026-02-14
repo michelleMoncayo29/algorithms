@@ -80,7 +80,17 @@ class SettingsManager {
      * - Return this for method chaining
      */
     setMultiple(settings) {
-        throw new Error('Method setMultiple not implemented');
+        
+        if (typeof settings !== 'object' || settings === null || Array.isArray(settings)) {
+            throw new Error('Settings must be an object');
+        }
+
+        // Iterar sobre settings y establecer cada key-value
+        for (const [key, value] of Object.entries(settings)) {
+            this.set(key, value);
+        }
+
+        return this; // Method chaining
     }
 
     /**
