@@ -65,6 +65,20 @@ class MessageQueue {
         if (this.messages.length === 0) {
             return null;
         }
+
+                let highestPriority = -1;
+        let highestIndex = -1;
+
+        for (let i = 0; i < this.messages.length; i++) {
+            if (this.messages[i].priority > highestPriority) {
+                highestPriority = this.messages[i].priority;
+                highestIndex = i;
+            }
+        }
+
+        // Remover y retornar el mensaje
+        const message = this.messages.splice(highestIndex, 1)[0];
+        return message;
     }
 
     /**
@@ -72,7 +86,21 @@ class MessageQueue {
      * @returns {Object|null} Message object or null if empty.
      */
     peek() {
-        throw new Error('Method peek not implemented');
+        if (this.messages.length === 0) {
+            return null;
+        }
+
+        let highestPriority = -1;
+        let highestIndex = -1;
+
+        for (let i = 0; i < this.messages.length; i++) {
+            if (this.messages[i].priority > highestPriority) {
+                highestPriority = this.messages[i].priority;
+                highestIndex = i;
+            }
+        }
+
+        return { ...this.messages[highestIndex] }; // Retornar 
     }
 
     /**
