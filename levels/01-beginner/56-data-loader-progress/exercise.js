@@ -34,7 +34,29 @@
  * - Después de cargar todos, resuelve con {loaded, total, items: [1, 2, ..., total]}
  */
 function loadDataWithProgress(totalItems, onProgress) {
-    throw new Error('Function loadDataWithProgress not implemented');
+    if(typeof totalItems !== 'number' || isNaN(totalItems) || totalItems <= 0) {
+        return Promise.reject(new Error('Total items must be a positive number'));
+    }
+
+    if (typeof onProgress !== 'function') {
+        return Promise.reject(new Error('onProgress must be a function'));
+    }
+
+    // return new Promise((resolve) => {
+    //     const items = [];
+    //     let loaded = 0;
+    //     const interval = setInterval(() => {
+    //         loaded++;
+    //         items.push(loaded);
+    //         const progress = (loaded / totalItems) * 100;
+    //         onProgress(progress);
+
+    //         if (loaded === totalItems) {
+    //             clearInterval(interval);
+    //             resolve({ loaded, total: totalItems, items });
+    //         }
+    //     }, 100);
+    // });
 }
 
 /**
@@ -56,7 +78,59 @@ function loadDataWithProgress(totalItems, onProgress) {
  * - Llama onProgress con {stage, stageProgress, overallProgress}
  */
 function loadDataWithStages(stages, onProgress) {
-    throw new Error('Function loadDataWithStages not implemented');
+    if(!Array.isArray(stages) || stages.length === 0) {
+        return Promise.reject(new Error('Stages must be a non-empty array'));
+    }
+
+    for (const stage of stages) {
+        if (typeof stage !== 'number' || isNaN(stage) || stage <= 0) {
+            return Promise.reject(new Error('Stages must be an array of positive numbers'));
+        }
+    }
+
+    if (typeof onProgress !== 'function') {
+        return Promise.reject(new Error('onProgress must be a function'));
+    }
+
+    // return new Promise((resolve) => {
+    //     let overallLoaded = 0;
+    //     const totalItems = stages.reduce((sum, stage) => sum + stage, 0);
+
+    //     let currentStage = 0;
+    //     let currentStageLoaded = 0;
+
+    //     const loadStage = (stageIndex) => {
+    //         if (stageIndex >= stages.length) {
+    //             resolve({ overallLoaded, total: totalItems });
+    //             return;
+    //         }
+
+    //         const stageItems = stages[stageIndex];
+    //         currentStage = stageIndex + 1;
+    //         currentStageLoaded = 0;
+
+    //         const interval = setInterval(() => {
+    //             currentStageLoaded++;
+    //             overallLoaded++;
+
+    //             const stageProgress = (currentStageLoaded / stageItems) * 100;
+    //             const overallProgress = (overallLoaded / totalItems) * 100;
+
+    //             onProgress({
+    //                 stage: currentStage,
+    //                 stageProgress: stageProgress,
+    //                 overallProgress: overallProgress
+    //             });
+
+    //             if (currentStageLoaded === stageItems) {
+    //                 clearInterval(interval);
+    //                 loadStage(stageIndex + 1);
+    //             }
+    //         }, 100);
+    //     };
+
+    //     loadStage(0);
+    // });
 }
 
 module.exports = {
