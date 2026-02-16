@@ -33,7 +33,9 @@
  * - Retorna array de resultados en el mismo orden que las tareas
  */
 function processTasksSequentially(tasks) {
-    throw new Error('Function processTasksSequentially not implemented');
+    if (!Array.isArray(tasks)) {
+        throw new Error('Tasks must be an array');
+    }
 }
 
 /**
@@ -49,7 +51,9 @@ function processTasksSequentially(tasks) {
  * - Retorna array de resultados en el mismo orden que las tareas
  */
 function processTasksInParallel(tasks) {
-    throw new Error('Function processTasksInParallel not implemented');
+    if (!Array.isArray(tasks)) {
+        throw new Error('Tasks must be an array');
+    }
 }
 
 /**
@@ -76,7 +80,9 @@ function processTasksInParallel(tasks) {
  * - Retorna array de resultados en el mismo orden que las tareas
  */
 function processTasksWithConcurrency(tasks, concurrencyLimit) {
-    throw new Error('Function processTasksWithConcurrency not implemented');
+    if (!Array.isArray(tasks)) {
+        throw new Error('Tasks must be an array');
+    }
 }
 
 module.exports = {
