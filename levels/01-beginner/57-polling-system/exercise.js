@@ -35,7 +35,19 @@
  * - Si se alcanza maxAttempts sin éxito, rechaza con {success: false, attempts}
  */
 function pollUntil(checkFunction, intervalMs, maxAttempts) {
-    throw new Error('Function pollUntil not implemented');
+    if (typeof checkFunction !== 'function') {
+        throw new Error('checkFunction must be a function');
+    }
+
+    // Validar que intervalMs sea un número positivo
+    if (typeof intervalMs !== 'number' || intervalMs <= 0) {
+        throw new Error('intervalMs must be a positive number');
+    }
+
+    // Validar que maxAttempts sea un número positivo (si está definido)
+    if (maxAttempts !== undefined && (typeof maxAttempts !== 'number' || !Number.isInteger(maxAttempts) || maxAttempts <= 0)) {
+        throw new Error('maxAttempts must be a positive integer');
+    }
 }
 
 /**
@@ -52,7 +64,19 @@ function pollUntil(checkFunction, intervalMs, maxAttempts) {
  * - Si se alcanza timeout sin éxito, rechaza con información del tiempo
  */
 function pollUntilTimeout(checkFunction, intervalMs, timeoutMs) {
-    throw new Error('Function pollUntilTimeout not implemented');
+    if (typeof checkFunction !== 'function') {
+        throw new Error('checkFunction must be a function');
+    }
+
+    // Validar que intervalMs sea un número positivo
+    if (typeof intervalMs !== 'number' || intervalMs <= 0) {
+        throw new Error('intervalMs must be a positive number');
+    }
+
+    // Validar que timeoutMs sea un número positivo
+    if (typeof timeoutMs !== 'number' || timeoutMs <= 0) {
+        throw new Error('timeoutMs must be a positive number');
+    }
 }
 
 module.exports = {
