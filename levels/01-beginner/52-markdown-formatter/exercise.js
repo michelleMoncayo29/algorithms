@@ -46,8 +46,8 @@ function formatMarkdown(text) {
       result.push('<h2>' + line.slice(3) + '</h2>');
     } else if (line.startsWith('# ')) {
       result.push('<h1>' + line.slice(2) + '</h1>');
-    } 
-      
+    }
+
     //   else if (line.startsWith('** ')) {
     //   result.push('<strong>' + line.slice(3) + '</strong>');
     // } else if (line.startsWith('* ')) {

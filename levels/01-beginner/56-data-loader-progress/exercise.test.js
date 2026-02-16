@@ -1,3 +1,4 @@
+// const { loadDataWithProgress, loadDataWithStages } = require('./exercise');
 const { loadDataWithProgress, loadDataWithStages } = require('./exercise');
 
 describe('Simulador de Carga de Datos con Progress', () => {

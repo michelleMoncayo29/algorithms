@@ -1,3 +1,18 @@
+// items = 12
+// itemsProcesados = 4
+// progreso = itemsProcesados / items * 100
+
+// const totalItems = 10;
+// const onProcess = (prcess) => {console.log('progreso', prcess)};
+
+// for(...) {
+//     await sleep(500);
+//     const percentage = ...
+//     onProcess(percentage)
+// }
+
+
+
 /**
  * Simulador de Carga de Datos con Progress
  *
@@ -35,29 +50,44 @@
  */
 function loadDataWithProgress(totalItems, onProgress) {
     if(typeof totalItems !== 'number' || isNaN(totalItems) || totalItems <= 0) {
-        return Promise.reject(new Error('Total items must be a positive number'));
+        throw new Error('Total items must be a positive number');
     }
 
     if (typeof onProgress !== 'function') {
-        return Promise.reject(new Error('onProgress must be a function'));
+        throw new Error('onProgress must be a function');
     }
 
-    // return new Promise((resolve) => {
-    //     const items = [];
-    //     let loaded = 0;
-    //     const interval = setInterval(() => {
-    //         loaded++;
-    //         items.push(loaded);
-    //         const progress = (loaded / totalItems) * 100;
-    //         onProgress(progress);
+    
+    // * ejecutar aca adentro la funcion y progress. Por cada totalItems.
 
-    //         if (loaded === totalItems) {
-    //             clearInterval(interval);
-    //             resolve({ loaded, total: totalItems, items });
-    //         }
-    //     }, 100);
-    // });
+    // Y debo ejecutar un progress con el porcentaje de progreso. Para eso debo saber cuantos items se han cargado y cuantos quedan por cargar.
+
+    // ejecutar el ciclo para ejecutar la funcion de progress por la cantidad de items procesados.
+
+
+    // esto debe estar dentro de una promesa.
+
+    return new Promise(function (resolve, reject) {
+
+        const items = [];
+
+        for (let i = 1; i <= totalItems; i++) {
+            const progress = (i / totalItems) * 100;
+            onProgress(progress);
+            items.push(i);
+        }
+        
+        resolve({total: totalItems, loaded: totalItems, items});
+    });
 }
+
+// loadDataWithProgress(5, function (progress) {
+//     console.log('progress', progress);
+// }).then((valor) => {
+//     console.log('Carga completa:', valor);
+// });
+
+
 
 /**
  * Simula la carga de datos con múltiples etapas y progreso por etapa.
@@ -79,18 +109,19 @@ function loadDataWithProgress(totalItems, onProgress) {
  */
 function loadDataWithStages(stages, onProgress) {
     if(!Array.isArray(stages) || stages.length === 0) {
-        return Promise.reject(new Error('Stages must be a non-empty array'));
+        throw new Error('Stages must be a non-empty array');
     }
 
     for (const stage of stages) {
         if (typeof stage !== 'number' || isNaN(stage) || stage <= 0) {
-            return Promise.reject(new Error('Stages must be an array of positive numbers'));
+            throw new Error('Stages must be an array of positive numbers');
         }
     }
 
     if (typeof onProgress !== 'function') {
-        return Promise.reject(new Error('onProgress must be a function'));
+        throw new Error('onProgress must be a function');
     }
+
 
     // return new Promise((resolve) => {
     //     let overallLoaded = 0;
