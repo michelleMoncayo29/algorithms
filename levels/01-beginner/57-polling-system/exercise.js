@@ -37,6 +37,8 @@
 function pollUntil(checkFunction, intervalMs, maxAttempts) {
     if (typeof checkFunction !== 'function') {
         throw new Error('checkFunction must be a function');
+
+        // esto me da truo o false el callback
     }
 
     // Validar que intervalMs sea un número positivo
@@ -48,6 +50,12 @@ function pollUntil(checkFunction, intervalMs, maxAttempts) {
     if (maxAttempts !== undefined && (typeof maxAttempts !== 'number' || !Number.isInteger(maxAttempts) || maxAttempts <= 0)) {
         throw new Error('maxAttempts must be a positive integer');
     }
+
+    return new Promise(  function (resolve, reject)  {
+        function check() {
+
+        }
+    })
 }
 
 /**
@@ -78,9 +86,41 @@ function pollUntilTimeout(checkFunction, intervalMs, timeoutMs) {
         throw new Error('timeoutMs must be a positive number');
     }
 }
+async function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+(async function () {
+    for (let attempt = 2; attempt < 10; attempt++) {
+        console.log("⭐ For")
+        await delay(1000)
+        console.log("✨ Set")
+    }
+})()
+
+function repetidor () {
+    
+}
 
 module.exports = {
     pollUntil,
     pollUntilTimeout
 };
 
+async function waitForCondition(maxAttempts = 10, intervalMs = 1000) {
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+        // Ejecutamos la función síncrona
+        const value = checkFunction();
+
+        if (value) {
+            return { success: true, attempts: attempt };
+        }
+
+        // Si no es el último intento, esperamos antes de reintentar
+        if (attempt < maxAttempts) {
+            await new Promise(resolve => setTimeout(resolve, intervalMs));
+        }
+    }
+
+    return { success: false, attempts: maxAttempts };
+}

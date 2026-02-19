@@ -64,7 +64,6 @@ function loadDataWithProgress(totalItems, onProgress) {
 
     // ejecutar el ciclo para ejecutar la funcion de progress por la cantidad de items procesados.
 
-
     // esto debe estar dentro de una promesa.
 
     return new Promise(function (resolve, reject) {
@@ -122,46 +121,6 @@ function loadDataWithStages(stages, onProgress) {
         throw new Error('onProgress must be a function');
     }
 
-
-    // return new Promise((resolve) => {
-    //     let overallLoaded = 0;
-    //     const totalItems = stages.reduce((sum, stage) => sum + stage, 0);
-
-    //     let currentStage = 0;
-    //     let currentStageLoaded = 0;
-
-    //     const loadStage = (stageIndex) => {
-    //         if (stageIndex >= stages.length) {
-    //             resolve({ overallLoaded, total: totalItems });
-    //             return;
-    //         }
-
-    //         const stageItems = stages[stageIndex];
-    //         currentStage = stageIndex + 1;
-    //         currentStageLoaded = 0;
-
-    //         const interval = setInterval(() => {
-    //             currentStageLoaded++;
-    //             overallLoaded++;
-
-    //             const stageProgress = (currentStageLoaded / stageItems) * 100;
-    //             const overallProgress = (overallLoaded / totalItems) * 100;
-
-    //             onProgress({
-    //                 stage: currentStage,
-    //                 stageProgress: stageProgress,
-    //                 overallProgress: overallProgress
-    //             });
-
-    //             if (currentStageLoaded === stageItems) {
-    //                 clearInterval(interval);
-    //                 loadStage(stageIndex + 1);
-    //             }
-    //         }, 100);
-    //     };
-
-    //     loadStage(0);
-    // });
 }
 
 module.exports = {
