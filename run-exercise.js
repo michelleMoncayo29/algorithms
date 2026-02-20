@@ -46,6 +46,11 @@ const EXERCISES = {
       name: 'Smart Home Monitor',
       description: 'Control de dispositivos inteligentes con clases',
       path: 'levels/01-beginner/26-smart-home-monitor'
+    },
+    '56-api-consumption': {
+      name: 'API Consumption',
+      description: 'Consumo de API REST con fetch y async/await',
+      path: 'levels/01-beginner/56-api-consumption'
     }
   },
   '02-intermediate': {
