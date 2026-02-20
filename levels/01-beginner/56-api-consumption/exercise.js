@@ -15,11 +15,27 @@
 async function fetchUser(id) {
   // Tu código aquí
   // 1. Definir URL base: https://jsonplaceholder.typicode.com
-  // 2. Hacer petición fetch a URL + /users/{id}
-  // 3. Verificar si la respuesta es exitosa (response.ok)
-  // 4. Si no es exitosa, lanzar un error
-  // 5. Retornar el JSON de la respuesta
+  try {
+    // 2. Hacer petición fetch a URL + /users/{id}
+    const request = await fetch (`https://jsonplaceholder.typicode.com/users/${id}`, {method:'GET'});
+    // 3. Verificar si la respuesta es exitosa (response.ok)
+    if (!request.ok) {
+      throw new Error(`Failed to fetch user`);
+    }
+
+    let user = await request.json();
+    console.log('El nombre de el usuario es:', user.name);
+    // 5. Retornar el JSON de la respuesta
+    return user;
+  } catch (error) {
+    // 4. Si no es exitosa, lanzar un error
+    throw new Error('Failed to fetch base URL');
+  }
+
 }
+
+fetchUser(1);
+
 
 /**
  * Obtiene los posts de un usuario desde la API.
