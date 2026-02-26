@@ -18,8 +18,7 @@ async function fetchUser(id) {
   try {
     // 2. Hacer petición fetch a URL + /users/{id}
     const request = await fetch(
-      `https://jsonplaceholder.typicode.com/users/${id}`,
-      { method: 'GET' }
+      `https://jsonplaceholder.typicode.com/users/${id}`
     );
     // 3. Verificar si la respuesta es exitosa (response.ok)
     if (!request.ok) {
@@ -32,11 +31,11 @@ async function fetchUser(id) {
     return user;
   } catch (error) {
     // 4. Si no es exitosa, lanzar un error
-    throw new Error('Failed to fetch base URL');
+    throw new Error('Network Error');
   }
 }
 
-fetchUser(1);
+// fetchUser(1);
 
 /**
  * Obtiene los posts de un usuario desde la API.
@@ -51,8 +50,7 @@ async function fetchUserPosts(id) {
   try {
     // 1. Hacer petición fetch a URL + /posts?userId={id}
     const statusRequest = await fetch(
-      `https://jsonplaceholder.typicode.com/posts?userId=${id}`,
-      { method: 'GET' }
+      `https://jsonplaceholder.typicode.com/posts?userId=${id}`
     );
 
     // 2. Verificar si la respuesta es exitosa
@@ -121,7 +119,7 @@ async function getFormattedUserProfile(id) {
   // 4. Retornar el objeto con la estructura requerida
 }
 
-getFormattedUserProfile(1);
+// getFormattedUserProfile(1);
 
 module.exports = {
   fetchUser,
