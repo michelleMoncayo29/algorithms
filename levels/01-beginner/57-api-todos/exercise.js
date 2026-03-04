@@ -28,12 +28,12 @@ async function fetchTodosByUser(userId) {
 
     return data;
   } catch (error) {
-    throw new Error('Error url');
+    throw new Error('Network Error');
   }
   // 2. Retornar el array completo
 }
 
-fetchTodosByUser(1);
+// fetchTodosByUser(1);
 
 /**
  * Obtiene solo las tareas completadas de un usuario.
@@ -44,8 +44,11 @@ fetchTodosByUser(1);
 async function getCompletedTodos(userId) {
   // Tu código aquí
   // 1. Llamar a fetchTodosByUser(userId)
-  // 2. Filtrar el resultado para obtener solo las tareas con completed: true
+  const data = await fetchTodosByUser(userId);
+  // 2. Filtrar el resultado para obtener solo las tareas con completed: false
+  return data.filter(todo => todo.completed === true);
 }
+// getCompletedTodos(1);
 
 /**
  * Obtiene solo las tareas pendientes de un usuario.
@@ -56,7 +59,9 @@ async function getCompletedTodos(userId) {
 async function getPendingTodos(userId) {
   // Tu código aquí
   // 1. Llamar a fetchTodosByUser(userId)
+  const data = await fetchTodosByUser(userId);
   // 2. Filtrar el resultado para obtener solo las tareas con completed: false
+  return data.filter(item => item.completed===false);
 }
 
 /**
@@ -69,8 +74,19 @@ async function getPendingTodos(userId) {
 async function countTodosByStatus(userId) {
   // Tu código aquí
   // 1. Llamar a fetchTodosByUser(userId)
+  const data = await fetchTodosByUser(userId);
   // 2. Calcular cuántas están completadas y cuántas pendientes
+  const completed = data.filter(todo => todo.completed).length;
+  const pending = data.filter(todo => !todo.completed).length;
   // 3. Retornar el objeto resumen
+
+  const sum = completed + pending;
+
+  return {
+    total: sum,
+    completed,
+    pending
+  }
 }
 
 /**
@@ -86,7 +102,15 @@ async function countTodosByStatus(userId) {
  */
 async function createTodo(userId, title) {
   // Tu código aquí
-  // 1. Configurar la petición fetch con método POST
+  try {
+    // 1. Configurar la petición fetch con método POST
+    const consult = await fetch(`https://jsonplaceholder.typicode.com/todos`, {
+      method : 'POST'
+    });
+
+  } catch (error) {
+    throw new Error('Network Error')
+  }
   // 2. Incluir headers y body JSON
   // 3. Enviar la petición y retornar la respuesta
 }
