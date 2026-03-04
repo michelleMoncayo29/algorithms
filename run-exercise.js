@@ -51,6 +51,16 @@ const EXERCISES = {
       name: 'API Consumption',
       description: 'Consumo de API REST con fetch y async/await',
       path: 'levels/01-beginner/56-api-consumption'
+    },
+    '57-api-todos': {
+      name: 'API Todos Management',
+      description: 'Gestión de tareas con filtrado y POST',
+      path: 'levels/01-beginner/57-api-todos'
+    },
+    '58-api-comments': {
+      name: 'API Comments Analysis',
+      description: 'Análisis de comentarios y encadenamiento de peticiones',
+      path: 'levels/01-beginner/58-api-comments'
     }
   },
   '02-intermediate': {
