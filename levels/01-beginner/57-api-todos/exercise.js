@@ -14,8 +14,26 @@
 async function fetchTodosByUser(userId) {
   // Tu código aquí
   // 1. Obtener datos de la API
+  try {
+    const consult = await fetch(`https://jsonplaceholder.typicode.com/todos?userId=${userId}`);
+
+    // console.log(consult.json());
+
+    if (!consult.ok) {
+      throw new Error(`Failed to fetch user`);
+    }
+
+    let data = await consult.json();
+    console.log(data);
+
+    return data;
+  } catch (error) {
+    throw new Error('Error url');
+  }
   // 2. Retornar el array completo
 }
+
+fetchTodosByUser(1);
 
 /**
  * Obtiene solo las tareas completadas de un usuario.
