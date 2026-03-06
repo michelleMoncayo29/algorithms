@@ -101,18 +101,35 @@ async function countTodosByStatus(userId) {
  * @returns {Promise<Object>} Promesa que resuelve a la tarea creada (respuesta de la API).
  */
 async function createTodo(userId, title) {
-  // Tu código aquí
   try {
     // 1. Configurar la petición fetch con método POST
-    const consult = await fetch(`https://jsonplaceholder.typicode.com/todos`, {
-      method : 'POST'
+    const response = await fetch(`https://jsonplaceholder.typicode.com/todos`, {
+      method: 'POST',
+      // 2. Incluir headers para indicar que enviamos JSON
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      // 3. El cuerpo debe ser un string (JSON.stringify)
+      body: JSON.stringify({
+        userId: userId,
+        title: title,
+        completed: false
+      })
     });
 
+    // Validamos si la respuesta es exitosa (status 201 para creación)
+    if (!response.ok) {
+      throw new Error(`Error en la petición: ${response.status}`);
+    }
+
+    // 4. Retornar la respuesta convertida a objeto JS
+    return await response.json();
+
   } catch (error) {
-    throw new Error('Network Error')
+    // Captura errores de red o errores lanzados arriba
+    console.error('Hubo un problema:', error.message);
+    throw error; 
   }
-  // 2. Incluir headers y body JSON
-  // 3. Enviar la petición y retornar la respuesta
 }
 
 module.exports = {
