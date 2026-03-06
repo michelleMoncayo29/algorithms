@@ -121,7 +121,6 @@ describe('Ejercicio 57: Gestión de Tareas (TODOs)', () => {
           },
           body: JSON.stringify({
             title: 'Comprar leche',
-            body: 'bar', // No requerido, pero a veces incluido en ejemplos
             userId: 1,
             completed: false
           })
