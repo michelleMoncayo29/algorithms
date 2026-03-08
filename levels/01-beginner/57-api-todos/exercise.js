@@ -107,12 +107,12 @@ async function createTodo(userId, title) {
       method: 'POST',
       // 2. Incluir headers para indicar que enviamos JSON
       headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-type': 'application/json; charset=UTF-8',
       },
       // 3. El cuerpo debe ser un string (JSON.stringify)
       body: JSON.stringify({
-        userId: userId,
         title: title,
+        userId: userId,
         completed: false
       })
     });
