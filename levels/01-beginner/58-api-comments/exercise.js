@@ -111,7 +111,7 @@ async function searchComments(query) {
   const response = await fetch(`https://jsonplaceholder.typicode.com/comments?q=${query}`);
   
   if (!response.ok) {
-    throw new Error(`Error HTTP: ${response.status}`);
+    throw new Error(`Network Error`);
   }
   
   return response.json();
