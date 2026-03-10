@@ -20,6 +20,8 @@
  * @returns {number} - Similitud coseno entre 0 y 1
  */
 function calculateCosineSimilarity(product1, product2) {
+
+    console.log(product1);
     // TODO: Implementar cálculo de similitud coseno
     // 
     // Fórmula: cos(θ) = (A · B) / (||A|| * ||B||)
@@ -31,7 +33,7 @@ function calculateCosineSimilarity(product1, product2) {
     // 
     // Pista: Usa Object.keys() para iterar sobre las características
     
-    throw new Error('Función no implementada');
+    // throw new Error('Función no implementada');
 }
 
 /**
