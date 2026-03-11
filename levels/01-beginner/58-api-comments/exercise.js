@@ -90,10 +90,30 @@ async function countCommentsByDomain(postId) {
  */
 async function getPostWithComments(postId) {
   // Tu código aquí
-  // 1. Obtener el post y los comentarios (pueden ser paralelos)
-  // 2. Crear el objeto combinado
-  // 3. Retornar el resultado
+  // 1. Obtener el post y los comentarios (pueden ser paralelos)(
+  const response = await fetch(`https://jsonplaceholder.typicode.com/posts/{id}`);
+
+  if (!response.ok) {
+    throw new Error('Network Error');
+  }
+
+  const post = await response.json();
+
+  const comments = await fetchCommentsByPost(postId);
+
+  // 2. Crear el objeto combinando
+  const result = {
+    id: post.id,
+    title: post.title,
+    body: post.body,
+    comments: comments, // El array de comentarios que obtuvimos
+    totalComments: comments.length // Contamos cuántos elementos hay en el array
+  };
+ 
+  return result;
 }
+
+getPostWithComments(1);
 
 /**
  * Busca comentarios que contengan una palabra clave.
